@@ -1,0 +1,106 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+						<div class="page-header">
+							<h1>编辑问题 </h1>
+						</div><!-- /.page-header -->
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <form class="form-horizontal" action="{:U('updatequestion')}" method="post">
+							<input type="hidden" name="question_id" value="{$currentquestion.question_id}">
+							
+							<input type="hidden" name="subject_id" value="<if condition="$currentquestion.subject_id">{$currentquestion.subject_id}<else />{$subject_id}</if>">
+							<div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 问题名称 </label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="title" id="title" class="rcol-xs-10 col-sm-5"
+                                           value="{$currentquestion.title}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+										<span class="middle"></span>
+									</span>
+                                </div>
+                            </div>
+							<div class="space-4"></div>
+                            <volist name="selectlist" id="select" key="key">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 选项{$key} </label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="item_title[{$select['item_id']}]" id="item_title[{$select['item_id']}]" class="rcol-xs-10 col-sm-5"
+                                           value="{$select.item_title}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                        <span class="middle"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            </volist>
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                                &nbsp; &nbsp; &nbsp;
+                                <a href="{:U('questions',array('subject_id'=>$currentquestion['subject_id']))}" class="btn">
+                                    <span class="ace-icon fa fa-reply icon-on-right bigger-110">
+                                    返回问题列表
+                                </a>                             
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+
+    })
+
+</script>
+</body>
+</html>

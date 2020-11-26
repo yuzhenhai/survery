@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<title></title>
+    <style>
+        body
+        {
+            margin:0;
+        }
+    .file input{
+            position: absolute;left: 0;top: 0;height: 30px; filter:alpha(opacity=0);opacity:0; background-color: transparent;width:200px; font-size:180px;
+        }
+        .file{
+          width: 250px;height: 30px; background:#fff; text-align: center; line-height: 30px; overflow: hidden;position: relative;border:1px solid #d5d5d5;color:#333;
+        }
+    </style>
+
+	<script src="__PUBLIC__/themes/js/jquery.js"></script>
+
+</head>
+<body class="no-skin">
+	<form action="{:U('Task/uploadfile')}" method="post" enctype="multipart/form-data" id="uploadForm">
+	   	<div class="file"><span id="divVMsg">选择文件( 不超过4M )</span><input name="file" id="fileUpload" type="file"></div>
+	</form>
+	<script type="text/javascript">
+		var jQuery = jQuery.noConflict(true);
+        function $(id) {
+            return document.getElementById(id) || id;
+        }
+        var fileUpload = $('fileUpload');
+        var uploadFileTimer;
+        var form = $('uploadForm');
+        var maxSize = '4096';
+
+        var fileName = "";
+        var errorCode = "";
+        var errorMsg = "";
+        var filePath="";
+
+        function setUploadDiv() {
+            if (window.parent.isUploadingFile) {
+                alert('请先等待当前的文件上传完毕，再上传！');
+                if (window.parent.curfilediv)
+                    window.parent.curfilediv.scrollIntoView();
+                return false;
+            }
+            if (window.curdiv) {
+                window.curdiv.onclick();
+            }
+            window.parent.curfilediv = window.curdiv || window.parent.curdiv;
+            return true;
+        }
+        fileUpload.onclick = setUploadDiv;
+        fileUpload.onchange = function () {
+            uploadClick();
+        }
+        Array.prototype.indexOf = function (vItem) {
+            for (var i = 0, l = this.length; i < l; i++) {
+                if (this[i] == vItem) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+        var iLen = 0; var uploadInterval = null; var totalLen = 30;
+        function checkStatus() {
+            window.parent.curfilediv.uploadmsg.innerHTML = iLen < totalLen ? window.parent.curfilediv.uploadmsg.innerHTML + ">" : "";
+            iLen++;
+            if (iLen >= totalLen) {
+                iLen = 0;
+                window.parent.curfilediv.uploadmsg.innerHTML = "正在上传...";
+            }
+        }
+        function uploadClick() {
+            iLen = 0;
+            if (!setUploadDiv()) return false;
+
+            var vaild = fileUpload.value.length > 0;
+
+            if (vaild) {
+                var f_path = fileUpload.value;
+                var ext = get_ext(f_path);
+                var allowExt = window._ext || ".jpg|.jpeg|.gif|.bmp|.png|.pdf|.doc|.docx|.xls|.xlsx|.ppt|.pptx|.txt|.rar|.zip|.gzip";
+                var arrayExts = allowExt.split("|");
+                if (arrayExts.indexOf(ext) == -1) {
+                    window.parent.curfilediv.uploadmsg.innerHTML = "文件扩展名只能为" + allowExt; return false;
+                }
+                if(fileUpload.files){
+                    var file=fileUpload.files[0];
+                    if(file){
+                        if(file.size>parseInt( maxSize)*1024){
+                            alert("文件最大只能上传"+ parseInt(maxSize)/1024+"M");
+                            return false;
+                        }
+                    }
+                }
+                if (window.parent.curfilediv) {
+                    window.parent.curfilediv.uploadmsg.innerHTML = "正在上传...";
+                    //uploadInterval = setInterval(checkStatus, 1000);
+                    window.parent.updateProgressBar(window.parent.curfilediv.dataNode);
+                }
+                window.parent.isUploadingFile = true;
+
+                //form.submit();
+			    var formData = new FormData(form);
+		        jQuery.ajax({
+		             url: form.action,
+		             type: "POST",
+		             data: formData,
+		             processData: false,  // 告诉jQuery不要去处理发送的数据
+		             contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+		             success: function(response,status,res){
+		                //console.log(res);
+		                fileName = res.responseJSON.fileName;
+		                filePath = '__ROOT__/'+res.responseJSON.filePath;
+		                //uploadF();
+		                uploadInterval = 0;
+		                uploadF();
+		             }
+		        });
+            }
+            else {
+                window.parent.curfilediv.uploadmsg.innerHTML = "请先选择文件，再上传！";
+                return false;
+            }
+        }
+        //获取文件扩展名
+        function get_ext(f_path) {
+            var ext = '';
+            if (f_path != null && f_path.length > 0) {
+                f_path = f_path;
+                ext = f_path.substring(f_path.lastIndexOf("."), f_path.length);
+            }
+            return ext.toLowerCase();
+        }
+
+        function uploadF() {
+            if(fileName)
+                window.parent.curfilediv.uploadFinish('文件已经成功上传！', encodeURIComponent(fileName),filePath);
+            else
+                window.parent.curfilediv.uploadFinish(errorMsg, '');
+        }
+        if (fileName || errorMsg) {
+            uploadF();
+        }
+	</script>
+</body>
+</html>

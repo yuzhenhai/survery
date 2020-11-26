@@ -1,0 +1,101 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font person">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+		  <div class="main-top">
+			<!-- 用户信息 -->
+			<include file="User/profile_info"/>
+		  </div>   
+		  <div id="list-talk">
+			<!-- 个人资料tab -->
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<if condition="($loginuser['admin'] eq 1) OR ($profileuser['uid'] == $user['uid']) ">
+				<li class="active"><a href="{:U('profile_tags',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-phonenumber"></i>标签</a></li>
+				<li class=""><a href="{:U('profile_task',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-work"></i>任务</a></li>
+				<li class=""><a href="{:U('profile_ask',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-question"></i>追问</a></li>
+				</if>
+				<li class=""><a href="{:U('profile_gallery',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-share"></i>相册</a></li>
+				<li class=""><a href="{:U('profile',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-articles"></i>话题</a></li>
+			</ul>
+			<if condition="($loginuser['admin'] eq 1) ">
+			<div class="title"><span>备注</span> </div>
+			<div id="ts1" style="width:100%;">
+			    <ul>
+				    <volist name="annotation" id="val">
+						<li><a href="" style="" rel="20">{$val['annotation']}</a></li>
+					</volist>
+					<form action="{:U('remark')}" id="form" style="display: none;" method="post">
+						<input type="hidden" name="uid" value="{:I(uid)}">
+
+						<input type="text" placeholder="备注" name="annotation">
+						<button class="btn btn-default" style="background-color:#ea6f5a;color:#fff">添加</button>
+					</form>
+				<li id="tagadd" style="background-color:#ea6f5a;color:#fff"><a style="color:#fff" rel="15">+ 添加</a></li>
+			    </ul>
+			</div>
+			</if>
+			<div class="title"><span>任务标签</span> </div>
+			<div id="ts1" style="width:100%;">
+			    <ul>
+				<li><a href="" style="" rel="20">潮流引领者</a></li>
+				<li><a href="" style="" rel="5">颜值控</a></li>
+				<li><a href="" style="" rel="1">时尚达人</a></li>
+				<li><a href="" style="" rel="5">极限运动爱好者</a></li>
+				<li><a href="" style="" rel="10">手持无绳吸尘器：戴森</a></li>
+				<li><a href="" style="" rel="10">机器人:iRobot</a></li>
+				<li><a href="" style="" rel="15">空气净化器：霍尼韦尔，戴森</a></li>
+				<li><a href="" style="" rel="20">吹风机：博朗，飞利浦</a></li>
+			    </ul>
+			</div>
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 用户统计 -->
+			<include file="User/profile_user"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+	$("#tagadd").click(function(){
+		$("#form").show();
+		$(this).hide();
+
+	})
+
+
+</script>
+
+<style type="text/css">
+#ts1 li a{
+    text-decoration:none;
+}
+ul {list-style-type:none;}
+
+h1{
+	padding: 15px;
+}
+#ts1 ul li {
+    display: inline-block;
+    min-height: 24px;
+    background-color: #f7f7f7;
+    border: 1px solid #ea6f5a;
+    color: #ea6f5a;
+    vertical-align: top;
+    overflow: hidden;
+    font-size: 12px;
+    text-align: center;
+    margin: 4px 4px;
+    padding: 2px 16px;
+}
+</style>
+</body>
+</html>

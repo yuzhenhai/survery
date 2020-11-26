@@ -1,0 +1,191 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+	<div class="container index talk">
+		<div class="col-xs-16 main">
+		  <div class='post'>
+			<!-- 文章列表模块 -->
+			<div class="new-article">
+				<div class='new-talk row'>
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" id="form" enctype="multipart/form-data" action="{:U('update')}" method="post">
+
+						<h3> 发布主题</h3>
+
+
+                            <div class="col-sm-8 form-group">
+
+                                <div class="coveredit">
+                                    <input type="hidden" name="head" />
+                                    <input type="file" name="image" class="idimage" />
+                                </div>
+                            </div>
+                         <input type="hidden" name="uid" value="{$uid}">
+                         <div class="col-sm-16">
+                            <div class="form-group">
+                                    <input type="text" name="name" id="input-name" class="form-control"  placeholder="主题名称">
+                            </div>
+                            <div class='form-group topic '>
+								<span class='label'>所属话题(最多选择3个)</span>
+								<div class="mycheck">
+									<volist name="subject" id="val">
+                                		<!-- <input type="checkbox" name="subject[]" value="{$val['subject_id']}"  /> -->
+                                		<!-- <label class="check" id="{$val['subject_id']}">{$val['title']}</label> -->
+                                		<label class="check" id="{$val['subject_id']}">{$val['title']}</label>
+									</volist>
+								</div>
+									<input type="text" name="title" placeholder="交流话题" class="form-control" id="title"/>
+							</div>
+                        </div>
+                        <if condition="$activity_id">
+                        
+	                        <div class="col-sm-24">
+	                        	<span class='label'>活动主题</span>
+	                        	<div class="mychecka">
+	                        		<volist name="activity_subject" id="subject">
+	                        		<label class="check active">{$subject['title']}</label>
+	                        			<input type='hidden' name='activity[]' value="{$subject['subject_id']}" /></volist>
+	                        	</div>
+	                        </div>
+                        </if>
+						<div class="col-sm-24">
+					  		<div class="form-group" >
+					  			{:BatchImage("images",100,100,$val['images'])}
+					  		</div>
+					  	</div>
+						<div class="col-sm-24">
+					  		<!-- <div class="form-group" >
+                                	<textarea name="abstract" id="abstract" placeholder="摘要" class="col-sm-24"></textarea>
+					  		</div> -->
+
+
+
+					  		<div class="form-group">
+					  			<span class='label'>详情</span>
+					  			<div id="description" class="text"></div>
+					  			<input type="hidden" name="description" id="des">
+                                    <!-- <textarea name="description" id="description" placeholder="详情" class="col-sm-24"></textarea> -->
+					  		</div>
+							<div class="form-group">
+									<button type="submit" class='button'>提交</button>
+							</div>
+						</div>
+						<!-- 发布主题获得积分 -->
+						<input type="hidden" name="score" value="{$Think.CONFIG.subject_credit}">
+                        </form>
+   				</div>
+			</div>
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+
+			<!-- 热门讨论 -->
+			<include file="Talk/hot"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+    </div>
+</div><!-- /.main-container -->
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+
+<script type="text/javascript">
+
+
+   $(function () {
+ 		var E = window.wangEditor
+
+
+	
+		var editor1 = new E('#description')
+		// editor1.customConfig.showLinkImg = false
+
+		editor1.customConfig.menus = [
+	        'head',  // 标题
+		    'bold',  // 粗体
+		    'fontSize',  // 字号
+		    'fontName',  // 字体
+		    'italic',  // 斜体
+		    'underline',  // 下划线
+		    'strikeThrough',  // 删除线
+		    'foreColor',  // 文字颜色
+		    'backColor',  // 背景颜色
+		    'link',  // 插入链接
+		    'list',  // 列表
+		    'justify',  // 对齐方式
+		    'quote',  // 引用
+		    'emoticon',  // 表情
+		    // 'image',  // 插入图片
+		    'table',  // 表格
+		    'video'
+		    ]
+		editor1.customConfig.uploadImgServer = "{:U('updateimage')}"
+
+
+	
+		editor1.customConfig.uploadImgShowBase64 = true
+
+		editor1.customConfig.onchange = function (html) {
+		        // html 即变化之后的内容
+		        // console.log(html)
+		        $('#des').val(html)
+		    }
+		editor1.create()
+
+	$('.check').click(function(){
+		var subject_id = $(this).attr("id");
+		var active = false;
+	
+		var sub = $("input[name='subject[]']");
+		for(var i=0;i<sub.length;i++){
+			var subjest = $(sub[i]).val();
+
+			if(subject_id == subjest){
+				active = true;
+				$(this).removeClass('active');
+
+				$(".subject"+subject_id).remove();
+			}
+			
+		}
+		// 	$(".subject"+subject_id).remove('')
+		if($("input[name='subject[]']:input").length >= 3){
+			// alert($("input[name='subject[][1]']:input"))
+			alert("最多选3个!")
+		}else{
+			if(!active){
+				$(this).addClass('active');
+				
+				$(this).append("<input type='hidden' name='subject[]' class='subject"+subject_id+"' value='"+subject_id+"' />");
+			}
+		}
+		
+	});
+
+
+		 $('.idimage').ace_file_input({
+		    style: 'well',
+		    btn_choose : 'Drop images here or click to choose',
+		    no_icon : 'ace-icon fa fa-picture-o',
+		    btn_change: null,
+		    droppable: true,
+		    thumbnail: 'small'
+		    ,
+		    preview_error : function(filename, error_code) {
+
+		    }
+
+		}).on('change', function(){
+
+		});
+
+    });
+
+</script>
+</body>
+</html>

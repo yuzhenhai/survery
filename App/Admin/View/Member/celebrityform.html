@@ -1,0 +1,208 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" action="{:U('updatecelebrity')}" method="post">
+                                                        <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-10"> 用户 </label>
+                                <div class="col-sm-9">
+                                    <if condition="$celebrity['uid'] gt 0">
+                                        <volist name="usergroup" id="val">
+                                            <if condition="$val['uid'] eq $celebrity['uid']">
+                                                <input type="text" class="col-xs-10 col-sm-5" value="{$val['realname']}"
+                                                       readonly>
+                                                <input type="hidden" name="uid" id="uid"
+                                                       class="col-xs-10 col-sm-5" value="{$celebrity['uid']}">
+                                            </if>
+                                        </volist>
+
+                                        <else/>
+                                        <select id="uid" name="uid" class="rcol-xs-10 col-sm-5">
+                                            <volist name="usergroup" id="val">
+                                                <option value="{$val['uid']}"
+                                                <if condition="$val['uid'] eq $celebrity['uid']">selected="selected"
+                                                </if>
+                                                >{$val['realname']}</option>
+                                            </volist>
+                                        </select>
+                                    </if>
+                                    <input type="hidden" name="id" value="{$celebrity['id']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                        <span class="middle">选择用户</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 开始时间/结束时间  </label>
+                                <div class="col-sm-4">
+                                    <div class="input-daterange input-group">
+                                        <input class="input-sm form-control" name="begin" type="text" value="{$celebrity.begin}">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-exchange"></i>
+                                        </span>
+                                        <input class="input-sm form-control" name="end" type="text" value="{$celebrity.end}">
+                                    </div>      
+                                </div>
+                            </div>
+
+                            
+
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-4"> 状态 </label>
+                                <div class="col-sm-9">
+                                    <select id="status" name="status" class="multiselect">
+                                        <option value="0"
+                                        <if condition="$celebrity['status'] eq 0">selected="selected"</if>
+                                        >停用</option>
+                                        <option value="1"
+                                        <if condition="$celebrity['status'] eq 1">selected="selected"</if>
+                                        >启用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">评语</label>
+
+                                    <div class="col-sm-10">
+                                        <textarea name="comment" id="comment" placeholder="评语" class="col-xs-10 col-sm-5" rows="5">{$celebrity.comment}</textarea>
+                                    </div>
+                                </div>
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+        $(".submit").click(function () {
+            $("#form").submit();
+        })
+    })
+
+
+    jQuery(function ($) {
+        $('#birthday').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            autoclose: true,
+            todayBtn: 'linked',
+            language: 'cn'
+        });
+        $('.input-daterange').datepicker({
+            autoclose:true,
+            format: 'yyyy-mm-dd',
+            language: 'cn'
+        });
+
+
+        function showErrorAlert (reason, detail) {
+            var msg='';
+            if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+            else {
+                //console.log("error uploading file", reason, detail);
+            }
+            $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+             '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+        }
+        $('.wysiwyg-editor').ace_wysiwyg({
+            toolbar:
+            [
+                'font',
+                null,
+                'fontSize',
+                null,
+                {name:'bold', className:'btn-info'},
+                {name:'italic', className:'btn-info'},
+                {name:'strikethrough', className:'btn-info'},
+                {name:'underline', className:'btn-info'},
+                null,
+                {name:'insertunorderedlist', className:'btn-success'},
+                {name:'insertorderedlist', className:'btn-success'},
+                {name:'outdent', className:'btn-purple'},
+                {name:'indent', className:'btn-purple'},
+                null,
+                {name:'justifyleft', className:'btn-primary'},
+                {name:'justifycenter', className:'btn-primary'},
+                {name:'justifyright', className:'btn-primary'},
+                {name:'justifyfull', className:'btn-inverse'},
+                null,
+                {name:'createLink', className:'btn-pink'},
+                {name:'unlink', className:'btn-pink'},
+                null,
+                {name:'insertImage', className:'btn-success'},
+                null,
+                'foreColor',
+                null,
+                {name:'undo', className:'btn-grey'},
+                {name:'redo', className:'btn-grey'}
+            ],
+            'wysiwyg': {
+                fileUploadError: showErrorAlert
+            }
+        }).prev().addClass('wysiwyg-style2');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+						<div class="page-header">
+							<h1>{$currenttaskquestion.tasktitle}</h1>
+						</div><!-- /.page-header -->
+						<h2>{$currenttaskquestion.title}</h2>
+						<small>当题目二 第一个问题选择 选项2 时才显示 <a href="#">修改</a></small>
+						<div class="description">
+							{$currenttaskquestion.description|htmlspecialchars_decode}
+						</div>
+                        <!-- PAGE CONTENT BEGINS -->
+						<div class="widget-box widget-color-blue ui-sortable-handle" id="widget-box-2">
+							<div class="widget-header">
+								<h5 class="widget-title bigger lighter">
+									<i class="ace-icon fa fa-table"></i>
+									问题列表
+								</h5>
+								<div class="widget-toolbar">
+									<a href='index.php?page=questionadd' class='white'>
+										<i class="ace-icon  fa fa-plus bigger-120"></i>
+									</a>
+								</div>
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<table id="simple-table" class="table  table-bordered table-hover">
+										<thead>
+											<tr>
+												<th></th>
+												<th>问题名称</th>
+												<th>问题类型</th>
+												<th>状态</th>
+												<th></th>
+											</tr>
+										</thead>
+
+										<tbody id="sortable" class='sortable'>
+											<tr>
+												<td class='ui-sortable-handle'>
+													<i class="ace-icon fa fa-ellipsis-v bigger-120"></i>
+												</td>
+												<td>哪个产品详情页您更喜欢？</td>
+												<td>多选</td>
+												<td><span class="label label-sm label-success">已发布</span></td>
+												<td>
+													<div class="hidden-sm hidden-xs btn-group">
+														<button class="btn btn-xs btn-inverse">
+															<i class="ace-icon fa fa-lock bigger-120"></i>取消发布
+														</button>
+														<a  href='index.php?page=question' class="btn btn-xs btn-primary">
+															<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>编辑
+														</a>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td class='ui-sortable-handle'>
+													<i class="ace-icon fa fa-ellipsis-v bigger-120"></i>
+												</td>
+												<td>上一题您为什么这么选？（简答）</td>
+												<td>简答</td>
+												<td><span class="label label-sm label-success">已发布</span></td>
+												<td>
+													<div class="hidden-sm hidden-xs btn-group">
+														<button class="btn btn-xs btn-inverse">
+															<i class="ace-icon fa fa-lock bigger-120"></i>取消发布
+														</button>
+														<a  href='index.php?page=question' class="btn btn-xs btn-primary">
+															<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>编辑
+														</a>
+													</div>
+												</td>
+											</tr>		
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>                 
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+
+    })
+
+</script>
+</body>
+</html>

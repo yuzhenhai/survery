@@ -1,0 +1,191 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-3"> 
+                                <p>
+                                    <button class="btn btn-success btn-xs lock">
+                                        <i class="ace-icon fa fa-lock bigger-140"></i>
+                                        通过审核
+                                    </button>
+                                    <button class="btn btn-inverse btn-xs unlock">
+                                        <i class="ace-icon fa fa-lock bigger-140"></i>
+                                        取消审核
+                                    </button>
+                                   <!--  <button id="submit" class="btn btn-light btn-xs delete">
+                                        <i class="ace-icon fa fa-trash bigger-140"></i>
+                                        删除
+                                    </button> -->
+                                </p>
+                            </div>
+                            
+                        </div>
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <form class="form-inline">    
+                            </form>
+                        </div>
+                        <div class="space-4"></div>
+                        <div class="row">
+                            <form id="form" method="post" action="{:U('del')}">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="center"><input class="check-all" type="checkbox" value=""></th>
+                                        <th>用户名</th>
+                                        <th>身份正面</th>
+                                        <th>身份反面</th>
+                                        <!-- <th>是否认证</th> -->
+                                        <th>是否认证</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <style>
+                                        .grouptd {
+                                            position: relative;
+                                        }
+
+                                        .group {
+                                            display: inline-block;
+                                            width: 100%;
+                                        }
+
+                                        .groupselect {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            width: 100%;
+                                            height: 100%;
+                                            border: 0;
+                                        }
+                                    </style>
+                                    <volist name="users" id="val">
+                                        <tr>
+                                            <td class="center">
+                                                <input class="ids" type="checkbox"  name="ids[]" value="{$val['id']}">
+                                            </td>
+                                            <td class="center">{$val['realname']}</td>
+
+                                            <td><img class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="{$Think.CONFIG.website}/{$val['front']}" height="150"></td>
+                                            <td><img class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="{$Think.CONFIG.website}/{$val['reverse']}" height="150"></td>
+                                            <!-- <td><if condition="$val['card'] eq 1"><span class="label label-sm label-success">认证成功</span><else/><span class="label label-sm label-inverse">认证失败</span></if></td> -->
+                                            <td>                                                
+                                                <if condition="$val['approcal'] eq 0"><a class="label label-sm label-inverse" href="{:U('approcal',array('id'=>$val['id'],'approcal'=>$val['approcal']))}" title="点击通过审核">取消审核</a></if>
+                                                <if condition="$val['approcal'] eq 1"><a class="label label-sm label-success" href="{:U('approcal',array('id'=>$val['id'],'approcal'=>$val['approcal']))}" title="点击取消审核">通过审核</a></if>
+                                            </td>
+                                        </tr>
+  
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </form>
+                            {$page}
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/bootstrap-multiselect.js"></script>
+
+<script type="text/javascript">
+    (function ($) {
+        $('.show-details-btn').on('click', function(e) {
+            e.preventDefault();
+            $(this).closest('tr').next().toggleClass('open');
+            $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+        });
+        
+    })(jQuery);
+</script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".group").click(function () {
+            $(this).addClass('hide');
+            $(this).parent().find(".groupselect").removeClass('hide');
+        })
+        $(".groupselect").on("change", function () {
+            var ob = $(this);
+            var gid = ob.val();
+            var uid = ob.parent().find('.group').attr('val');
+            $.get("{:U('update')}?ajax=yes&uid=" + uid + "&gid=" + gid, function (data) {
+                var text = ob.find("option:selected").text();
+                ob.parent().find(".group").removeClass('hide').html(text);
+                ob.addClass('hide');
+            });
+        })
+
+        $('.multiselect').multiselect({
+             enableFiltering: true,
+             enableHTML: true,
+             buttonClass: 'btn btn-white btn-primary',
+             templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+                li: '<li><a tabindex="0"><label></label></a></li>',
+                divider: '<li class="multiselect-item divider"></li>',
+                liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+            }
+        });
+
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+
+
+        $(".lock").click(function () {
+            $("#form").attr("action", "{:U('approcal?approcal=1')}");
+            $('#form').submit();
+        });
+       $(".unlock").click(function () {
+            $("#form").attr("action", "{:U('approcal?approcal=0')}");
+            $('#form').submit();
+        });
+
+    })
+</script>
+</body>
+</html>

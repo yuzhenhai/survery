@@ -1,0 +1,14 @@
+<div>
+	<ul class="trigger-menu"><li  class="active"><a href=""> <i class="iconfont ic-articles"></i> 题目列表</a></li></ul>
+	<div class="qlist">
+		<ul style="list-style: none;">
+			<volist name="subjectlist" id="val">
+				<if condition="($val['answerd'] eq 'true')">
+					<li class="r"><a href="{:U('Task/subject',array('subject_id'=>$val['subject_id']))}">{$val['title']}</a></li>
+				<else />
+					<li class="a">{$val['title']}</li>
+				</if>
+			</volist>
+		</ul>
+	</div>
+</div>

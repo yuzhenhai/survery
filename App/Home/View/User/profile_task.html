@@ -1,0 +1,158 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font person">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+		  <div class="main-top">
+			<!-- 用户信息 -->
+			<include file="User/profile_info"/>
+		  </div>
+		  <div id="list-container">
+			<!-- 个人资料tab -->
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<if condition="($loginuser['admin'] eq 1) OR ($profileuser['uid'] == $user['uid']) ">
+				<li class=""><a href="{:U('profile_tags',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-phonenumber"></i>标签</a></li>
+				<li class="active"><a href="{:U('profile_task',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-work"></i>任务</a></li>
+				<li class=""><a href="{:U('profile_ask',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-question"></i>追问</a></li>
+				</if>
+				<li class=""><a href="{:U('profile_gallery',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-share"></i>相册</a></li>
+				<li class=""><a href="{:U('profile',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-articles"></i>话题</a></li>
+			</ul>
+			<volist name="list" id="task" key="k">
+			<a name="task_{$task['task_id']}"></a>
+			<div class="recommended-authors profileask">
+				<ul class="note-list">
+			    <li class="have-img">
+					<if condition="count($task['subjectlist']) eq 0">
+					<a class="more_task" href="{:U('profile_task#task_'.$task['task_id'],array('uid'=>$profileuser['uid'],'task_id'=>$task['task_id']))}">
+						<i class="ace-icon fa fa-file-text-o"></i>任务详情
+					</a>
+					</if>
+					<a class="wrap-img" href="{:U('Task/detail',array('task_id'=>$task['task_id']))}" target="_blank">
+					  <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$task['image']}" alt="120">
+					</a>
+					<div class="content">
+						<a class="title" target="_blank" href="{:U('Task/detail',array('task_id'=>$task['task_id']))}">{$task['title']}</a>
+
+						<p class="abstract">{$task['description']}</p>
+					  	<div class="meta">
+							<a href="javascript:void(0);">
+						  	<i class="iconfont ic-question"></i> {$task['count_questions']}</a>
+							<a href="javascript:void(0);">
+							<i class="iconfont ic-write"></i> {$task['count_comments']} </a>
+							<span><a href="javascript:void(0);"><i class="iconfont ic-user"></i> {$task['count_users_all']}</a></span>
+							<if condition="$task['lefttime'] ">
+								<a class="collection-tag" href="javascript:void(0);"> 距离结束还有{$task['lefttime']}</a>
+							<else />
+						  		<a class="collection-tag" href="javascript:void(0);"> 已结束</a>
+						    </if>
+						    <if condition="$task['member_task_status'] eq 0">
+						    	<if condition="$task['lefttime'] gt 0">
+						  		<a class="collection-btn-begin" target="_blank" href="{:U('Task/detail',array('task_id'=>$task['task_id']))}"> 立即开始</a>
+						  		</if>
+						    </if>
+						  	<if condition="$task['member_task_status'] eq 1">
+						  		<a class="collection-btn-continue" target="_blank" href="{:U('Task/detail',array('task_id'=>$task['task_id']))}">  继续任务</a>
+						    </if>
+						    <if condition="$task['member_task_status'] eq 2">
+						    	<a class="collection-btn-end" href="javascript:void(0);"> 已完成</a>
+						    </if>
+
+					  	</div>
+					</div>
+				  </li>
+				</ul>
+				<ul class="list wjques">
+					<volist name="task.subjectlist" id="subject" key="s">
+					<li>
+						<a href="{:U('Task/subject',array('subject_id'=>$subject['subject_id']))}" class="name">第{$subject['o']}题.{$subject['title']}</a>
+					  	<div class='title'>
+					  		{$subject['description']|htmlspecialchars_decode}
+					  		<volist name="subject['questions']" id="question">
+					  			<p>{$question['topic']}) {$question['title']}</p>
+					  		</volist>
+					  	</div>
+
+					  	<div class="row">
+						  <div class="post_answer">
+							  <div class="pls favatar col-xs-4">
+								  <div class="avatar">
+									<img src="<if condition=" $subject['subject_answer']['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$subject['subject_answer']['head']}</if>" />
+									<p><small>{$subject['subject_answer']['realname']}</small></p>
+								  </div>
+							  </div>
+							  <div class="plc col-xs-20">
+								<volist name="subject.question_answers" id="question_answer" key="q">
+									<p>{$question_answer['topic']}.
+									<volist name="question_answer.answers" id="answer" key="a">
+										<if condition="(($question_answer['type'] eq 'radio') OR ($question_answer['type'] eq 'check') OR ($question_answer['type'] eq 'matrix' AND $question_answer['tag'] != '201' AND $question_answer['tag'] != '101'AND $question_answer['tag'] != '102'))">
+											{$answer['itemvalue']}<if condition="$a eq count($question_answer['answers'])"><else/>,</if>
+										<else />
+											<if condition="$question_answer['type'] eq 'fileupload'">
+												<img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOADFILE_PATH}{$answer['item_value']}" height="150px" />
+											<else />
+												<if condition="$question_answer['type'] eq 'matrix' AND ($question_answer['tag'] == '102' OR $question_answer['tag'] == '201' OR $question_answer['tag'] == '101') ">
+													{$answer['topic']}:{$answer['itemvalue']}<if condition="$a eq count($question_answer['answers'])"><else/>,</if>
+												<else />
+													{$answer['item_value']}<if condition="$a eq count($question_answer['answers'])"><else/>,</if>
+												</if>
+											</if>
+										</if>
+									</volist>
+									</p>
+								</volist>
+								<div class="post_time"> <small>{$subject['answer_created']}</small></div>
+							  </div>
+						  </div>
+						</div>
+						<volist name="subject.remarks" id="remark">
+							<div class='post_answer  row'>
+								<div class="col-xs-4  ">
+									<div class='avatar'>
+										<img src="<if condition=" $remark['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$remark['head']}</if>" />
+										<small>{$remark["user"]}
+											<if condition="$remark['admin']  eq 1 ">
+												<br />(研究员)
+											</if>
+										</small>
+									</div>
+								</div>
+								<div class='col-xs-20' >
+									<p>{$remark['remark']}</p>
+									<div class="post_time"> <small>{$remark['datetime']|date="Y-m-d h:i:s",###}</small></div>
+								</div>
+							</div>
+						</volist>
+				  	</li>
+				  	</volist>
+				</ul>
+				<if condition="count($task['subjectlist']) gt 0">
+				{$page}
+				</if>
+			</div>
+			</volist>
+
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 用户统计 -->
+			<include file="User/profile_user"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+</script>
+</body>
+</html>

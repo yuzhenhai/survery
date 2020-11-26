@@ -1,0 +1,481 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" id="form" role="form" method="post" action="{:U('update_website')}" enctype="multipart/form-data">
+                        	<div class="row">
+                        		<div class="col-sm-6">
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">背景设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 背景图片 </label>
+													<div class="col-sm-10">
+														<input type="file" name="bgimg" class="id-input-file-3 col-xs-3 " />
+														<span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.bgimg}</literal></span> </span>
+													</div>
+												</div>
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 背景颜色 </label>
+													<div class="col-sm-10">
+													  <input name="bgcolor" id="bgcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.bgcolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.bgcolor}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">内容设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 颜色  </label>
+													<div class="col-sm-10">
+													  <input name="color" id="color" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.color}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.color}</literal></span> </span>
+													</div>
+												</div>
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体  </label>
+													<div class="col-sm-10">
+													  <select name="font" class="col-xs-3" >
+													  	<option value="微软雅黑"<if condition="$Think.CONFIG.font eq '微软雅黑'"> selected="selected"</if>>微软雅黑</option>
+													  	<option value="Arial"<if condition="$Think.CONFIG.font eq 'Arial'"> selected="selected"</if>>Arial</option>
+													  	<option value="Helvetica"<if condition="$Think.CONFIG.font eq 'Helvetica'"> selected="selected"</if>>Helvetica</option>
+													  	<option value="Tahoma"<if condition="$Think.CONFIG.font eq 'Tahoma'"> selected="selected"</if>>Tahoma</option>
+													  	<option value="Verdana"<if condition="$Think.CONFIG.font eq 'Verdana'"> selected="selected"</if>>Verdana</option>
+													  	<option value="Georgia"<if condition="$Think.CONFIG.font eq 'Georgia'"> selected="selected"</if>>Georgia</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.font}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体大小  </label>
+													<div class="col-sm-10">
+													  <select name="fontsize" class="col-xs-3" >
+													  	<option value="12px"<if condition="$Think.CONFIG.fontsize eq '12px'"> selected="selected"</if>>12px</option>
+													  	<option value="14px"<if condition="$Think.CONFIG.fontsize eq '14px'"> selected="selected"</if>>14px</option>
+													  	<option value="16px"<if condition="$Think.CONFIG.fontsize eq '16px'"> selected="selected"</if>>16px</option>
+													  	<option value="18px"<if condition="$Think.CONFIG.fontsize eq '18px'"> selected="selected"</if>>18px</option>
+													  	<option value="20px"<if condition="$Think.CONFIG.fontsize eq '20px'"> selected="selected"</if>>20px</option>
+													  	<option value="24px"<if condition="$Think.CONFIG.fontsize eq '24px'"> selected="selected"</if>>24px</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.fontsize}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">内容标题设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 颜色  </label>
+													<div class="col-sm-10">
+													  <input name="titlecolor" id="titlecolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.titlecolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.titlecolor}</literal></span> </span>
+													</div>
+												</div>
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体  </label>
+													<div class="col-sm-10">
+													  <select name="titlefont" class="col-xs-3" >
+													  	<option value="微软雅黑"<if condition="$Think.CONFIG.titlefont eq '微软雅黑'"> selected="selected"</if>>微软雅黑</option>
+													  	<option value="Arial"<if condition="$Think.CONFIG.titlefont eq 'Arial'"> selected="selected"</if>>Arial</option>
+													  	<option value="Helvetica"<if condition="$Think.CONFIG.titlefont eq 'Helvetica'"> selected="selected"</if>>Helvetica</option>
+													  	<option value="Tahoma"<if condition="$Think.CONFIG.titlefont eq 'Tahoma'"> selected="selected"</if>>Tahoma</option>
+													  	<option value="Verdana"<if condition="$Think.CONFIG.titlefont eq 'Verdana'"> selected="selected"</if>>Verdana</option>
+													  	<option value="Georgia"<if condition="$Think.CONFIG.titlefont eq 'Georgia'"> selected="selected"</if>>Georgia</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.titlefont}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">链接设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 链接颜色  </label>
+													<div class="col-sm-10">
+													  <input name="linkcolor" id="linkcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.linkcolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.linkcolor}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">顶部菜单设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 颜色  </label>
+													<div class="col-sm-10">
+													  <input name="menucolor" id="menucolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.menucolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.menucolor}</literal></span> </span>
+													</div>
+												</div>
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体  </label>
+													<div class="col-sm-10">
+													  <select name="menufont" class="col-xs-3" >
+													  	<option value="微软雅黑"<if condition="$Think.CONFIG.menufont eq '微软雅黑'"> selected="selected"</if>>微软雅黑</option>
+													  	<option value="Arial"<if condition="$Think.CONFIG.menufont eq 'Arial'"> selected="selected"</if>>Arial</option>
+													  	<option value="Helvetica"<if condition="$Think.CONFIG.menufont eq 'Helvetica'"> selected="selected"</if>>Helvetica</option>
+													  	<option value="Tahoma"<if condition="$Think.CONFIG.menufont eq 'Tahoma'"> selected="selected"</if>>Tahoma</option>
+													  	<option value="Verdana"<if condition="$Think.CONFIG.menufont eq 'Verdana'"> selected="selected"</if>>Verdana</option>
+													  	<option value="Georgia"<if condition="$Think.CONFIG.menufont eq 'Georgia'"> selected="selected"</if>>Georgia</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.menufont}</literal></span> </span>
+													</div>
+												</div>
+												<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 当前颜色  </label>
+													<div class="col-sm-10">
+
+													  <input name="menuactivecolor" id="menuactivecolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.menuactivecolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.menuactivecolor}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        		</div>
+                        		<div class="col-sm-6">
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">登录页设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 登录页图片  </label>
+													<div class="col-sm-10">
+														<input type="file" name="loginbg" class="id-input-file-3 col-xs-3 " />
+														<span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.loginbg}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">标签设置</h4>
+										</div>
+										<div class="widget-body">
+											<div class="widget-main">
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 文字颜色  </label>
+													<div class="col-sm-10">
+													  <input name="tagcolor" id="tagcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.tagcolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.tagcolor}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 边框颜色  </label>
+													<div class="col-sm-10">
+													  <input name="tagbordercolor" id="tagbordercolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.tagbordercolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.tagbordercolor}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 背景颜色  </label>
+													<div class="col-sm-10">
+													  <input name="tagbgcolor" id="tagbgcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.tagbgcolor}" type="text">
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.tagbgcolor}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体  </label>
+													<div class="col-sm-10">
+													  <select name="tagfont" class="col-xs-3" >
+													  	<option value="微软雅黑"<if condition="$Think.CONFIG.tagfont eq '微软雅黑'"> selected="selected"</if>>微软雅黑</option>
+													  	<option value="Arial"<if condition="$Think.CONFIG.tagfont eq 'Arial'"> selected="selected"</if>>Arial</option>
+													  	<option value="Helvetica"<if condition="$Think.CONFIG.tagfont eq 'Helvetica'"> selected="selected"</if>>Helvetica</option>
+													  	<option value="Tahoma"<if condition="$Think.CONFIG.tagfont eq 'Tahoma'"> selected="selected"</if>>Tahoma</option>
+													  	<option value="Verdana"<if condition="$Think.CONFIG.tagfont eq 'Verdana'"> selected="selected"</if>>Verdana</option>
+													  	<option value="Georgia"<if condition="$Think.CONFIG.tagfont eq 'Georgia'"> selected="selected"</if>>Georgia</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.tagfont}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体大小  </label>
+													<div class="col-sm-10">
+													  <select name="tagfontsize" class="col-xs-3" >
+													  	<option value="12px"<if condition="$Think.CONFIG.tagfontsize eq '12px'"> selected="selected"</if>>12px</option>
+													  	<option value="14px"<if condition="$Think.CONFIG.tagfontsize eq '14px'"> selected="selected"</if>>14px</option>
+													  	<option value="16px"<if condition="$Think.CONFIG.tagfontsize eq '16px'"> selected="selected"</if>>16px</option>
+													  	<option value="18px"<if condition="$Think.CONFIG.tagfontsize eq '18px'"> selected="selected"</if>>18px</option>
+													  	<option value="20px"<if condition="$Think.CONFIG.tagfontsize eq '20px'"> selected="selected"</if>>20px</option>
+													  	<option value="24px"<if condition="$Think.CONFIG.tagfontsize eq '24px'"> selected="selected"</if>>24px</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.tagfontsize}</literal></span> </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                        			<div class="widget-box">
+										<div class="widget-header">
+											<h4 class="widget-title">任务按钮设置</h4>
+										</div>
+										<div class="widget-body">
+
+											<div class="widget-main">
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体  </label>
+													<div class="col-sm-10">
+													  <select name="taskfont" class="col-xs-3" >
+													  	<option value="微软雅黑"<if condition="$Think.CONFIG.taskfont eq '微软雅黑'"> selected="selected"</if>>微软雅黑</option>
+													  	<option value="Arial"<if condition="$Think.CONFIG.taskfont eq 'Arial'"> selected="selected"</if>>Arial</option>
+													  	<option value="Helvetica"<if condition="$Think.CONFIG.tagfont eq 'Helvetica'"> selected="selected"</if>>Helvetica</option>
+													  	<option value="Tahoma"<if condition="$Think.CONFIG.taskfont eq 'Tahoma'"> selected="selected"</if>>Tahoma</option>
+													  	<option value="Verdana"<if condition="$Think.CONFIG.taskfont eq 'Verdana'"> selected="selected"</if>>Verdana</option>
+													  	<option value="Georgia"<if condition="$Think.CONFIG.taskfont eq 'Georgia'"> selected="selected"</if>>Georgia</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskfont}</literal></span> </span>
+													</div>
+												</div>
+			                        			<div class="space-4"></div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right"> 字体大小  </label>
+													<div class="col-sm-10">
+													  <select name="taskfontsize" class="col-xs-3" >
+													  	<option value="12px"<if condition="$Think.CONFIG.taskfontsize eq '12px'"> selected="selected"</if>>12px</option>
+													  	<option value="14px"<if condition="$Think.CONFIG.taskfontsize eq '14px'"> selected="selected"</if>>14px</option>
+													  	<option value="16px"<if condition="$Think.CONFIG.taskfontsize eq '16px'"> selected="selected"</if>>16px</option>
+													  	<option value="18px"<if condition="$Think.CONFIG.taskfontsize eq '18px'"> selected="selected"</if>>18px</option>
+													  	<option value="20px"<if condition="$Think.CONFIG.taskfontsize eq '20px'"> selected="selected"</if>>20px</option>
+													  	<option value="24px"<if condition="$Think.CONFIG.taskfontsize eq '24px'"> selected="selected"</if>>24px</option>
+													  </select>
+													  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskfontsize}</literal></span> </span>
+													</div>
+												</div>
+												<ul class="nav nav-tabs" id="myTab">
+													<li class="active">
+														<a data-toggle="tab" href="#start" aria-expanded="false"> 立即开始</a>
+													</li>
+
+													<li class="">
+														<a data-toggle="tab" href="#progress" aria-expanded="false"> 继续任务</a>
+													</li>
+
+													<li class="">
+														<a data-toggle="tab" href="#complete" aria-expanded="true"> 已完成</a>
+													</li>
+												</ul>
+												<div class="tab-content">
+													<div id="start" class="tab-pane active">
+					                        			<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 开始文字颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskstartcolor" id="taskstartcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskstartcolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskstartcolor}</literal></span> </span>
+															</div>
+														</div>
+					                        			<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 开始按钮颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskstartbgcolor" id="taskstartbgcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskstartbgcolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskstartbgcolor}</literal></span> </span>
+															</div>
+														</div>
+													</div>
+													<div id="progress" class="tab-pane">
+          												<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 继续文字颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskprogresscolor" id="taskprogresscolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskprogresscolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskprogresscolor}</literal></span> </span>
+															</div>
+														</div>
+					                        			<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 继续按钮颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskprogressbgcolor" id="taskprogressbgcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskprogressbgcolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskprogressbgcolor}</literal></span> </span>
+															</div>
+														</div>
+													</div>
+													<div id="complete" class="tab-pane">
+          												<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 完成文字颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskcompletecolor" id="taskcompletecolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskcompletecolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskcompletecolor}</literal></span> </span>
+															</div>
+														</div>
+					                        			<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right"> 完成按钮颜色  </label>
+															<div class="col-sm-10">
+															  <input name="taskcompletebgcolor" id="taskcompletebgcolor" placeholder="" class="col-xs-3 colorpicker" value="{$Think.CONFIG.taskcompletebgcolor}" type="text">
+															  <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.taskcompletebgcolor}</literal></span> </span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+                        		</div>
+                        	</div>
+							<div class="space-4"></div>
+
+							<div class="col-md-offset-2 col-md-9">
+							    <button class="btn btn-info submit" type="button">
+							        <i class="icon-ok bigger-110"></i>
+							        提交
+							    </button>
+
+							    &nbsp; &nbsp; &nbsp;
+							    <button class="btn" type="reset">
+							        <i class="icon-undo bigger-110"></i>
+							        重置
+							    </button>
+							</div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<link rel="stylesheet" href="__PUBLIC__/themes/css/colorpicker.css" />
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/bootstrap-colorpicker.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+		$(".submit").click(function () {
+			$("#form").submit();
+		})
+		$('.colorpicker').colorpicker();
+		$('.id-input-file-1 , .id-input-file-2').ace_file_input({
+			no_file:'No File ...',
+			btn_choose:'Choose',
+			btn_change:'Change',
+			onchange:null,
+			thumbnail:'small',
+			droppable:true
+			//thumbnail:false //| true | large
+			//whitelist:'gif|png|jpg|jpeg'
+			//blacklist:'exe|php'
+			//onchange:''
+			//
+		});
+		$('.id-input-file-3').ace_file_input({
+			style: 'well',
+			btn_choose : 'Drop images here or click to choose',
+			no_icon : 'ace-icon fa fa-picture-o',
+			btn_change: null,
+			droppable: true,
+			thumbnail: 'small'//large | fit
+			//,icon_remove:null//set null, to hide remove/reset button
+			/**,before_change:function(files, dropped) {
+				//Check an example below
+				//or examples/file-upload.html
+				return true;
+			}*/
+			/**,before_remove : function() {
+				return true;
+			}*/
+			,
+			preview_error : function(filename, error_code) {
+				//name of the file that failed
+				//error_code values
+				//1 = 'FILE_LOAD_FAILED',
+				//2 = 'IMAGE_LOAD_FAILED',
+				//3 = 'THUMBNAIL_FAILED'
+				//alert(error_code);
+			}
+
+		}).on('change', function(){
+			//console.log($(this).data('ace_input_files'));
+			//console.log($(this).data('ace_input_method'));
+		});
+
+		var bgimg = "{$Think.CONFIG.bgimg}";
+		if(bgimg != ''){
+			$("input[name='bgimg']").ace_file_input('show_file_list', [
+			   {type: 'image',  name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$Think.CONFIG.bgimg}"}
+			]);
+		}
+		var loginbg = "{$Think.CONFIG.loginbg}";
+		if(loginbg != ''){
+			$("input[name='loginbg']").ace_file_input('show_file_list', [
+			   {type: 'image', name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$Think.CONFIG.loginbg}"}
+			]);
+		}
+    })
+</script>
+</body>
+</html>

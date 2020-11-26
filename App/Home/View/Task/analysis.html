@@ -1,0 +1,122 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-24 main xmtp">
+            <!-- 任务信息 -->
+            <include file="Task/taskinfo"/>
+		</div>
+		<div class="col-xs-16 main">
+			<div id="list-task">
+				<ul class="trigger-menu" data-pjax-container="#list-container">
+					<li class=""><a href="{:U('Task/subject',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>第<span>{$tasksubject.o}</span>题</a></li>
+
+					<li class=""><a href="{:U('Task/crossanalysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>数据统计</a></li>
+					<li class="active"><a href="{:U('Task/analysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>交叉分析</a></li>
+				</ul>
+				<h3 class="t" style='font-size:18px'>{$tasksubject.title}</h3>
+				<div class="description" style="list-style: none; font-size:14px;">
+					{$tasksubject.description|htmlspecialchars_decode}
+				</div>
+			</div>
+			<div id="profile4" class="tab-pane">
+				<div class="form-group">
+					<label>根据标签筛选:
+					<volist name="taglist" id="tag">
+						{$tag['title']},
+					</volist> &nbsp;</label>
+					<select id="taglist" class="multiselect" multiple="">
+					<volist name="taglist" id="tag" key="t1">
+						<option value="{$tag['id']}" id="{$t1}">{$tag['title']}</option>
+					</volist>
+					</select>
+				</div>
+				<div class="wjques">
+					<volist name="questions" id="question" key="q">
+						<div class="title">Q{$question['topic']}：{$question['title']}</div>
+						<table id="dynamic-table" class="table center table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="dynamic-table_info">
+							<thead>
+								<tr role="row" class="center">
+									<th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">%</th>
+									<th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">总人数</th>
+									<volist name="question['selectlist']" id="select">
+									<th class="hidden-480 sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">{$select['item_title']}</th>
+									</volist>
+								</tr>
+							</thead>
+							<tbody class="center">
+								<volist name="taglist" id="tag" key="t2">
+								<tr role="row" class="tagrow odd center tagrow_{$t2}">
+									<td class="center">{$tag['title']}</td>
+									<td>{$question['allanswer']}</td>
+									<volist name="question['selectlist']" id="select">
+									<td>{$select['countanswer']}</td>
+									</volist>
+								</tr>
+								</volist>
+
+							</tbody>
+						</table>
+					</volist>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+            <!-- 题目列表 -->
+            <include file="Task/subjectlist"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript">
+    $(function () {
+		$(".tagrow").hide();
+		$("#taglist").on('change', function(){
+			$(".tagrow").hide();
+			$("#taglist").find('option').each(function(){
+				if(this.selected){
+					$(".tagrow_"+this.id).show();
+				}
+			});
+		});
+		$("#sortable").sortable();
+		var active_class = 'active';
+		$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
+			var th_checked = this.checked;//checkbox inside "TH" table header
+
+			$(this).closest('table').find('tbody > tr').each(function(){
+				var row = this;
+				if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+				else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+			});
+		});
+		//select/deselect a row when the checkbox is checked/unchecked
+		$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
+			var $row = $(this).closest('tr');
+			if($row.is('.detail-row ')) return;
+			if(this.checked) $row.addClass(active_class);
+			else $row.removeClass(active_class);
+		});
+		$('.multiselect').multiselect({
+			 enableFiltering: true,
+			 enableHTML: true,
+			 buttonClass: 'btn btn-white btn-primary',
+			 templates: {
+				button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+				ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+				filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+				filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+				li: '<li><a tabindex="0"><label></label></a></li>',
+		        divider: '<li class="multiselect-item divider"></li>',
+		        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+		    }
+		});
+    })
+</script>
+</body>
+</html>

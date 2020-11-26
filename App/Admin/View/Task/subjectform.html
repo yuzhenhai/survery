@@ -1,0 +1,370 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+						<div class="page-header">
+							<h1>创建/编辑题目 </h1>
+						</div><!-- /.page-header -->
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#subject">
+                                        题目信息
+                                    </a>
+                                </li>
+                                <?php if($currenttasksubject['subject_id'] && $currenttasksubject['o']>1){?>
+                                <li>
+                                    <a data-toggle="tab" href="#relation">
+                                        题目关联
+                                    </a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="subject" class="tab-pane fade in active">
+                                    <!-- PAGE CONTENT BEGINS -->
+                                    <form class="form-horizontal" action="{:U('updatesubject')}" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="subject_id" value="{$currenttasksubject.subject_id}">
+
+                                        <input type="hidden" name="task_id" value="<if condition="$currenttasksubject.task_id neq null">{$currenttasksubject.task_id}<else />{$task_id}</if>">
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 标题 </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="title" id="title" class="rcol-xs-10 col-sm-5"
+                                                       value="{$currenttasksubject.title}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                    <span class="middle"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">描述</label>
+
+                                            <div class="col-sm-10">
+                                                <textarea name="description" id="description" placeholder="描述" class="col-xs-10 col-sm-5 kindeditor" rows="5">{$currenttasksubject.description|htmlspecialchars_decode}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">附件类型</label>
+
+                                            <div class="col-sm-10">
+                                                <select name="attachment_type" id="attachment_type" class="rcol-xs-10 col-sm-5">
+                                                    <option value="">选择附件类型</option>
+                                                    <option value="image" <if condition="$currenttasksubject.attachment_type eq 'image'">selected="selected"</if>>图片</option>
+                                                    <option value="video" <if condition="$currenttasksubject.attachment_type eq 'video'">selected="selected"</if>>视频</option>
+                                                    <!--option value="file" <if condition="$currenttasksubject.attachment_type eq 'file'">selected="selected"</if>>文件</option-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">附件</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="file" name="attachment_file" value="{$currenttask.attachment_file}" class="id-input-file-3" />
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">附件显示时间(秒)</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" name="attachment_showtime" id="attachment_showtime" class="rcol-xs-10 col-sm-5"
+                                                       value="{$currenttasksubject.attachment_showtime}">
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right"  for="form-field-8">附件显示次数</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" name="attachment_view" id="attachment_view" class="rcol-xs-10 col-sm-5"
+                                                       value="{$currenttasksubject.attachment_view}">
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 附件状态 </label>
+                                            <div class="control-label no-padding-left col-sm-1">
+                                                <label>
+                                                    <input name="attachment_status" id="attachment_status"
+                                                    <if condition="$currenttasksubject.attachment_status eq 1">checked="checked"</if>
+                                                    value="1" class="ace ace-switch ace-switch-2" type="checkbox" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                            <span class="help-inline col-xs-12 col-sm-7">
+                                                    <span class="middle"></span>
+                                            </span>
+                                        </div>                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 状态 </label>
+                                            <div class="control-label no-padding-left col-sm-1">
+                                                <label>
+                                                    <input name="status" id="status"
+                                                    <if condition="$currenttasksubject.status eq 1">checked="checked"</if>
+                                                    value="1" class="ace ace-switch ace-switch-2" type="checkbox" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                            <span class="help-inline col-xs-12 col-sm-7">
+                                                    <span class="middle"></span>
+                                            </span>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 排序 </label>
+                                            <div class="col-sm-10">
+                                                <input readonly disabled type="text" name="o" id="o" placeholder="" class="col-xs-10 col-sm-5"
+                                                       value="{$currenttasksubject.o}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle">越小越靠前</span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 直接回答 </label>
+                                            <div class="control-label no-padding-left col-sm-1">
+                                                <label>
+                                                    <input <if condition="$currenttasksubject.subject_id gt 0">disabled</if> name="direct_answer" id="direct_answer" value="1" <if condition="$currenttasksubject.direct_answer eq 1">checked="checked"</if> class="ace ace-switch ace-switch-2" type="checkbox" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                            <span class="help-inline col-xs-12 col-sm-7"></span>
+                                        </div>
+
+                                        <div class="space-4"></div>
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <button class="btn btn-info" type="submit">
+                                                <i class="icon-ok bigger-110"></i>
+                                                提交
+                                            </button>
+
+                                            &nbsp; &nbsp; &nbsp;
+                                            <button class="btn" type="reset">
+                                                <i class="icon-undo bigger-110"></i>
+                                                重置
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <if condition="$currenttasksubject.subject_id and $currenttasksubject.o gt 1">
+                                <div id="relation" class="tab-pane fade">
+                                    <form class="form-horizontal" action="{:U('subjectrelation')}" method="post">
+                                        <input type="hidden" name="subject_id" value="{$currenttasksubject.subject_id}">
+                                        <table id="relation_table" class="table table-striped table-bordered table-hover">
+                                          <thead>
+                                          <tr>
+                                            <td class="text-center">选择前置条件</td>
+                                            <td>比较</td>
+                                            <td>值</td>
+                                            <td></td>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <volist name="relationlist" id="relation" key="row">
+                                          <tr id="relation-row{$row-1}">
+                                            <td class="text-center" style="width: 59%;">
+                                                <select name="relation[{$row-1}][question_id]" class="form-control">
+                                                    <volist name="options" id="option">
+                                                        <optgroup label="{$option.title}"></optgroup>
+                                                        <volist name="option['questions']" id="question">
+                                                        <?php if($question['type']=='radio' || $question['type']=='check'){ ?>
+                                                            <optgroup label="--{$question.topic}.{$question.title}"></optgroup>
+                                                            <?php foreach ($question['question_items'] as $qitem) { ?>
+                                                                <?php if ($qitem['item_id'] == $relation['relation_question_item_id']) { ?>
+                                                                    <option value="{$question['question_id']}-{$qitem['item_id']}" selected="selected">----{$qitem['item_title']}</option>
+                                                                <?php }else{ ?>
+                                                                    <option value="{$question['question_id']}-{$qitem['item_id']}">----{$qitem['item_title']}</option>
+                                                                <?php } ?>
+                                                            <?php } ?>
+                                                        <?php }else{ ?>
+                                                            <?php if ($question['question_id'] == $relation['relation_question_id']) { ?>
+                                                                <option value="{$question['question_id']}" selected="selected">--{$question.topic}.{$question['title']}</option>
+                                                            <?php }else{ ?>
+                                                                <option value="{$question['question_id']}">--{$question.topic}.{$question['title']}</option>
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                        </volist>
+                                                    </volist>
+                                                </select>
+                                            </td>
+                                            <td class="text-center" style="width: 9%;">
+                                                <select name="relation[{$row-1}][compare]" class="form-control">
+                                                    <eq name="relation.relation_compare" value="gt">
+                                                        <option value="gt" selected="selected">大于</option>
+                                                    <else/>
+                                                        <option value="gt">大于</option>
+                                                    </eq>
+                                                    <eq name="relation.relation_compare" value="eq">
+                                                        <option value="eq" selected="selected">等于</option>
+                                                    <else/>
+                                                        <option value="eq">等于</option>
+                                                    </eq>
+                                                    <eq name="relation.relation_compare" value="it">
+                                                        <option value="it" selected="selected">小于</option>
+                                                    <else/>
+                                                        <option value="it">小于</option>
+                                                    </eq>
+                                                    <eq name="relation.relation_compare" value="%">
+                                                        <option value="%" selected="selected">包含</option>
+                                                    <else/>
+                                                        <option value="%">包含</option>
+                                                    </eq>
+                                                    <eq name="relation.relation_compare" value="item">
+                                                        <option value="item" selected="selected">选项</option>
+                                                    <else/>
+                                                        <option value="item">选项</option>
+                                                    </eq>
+                                                </select>
+                                            </td>
+                                            <td class="text-center" style="width: 9%;">
+                                                <input type="text" name="relation[{$row-1}][value]" value="{$relation.relation_value}" />
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" onclick="$('#relation-row{$row-1}').remove();" data-toggle="tooltip" title="删除" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                                                <input type="hidden" name="relation[{$row-1}][relation_id]" value="{$relation['relation_id']}" />
+                                            </td>
+                                          </tr>
+                                          </volist>
+                                          </tbody>
+                                          <tfoot>
+                                          <tr>
+                                            <td colspan="1"></td>
+                                            <td class="text-center"><button type="button" onclick="addTuangou();" data-toggle="tooltip" title="<?php echo $button_tuangou_add; ?>" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                                          </tr>
+                                          </tfoot>
+                                        </table>
+                                        <div class="space-4"></div>
+                                        <div class="col-md-offset-2 col-md-9">
+                                            <button class="btn btn-info" type="submit">
+                                                <i class="icon-ok bigger-110"></i>
+                                                提交
+                                            </button>
+                                        </div>
+                                        <div class="space-4"></div>
+                                    </form>
+                                </div>
+                                </if>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    $(function () {
+        $('.id-input-file-3').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'//large | fit
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+                //Check an example below
+                //or examples/file-upload.html
+                return true;
+            }*/
+            /**,before_remove : function() {
+                return true;
+            }*/
+            ,
+            preview_error : function(filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            }
+
+        }).on('change', function(){
+            //console.log($(this).data('ace_input_files'));
+            //console.log($(this).data('ace_input_method'));
+        });
+        var attachment_file = "{$currenttasksubject.attachment_file}";
+        if(attachment_file != ''){
+            $("input[name='attachment_file']").ace_file_input('show_file_list', [
+               {type: '{$currenttasksubject.attachment_type}',  name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_ATTACHMENT_PATH}{$currenttasksubject.attachment_file}"}
+            ]);
+        }
+
+
+    })
+    var row = '{$row}';
+
+    function addTuangou() {
+        html  = '<tr id="relation-row' + row + '">';
+        html += '  <td class="text-center">';
+        html += '    <select name="relation[' + row + '][question_id]" class="form-control">>';
+        <?php foreach ($options as $option) { ?>
+        html += '      <optgroup label="<?php echo $option['title']; ?>"></optgroup>';
+            <?php foreach ($option['questions'] as $question) { ?>
+                <?php if($question['type']=='radio' || $question['type']=='check'){ ?>
+                    html += '      <optgroup label="--<?php echo $question['topic'].'.'.$question['title']; ?>"></optgroup>';
+                    <?php foreach ($question['question_items'] as $item) { ?>
+                     html += '      <option value="<?php echo $question['question_id'].'-'.$item['item_id']; ?>">----<?php echo $item['item_title']; ?></option>';
+                    <?php } ?>
+                <?php }else{ ?>
+                     html += '<option value="<?php echo $question['question_id']; ?>">--<?php echo $question['topic'].'.'.$question['title']; ?></option>';
+                <?php } ?>
+            <?php } ?>
+        <?php } ?>
+        html += '    <select></td>';
+        html += '  <td class="text-center" style="width: 9%;">';
+        html += '  <select name="relation[' + row + '][compare]" class="form-control">';
+        html += '     <option value="gt">大于</option>';
+        html += '     <option value="eq">等于</option>';
+        html += '     <option value="it">小于</option>';
+        html += '     <option value="%">包含</option>';
+        html += '     <option value="item">选项</option>';
+        html += '   </select>';
+        html += '  </td>';
+        html += '  <td class="text-center" style="width: 9%;">';
+        html += '     <input type="text" name="relation[' + row + '][value]" />';
+        html += '  </td>';
+        html += '  <td class="text-center"><button type="button" onclick="$(\'#relation-row' + row + '\').remove();" data-toggle="tooltip" title="删除" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button><input type="hidden" name="relation[' + row + '][relation_id]" value="" /></td>';
+        html += '</tr>';
+
+        $('#relation_table tbody').append(html);
+
+        row++;
+    }
+</script>
+</body>
+</html>

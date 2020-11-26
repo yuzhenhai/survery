@@ -1,0 +1,445 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" role="form" id="form" enctype="multipart/form-data" action="{:U('updatemember')}" method="post">
+                            <div class="tabbable">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#user">
+                                            <i class="green ace-icon fa fa-home bigger-120"></i>
+                                            用户资料
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#account">
+                                            账号信息
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#label">
+                                            标签
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="user" class="tab-pane fade in active"> 
+                                         <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 真实姓名 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="realname" class="rcol-xs-10 col-sm-5" value="{$member.realname}"  placeholder="真实姓名">
+                                                <input type="hidden" name="uid" value="{$member['uid']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                    <span class="middle"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="id-date-picker-1">生日</label>
+                                            <div class="col-xs-9 col-sm-9">
+                                                <div class="input-group col-xs-5">
+                                                    <input class="form-control" id="birthday" name="birthday" value="<if condition="
+                                                           $member['birthday'] neq '' ">{$member['birthday']|date="Y-m-d",###}</if>"
+                                                    type="text" data-date-format="dd-mm-yyyy" />
+                                                    <span class="input-group-addon">
+                                                                <i class="ace-icon fa fa-calendar bigger-110"></i>
+                                                            </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                       <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 年龄 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="age" id="age" placeholder="年龄"
+                                                       class="col-xs-10 col-sm-5" value="{$member['age']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 性别 </label>
+                                            <div class="col-sm-9">
+                                                <select id="sex" name="sex" class="multiselect">
+                                                    <option value="0"
+                                                    <if condition="$member['sex'] eq 0">selected="selected"</if>
+                                                    >保密</option>
+                                                    <option value="1"
+                                                    <if condition="$member['sex'] eq 1">selected="selected"</if>
+                                                    >男</option>
+                                                    <option value="2"
+                                                    <if condition="$member['sex'] eq 2">selected="selected"</if>
+                                                    >女</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 头像 </label>
+                                        <div class="col-sm-9">  
+                                            <input type="hidden" name="head" value="{$member['head']}" />
+                                            <input type="file" name="image" value="" class="id-image" />
+                                            <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>  
+                                        </div>
+                                    </div>
+
+                                        <input type="hidden" name="head1" value="{$member['head']}"/>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 电话号码 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="phone" id="phone" placeholder="电话号码"
+                                                       class="col-xs-10 col-sm-5" value="{$member['phone']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> QQ </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="qq" id="qq" placeholder="QQ"
+                                                       class="col-xs-10 col-sm-5" value="{$member['qq']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                身份证号 </label>
+                                            <div class="col-sm-9">
+                                                <input type="type" name="idcard" id="idcard" placeholder="身份证号"
+                                                       class="col-xs-10 col-sm-5" value="{$member['idcard']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                常住地 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="position" id="position" placeholder="常住地"
+                                                       class="col-xs-10 col-sm-5" value="{$member['position']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                学历 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="edu" id="edu" placeholder="学历"
+                                                       class="col-xs-10 col-sm-5" value="{$member['edu']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                月收入 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="income" id="income" placeholder="月收入"
+                                                       class="col-xs-10 col-sm-5" value="{$member['income']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                家庭月收入 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="fincome" id="fincome" placeholder="家庭月收入"
+                                                       class="col-xs-10 col-sm-5" value="{$member['fincome']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                兴趣爱好 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="interest" id="interest" placeholder="兴趣爱好"
+                                                       class="col-xs-10 col-sm-5" value="{$member['interest']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle"></span>
+                                                        </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 备注 </label>
+                                                <div class="col-sm-9">
+                                                    <textarea name="remark" id="remark" placeholder="备注"
+                                                              class="col-xs-10 col-sm-5 kindeditor" rows="5">{$member['remark']}</textarea>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div id="account" class="tab-pane fade">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 用户名 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text"
+                                                <if condition="$member['uid'] eq 1">readonly
+                                                    <else/>
+                                                    name="user"
+                                                </if>
+                                                class="rcol-xs-10 col-sm-5" value="{$member.user}">
+                                                <input type="hidden" name="uid" value="{$member['uid']}">
+                                                <span class="help-inline col-xs-12 col-sm-7"><span class="middle">无法修改</span></span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                                E-mail </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="email" id="email" placeholder="E-mail"
+                                                       class="col-xs-10 col-sm-5" value="{$member['email']}">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                    <span class="middle"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-10"> 用户组 </label>
+                                            <div class="col-sm-9">
+                                                <volist name="usergroups" id="val">
+                                                    <label class="col-xs-2"
+                                                           style="width:160px;">
+                                                        <input name="group_id[]"
+                                                               class="ace ace-checkbox-2 children" <?php if(in_array($val['id'],$member['groups'])){echo 'checked="checked"';};?>
+                                                        type="checkbox" value="{$val['id']}"/>
+                                                        <span class="lbl"> {$val['title']}</span>
+                                                    </label>
+                                                </volist>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 用户密码 </label>
+                                            <div class="col-sm-9">
+                                                <input type="password" name="password" id="password" placeholder="用户密码"
+                                                       class="col-xs-10 col-sm-5" value="">
+                                                <span class="help-inline col-xs-12 col-sm-7">
+                                                            <span class="middle">留空不修改</span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="space-4"></div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 状态 </label>
+                                            <div class="col-sm-9">
+                                                <select id="status" name="status" class="multiselect">
+                                                    <option value="0"
+                                                    <if condition="$member['status'] eq 0">selected="selected"</if>
+                                                    >停用</option>
+                                                    <option value="1"
+                                                    <if condition="$member['sex'] eq 1">selected="selected"</if>
+                                                    >启用</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div id="label" class="tab-pane fade">
+                                        
+                                        <div class="form-group">
+                                            <h3 class="col-sm-12" for="form-field-4"> 标签 </h3>
+                                            <div class="col-sm-12">
+                                                <div id="ts1" style="width:100%;">
+                                                    <ul>
+                                                        <volist name="tag_map" id="val">
+                                                            <li><a href="" style="" rel="20">{$val['title']}</a></li>
+
+                                                        </volist>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>                            
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info submit" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-multiselect.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+    jQuery(function ($) {
+        $('.id-image').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'
+            ,
+            preview_error : function(filename, error_code) {
+
+            }
+    
+        }).on('change', function(){
+
+        });
+        var image = "{$member.head}";
+        if(image != ''){
+            $("input[name='image']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__PUBLIC__/upload/avatars/{$member['head']}"}
+            ]);
+        }
+
+
+        $('#birthday').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            autoclose: true,
+            todayBtn: 'linked',
+            language: 'cn'
+        });
+
+
+        function showErrorAlert (reason, detail) {
+            var msg='';
+            if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+            else {
+                //console.log("error uploading file", reason, detail);
+            }
+            $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+             '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+        }
+        $('.wysiwyg-editor').ace_wysiwyg({
+            toolbar:
+            [
+                'font',
+                null,
+                'fontSize',
+                null,
+                {name:'bold', className:'btn-info'},
+                {name:'italic', className:'btn-info'},
+                {name:'strikethrough', className:'btn-info'},
+                {name:'underline', className:'btn-info'},
+                null,
+                {name:'insertunorderedlist', className:'btn-success'},
+                {name:'insertorderedlist', className:'btn-success'},
+                {name:'outdent', className:'btn-purple'},
+                {name:'indent', className:'btn-purple'},
+                null,
+                {name:'justifyleft', className:'btn-primary'},
+                {name:'justifycenter', className:'btn-primary'},
+                {name:'justifyright', className:'btn-primary'},
+                {name:'justifyfull', className:'btn-inverse'},
+                null,
+                {name:'createLink', className:'btn-pink'},
+                {name:'unlink', className:'btn-pink'},
+                null,
+                {name:'insertImage', className:'btn-success'},
+                null,
+                'foreColor',
+                null,
+                {name:'undo', className:'btn-grey'},
+                {name:'redo', className:'btn-grey'}
+            ],
+            'wysiwyg': {
+                fileUploadError: showErrorAlert
+            }
+        }).prev().addClass('wysiwyg-style2');
+    });
+</script>
+</body>
+</html>

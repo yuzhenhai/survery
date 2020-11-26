@@ -1,0 +1,91 @@
+<include file="Public/head"/>
+<style type="text/css">
+    .loginBox{background: url("/survey/Public/themes/images/login-bg.jpg") no-repeat scroll 50% 0;}
+</style>
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/design.js"></script>
+<body lang="zh-CN" class="reader-black-font home"  style="min-width: 960px">
+    <include file="Public/header"/>
+    <div class="loginBox">
+        <div class="container index">
+            <div class="row">
+                <form action="{:U('login/login')}" method="post">
+                    <fieldset>
+
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" name="realname"
+                                       placeholder="用户名"/>
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </label>
+
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" name="phone"
+                                       placeholder="手机号"/>
+                                <i class="ace-icon fa fa-phone"></i>
+                            </span>
+                        </label>
+
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                <span class="inline"><input type="password" class="form-control" name="password"
+                                       placeholder="手机验证码"/>
+                                <i class="ace-icon fa fa-lock"></i>
+                                </span><a href="#">获取验证码</a>
+                            </span>
+                        </label>
+
+                        
+                        <label class="block clearfix">
+                            <span class="block input-icon ">
+                               <input type="text" class="form-control" name="verify" placeholder="请输入新密码" id="code" required/>
+                            </span>
+                        </label>
+                       
+
+                        <div class="reg-btn clearfix">
+                            <button type="submit"
+                                    class="width-35 pull-right btn btn-sm btn-primary">
+                                <i class="ace-icon fa fa-key"></i>
+                                <span class="bigger-110">提交</span>
+                            </button>
+                            <a class="width-35 pull-right btn btn-sm btn-primary" href="{:U('Home/login/index')}" title="登录">登录</a></span>
+                        </div>
+                        <div class="space-4"></div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal fade" id="new">
+                <div class="modal-dialog" >
+                    <div class="modal-content" style="width:700px;margin:auto;margin-top: 200px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">智享生活 网站服务条款</h4>
+
+                        </div>
+                        <div class="modal-body" style="width:700px;height:350px;margin:auto;overflow:auto">
+                                <center>{$register.title}</center>
+                                <div>{$register.description}</div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{:U(index)}" class="btn btn-default" >不同意</a>
+
+                                <button class="btn btn-primary btn-purple" data-dismiss="modal">同意</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                $(function(){
+                    $('#new').modal("show");
+                });
+            </script>
+        </div>
+    </div>
+    <include file="Public/footer"/>
+    <include file="Public/footerjs"/>
+</body>
+</html>

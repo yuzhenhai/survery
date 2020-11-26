@@ -1,0 +1,145 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font person">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+		  <div class="main-top">
+			<!-- 用户信息 -->
+			<include file="User/profile_info"/>
+		  </div>   
+		  <div id="list-talk">
+			<!-- 个人资料tab -->
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<if condition="($loginuser['admin'] eq 1) OR ($profileuser['uid'] == $user['uid']) ">
+				<li class=""><a href="{:U('profile_tags',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-phonenumber"></i>标签</a></li>
+				<li class=""><a href="{:U('profile_task',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-work"></i>任务</a></li>
+				<li class=""><a href="{:U('profile_ask',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-question"></i>追问</a></li>
+				</if>
+				<li class="active"><a href="{:U('profile_gallery',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-share"></i>相册</a></li>
+				<li class=""><a href="{:U('profile',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-articles"></i>话题</a></li>
+			</ul>
+			 <div id="main">
+			 	<volist name="topic" id="val">
+				 	<div class="box">
+				      <div class="pic">
+				        <img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}">
+				      </div>
+				    </div>
+			 	</volist>
+
+			   
+			 </div>
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 用户统计 -->
+			<include file="User/profile_user"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+
+
+
+
+window.onload = function () {
+  //render();
+
+  waterfall('main', 'box');
+
+  window.onscroll = function () {
+    if (checkScrollSlide()) {
+      // 将数据块渲染到页面尾部
+      //render();
+      waterfall('main', 'box');
+    }
+  }
+}
+
+window.onresize = function () {
+  waterfall('main', 'box');
+}
+
+function waterfall(parent, box) {
+  // 将main下的所有class为box的元素取出来
+  var oParent = document.getElementById(parent);
+  var oBoxes = getByClass(oParent, box);
+  // 计算整个页面显示的列数（页面宽／box的宽）
+  var oBoxW = oBoxes[0].offsetWidth;
+  var cols = 3;
+  // 设置main的宽
+  oParent.style.cssText = 'width:700px;margin: 0 auto';
+
+  var hArr = [];
+  for (var i = 0; i < oBoxes.length; i++) {
+    if (i < cols) {
+      hArr.push(oBoxes[i].offsetHeight)
+    }else {
+      var minH = Math.min.apply(null, hArr);
+      var index = getMinHIndex(hArr, minH);
+      oBoxes[i].style.position = 'absolute';
+      oBoxes[i].style.top = minH + 'px';
+      // oBoxes[i].style.left = oBoxW * index + 'px';
+      oBoxes[i].style.left = oBoxes[index].offsetLeft + 'px';
+      hArr[index] += oBoxes[i].offsetHeight;
+    }
+  }
+
+}
+
+function getByClass(parent, clsName) {
+  var boxArr = [];
+  oElements = parent.getElementsByTagName('*');
+  for (var i = 0; i < oElements.length; i++) {
+     if (oElements[i].className == clsName) {
+       boxArr.push(oElements[i]);
+     }
+  }
+  return boxArr;
+}
+
+function getMinHIndex(arr, val) {
+  for (var i in arr) {
+    if ( arr[i] == val ) {
+      return i;
+    }
+  }
+}
+
+// 检测是否具备加载数据块的条件
+function checkScrollSlide() {
+  var oParent = document.getElementById('main');
+  var oBoxes = getByClass(oParent, 'box');
+  var lastBoxH = oBoxes[oBoxes.length - 1].offsetTop + Math.floor(oBoxes[oBoxes.length-1].offsetHeight/2);
+  var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  var height = document.body.clientHeight || document.documentElement.clientHeight;
+  return (lastBoxH < scrollTop + height) ? true : false;
+}
+
+
+function render() {
+	var oMain = document.getElementById('main');
+	for (var i = 0; i < data.img.length; i++) {
+	  var oBox = document.createElement('div');
+	  oBox.className = 'box';
+	  oMain.appendChild(oBox);
+	  var oPic = document.createElement('div');
+	  oPic.className = 'pic';
+	  oBox.appendChild(oPic);
+	  var oImg = document.createElement('img');
+	  oImg.src = 'images/' + data.img[i].src;
+	  oPic.appendChild(oImg);
+	}
+}
+
+</script>
+</body>
+</html>

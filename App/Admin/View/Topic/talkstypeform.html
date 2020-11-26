@@ -1,0 +1,81 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" action="{:U('updatetype')}" method="post">
+                            <div class="tabbable">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#user">
+                                            <i class="green ace-icon fa fa-home bigger-120"></i>
+                                            关键词分类
+                                        </a>
+                                    </li>
+                              
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="user" class="tab-pane fade in active"> 
+                                         <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 分类名称 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="typename" class="rcol-xs-10 col-sm-5" value="{$list.typename}"  placeholder="分类名称">
+                                                <input type="hidden" name="id" value="{$list['id']}">
+
+                                            </div>
+                                        </div>
+                    
+                                    </div>                                    
+                                </div>
+                            </div>                            
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+
+</script>
+</body>
+</html>

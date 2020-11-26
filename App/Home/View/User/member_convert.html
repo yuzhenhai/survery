@@ -1,0 +1,52 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/> 
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li class="active"><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main"> 
+		  <div class="member member_convert">
+				<div class="title"><span>兑换记录</span> </div>
+				<ul>
+					<li class="first">
+						<div class="convert_created">日期</div>
+						<div class="convert_integral">兑换积分</div>
+						<div class="convert_transaction">兑换产品</div>
+					</li>
+					<volist name="converts" id="convert">
+						<li>
+							<div class="convert_created">{$convert['date']|date='Y-m-d H:i:s',###}</div>
+							<div class="convert_integral"><span class="credit_minus">{$convert['score']}</span></div>
+							<div class="convert_transaction">{$convert['info']}</div>
+						</li>
+					</volist>
+				</ul>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>

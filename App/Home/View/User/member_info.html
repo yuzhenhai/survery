@@ -1,0 +1,109 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/> 
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 帐号审核</a></li>
+					<li class="active"><a href="{:U('member_info')}"> 身份认证</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">
+		  <div class="member edit_member_info">
+				<div class="title"><span>帐号信息</span> </div>
+				<form action="{:U('updateinfo')}" method="post" enctype="multipart/form-data" class="form-horizontal form-edit form-edit1">
+					<div class="frm-wrp" id="pro_file">
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-user">用 户 名</label>
+							<div class="col-sm-15">
+								<input type="text" name="user" value="{$user.user}" placeholder="姓名" id="input-user" readonly class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-qq">QQ</label>
+							<div class="col-sm-15">
+								<input type="text" name="qq" value="{$user.qq}" placeholder="QQ" id="input-qq" class="form-control" />
+							</div>
+						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-weixin">微信</label>
+							<div class="col-sm-15">
+								<input type="text" name="weixin" value="{$user.weixin}" placeholder="微信" id="input-weixin" class="form-control" />
+							</div>
+						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-douban">豆瓣</label>
+							<div class="col-sm-15">
+								<input type="text" name="douban" value="{$user.douban}" placeholder="豆瓣" id="input-douban" class="form-control" />
+							</div>
+						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-zhihu">知乎</label>
+							<div class="col-sm-15">
+								<input type="text" name="zhihu" value="{$user.zhihu}" placeholder="知乎" id="input-zhihu" class="form-control" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-email">邮箱</label>
+							<div class="col-sm-15">
+								<input type="text" name="email" value="{$user.email}" placeholder="邮箱" id="input-email" class="form-control" />
+							</div>
+						</div>
+						<div>设置密码 (不修改请留空) </div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-password">原密码</label>
+							<div class="col-sm-15">
+								<input type="password" name="password" value="" placeholder="" id="input-password" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-password1">新密码</label>
+							<div class="col-sm-15">
+								<input type="password" name="password1" value="" placeholder="" id="input-password1" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-password2">再次输入</label>
+							<div class="col-sm-15">
+								<input type="password" name="password2" value="" placeholder="" id="input-password2" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label"></label>
+							<div class="col-sm-15">
+								<input type="submit" value="保存" class="button primary-btn" />
+							</div>
+						</div>
+					</div>
+				</form>
+	
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>
+

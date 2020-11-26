@@ -1,0 +1,163 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs" />
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="pull-left col-xs-3">
+                        <a class="btn btn-success  btn-xs" href="{:U('statistics')}" value="">  总访问计表</a>
+                        
+                    </div>
+                    <div class="pull-right col-xs-9 ">
+                        <form class="form-inline" action="" method="get" id="search_form">
+                            <div class="pull-left col-xs-2">
+                                <a class="btn btn-success  btn-xs" href="{:U('hours', array('yesterday' => '1'))}" value="">  昨天</a>
+                   
+                   
+                                <a class="btn btn-success  btn-xs" href="{:U('hours', array('past' => '1'))}" value="">  过去七天</a>
+                            </div>
+                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 开始时间/结束时间  </label>
+                            <div class="col-sm-5">
+                                <div class="input-daterange input-group">
+                                    <input class="input-sm form-control" name="begin" type="text" value="{$begin}">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-exchange"></i>
+                                    </span>
+                                    <input class="input-sm form-control" name="end" type="text" value="{$end}">
+                                </div>      
+                            </div>
+                            <button type="submit" class="btn btn-purple btn-sm">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                筛选
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-xs-12">
+                       
+                        <div id="hour" style="width: 600px;height:400px;"></div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+
+<!-- inline scripts related to this page -->
+ <script type="text/javascript">
+        // var days = {$days};
+        // var day = {$day};
+        // var options = '';
+        // for ( i = day; i <= days; i++) {
+        //     options += "<option value="+ i +">"+ i +"</option>";
+        //     // $("<option>").val(start).text(start); 
+        // }
+        // $("#end").append(options); 
+
+
+        // $("#start").change(function(){
+        //     $("#end option").remove();
+        //     var start = $(this).val();
+        //     var option = '';
+        //     for ( i = start; i <= days; i++) {
+        //         option += "<option value="+ i +">"+ i +"</option>";
+        //         // $("<option>").val(start).text(start); 
+        //     }
+        //     // alert(option);
+        //     // var option = $("<option>").val(18).text("pxx"); 
+        //     $("#end").append(option); 
+        //     // alert($(this).val());
+        // });
+    $('.input-daterange').datepicker({
+            autoclose:true,
+            format: 'yyyy-mm-dd',
+            language: 'cn'
+        });
+
+
+
+        var hour = echarts.init(document.getElementById('hour'));
+
+        // 指定图表的配置项和数据
+        var hours = {
+            title: {
+                text: '用户活跃时间统计表'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['登录','答题','编辑会员','积分兑换']
+            },
+            xAxis : [
+                {
+                    axisLabel:{
+                        rotate: 30,
+                        interval:0
+                    },
+                    axisLine:{
+                      lineStyle :{
+                          color: '#CECECE'
+                      }
+                    },
+                    type : 'category',
+                    boundaryGap : false,
+                    data : function (){
+                        var list = [];
+                        for (var i = 1; i <= 24; i++) {
+                            
+                            list.push(i);
+                           
+                        }
+                        return list;
+                    }()
+                }
+            ],
+            yAxis: {},
+            series: [{
+                name: '登录',
+                type: 'line',
+                data: [<volist name="dayslogin" id="val">{$val},</volist>]  
+            },{
+                name: '答题',
+                type: 'line',
+                color:['#90EC7D'],
+                data: [<volist name="daysdatis" id="val">{$val},</volist>]
+            },{
+                name: '编辑会员',
+                type: 'line',
+                color:['#000'],
+                data: [<volist name="daysuser" id="val">{$val},</volist>]            
+            },{
+                name: '积分兑换',
+                type: 'line',
+                color:['#ccc'],
+                data: [<volist name="daysintegral" id="val">{$val},</volist>]               
+            }
+            ]
+        };
+
+        hour.setOption(hours);
+
+    </script>
+</body>
+</html>

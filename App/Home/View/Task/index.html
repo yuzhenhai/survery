@@ -1,0 +1,103 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+			<div class="filtrate" date-value="0">
+				<ul class="clearfix topic">
+					<li class="<if condition="$answer_status eq 'all'">active</if>">
+					  <a id="web-nav-app-download-btn" class="app-download-btn" href="{:U('Task/index',array('task_id'=>$val['task_id']))}">全部</a>
+					</li>
+					<li class="<if condition="$answer_status eq '0'">active</if>">
+					  <a id="web-nav-app-download-btn" class="app-download-btn" href="{:U('Task/index',array('answer_status'=>0))}">新任务</a>
+					</li>
+					<li class="<if condition="$answer_status eq '1'">active</if>">
+					  <a id="web-nav-app-download-btn" class="app-download-btn" href="{:U('Task/index',array('answer_status'=>1))}">进行中</a>
+					</li>
+					<li class="<if condition="$answer_status eq '2'">active</if>">
+					  <a id="web-nav-app-download-btn" class="app-download-btn" href="{:U('Task/index',array('answer_status'=>2))}">已完成</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="list-container">
+				<!-- 文章列表模块 -->
+				<div class="title"></div>
+				<div class="row">
+                    <div class="col-sm-24">
+						<volist name="taskgroups" id="taskgroup" key="k">
+							<div class="widget-box <if condition="$k gt 1"> collapsed</if>">
+								<div class="widget-header">
+									<h4 class="widget-title">{$taskgroup['title']}</h4>
+									<div class="widget-toolbar">
+										<a href="#" data-action="collapse">
+											<i class="ace-icon fa <if condition="$k eq 1"> fa-chevron-up</if><if condition="$k gt 1"> fa-chevron-down</if>"></i>
+										</a>
+									</div>
+								</div>
+								<div class="widget-body"<if condition="$k gt 1"> style="display:none;"</if>>
+									<ul class="note-list" infinite-scroll-url="/">
+									  <volist name="taskgroup.list" id="val">
+									  <li id="note-{$val['task_id']}" data-note-id="{$val['task_id']}" class="have-img">
+										<a class="wrap-img" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}" target="_blank">
+										  <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" alt="120">
+										</a>
+										<div class="content">
+											<div class='clearfix'>
+												<a class="title pull-left" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}"><if condition="$val['member_task_status'] eq 0 AND $val['lefttime'] gt 0"><span class="collection-tag">新任务</span> &nbsp;</if>{$val['name']}</a>
+												<if condition="$user['admin'] eq 1"><a target="_blank" href="{:U('Admin/Task/subjectstat',array('task_id'=>$val['task_id']))}" class='pull-right meta'>统计</a></if>
+											</div>
+										  	<p class="abstract">{$val['description']|htmlspecialchars_decode}</p>
+										  	<div class="meta">
+												<a target="_blank" href="#">
+											  	<i class="iconfont ic-question"></i> {$val['count_questions']}</a>
+												<!--a target="_blank" href="#comments">
+												<i class="iconfont ic-write"></i> {$val['count_comments']} </a-->
+												<span><a target="_blank" href=""><i class="iconfont ic-user"></i> {$val['count_users_all']}</a></span>
+												<if condition="$val['lefttime'] ">
+													<a class="collection-tag" target="_blank" href="#"> 距离结束还有{$val['lefttime']}</a>
+												<else />
+											  		<a class="collection-tag" target="_blank" href="#"> 已结束</a>
+											    </if>
+											    <if condition="$val['member_task_status'] eq 0">
+											    	<if condition="$val['lefttime'] gt 0">
+											  		<a class="collection-btn-begin" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}"> 立即开始</a>
+											  		</if>
+											    </if>
+											  	<if condition="$val['member_task_status'] eq 1">
+											  		<a class="collection-btn-continue" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}">  继续任务</a>
+											    </if>
+											    <if condition="$val['member_task_status'] eq 2">
+											    	<a class="collection-btn-end" target="_blank" href="#"> 已完成</a>
+											    </if>
+
+										  	</div>
+										</div>
+									  </li>
+									  </volist>
+									</ul>
+								</div>
+							</div>
+						</volist>
+					</div>
+				</div>
+
+				<!-- 文章列表模块 -->
+			</div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 待回答追问 -->
+			<include file="Task/remarks"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+
+</body>
+</html>

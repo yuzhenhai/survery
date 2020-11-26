@@ -1,0 +1,228 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index talk">
+
+
+<div class="col-xs-16 main">
+		  <div class='post'>
+			<!-- 文章列表模块 -->
+			<div class="note-list article">
+				  <a class="title"  href="{:U('Talk/detail',array('id'=>$subject['id']))}">{$subject['name']}</a>
+				  <div class="author">
+					<a class="avatar"  href="{:U('User/profile')}">
+						<img src="<if condition=" $subject['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$subject['head']}</if>" alt="64">
+					</a>
+					<div class="info">
+						<a class="nickname" href="{:U('User/profile')}">{$subject['realname']}</a><br />
+						<div class='meta'><span class="time">{$subject['date']}</span>
+						<volist name="talk_subject" id="val">
+							<a class="collection-tag" target="_blank" href="{:U('Talk/index',array('subject_id'=>$val['subject_id']))}">{$val['title']}</a>
+						</volist>
+						</div>
+					</div>
+				  </div>
+				  <div class="content">
+				  	<p><a class="wrap-img" href=""> <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$subject['image']}" alt="120"></a></p>
+					<p class="abstract">{$subject['abstract']}</p>
+					<p class="description">{$subject['description']}</p>
+				  </div>
+				  <div class='new-comment row'>
+				  	<form action="{:U('comment')}" method="post" enctype="multipart/form-data" class="form-edit form-edit1 clearfix">
+				  		<div class="col-sm-24">
+					  		<div class="form-group" >
+					  			{:BatchImage("images",100,100,$val['images'])}
+					  		</div>
+					  	</div>
+				  		<div class="form-group">
+				  			<textarea name="comment" placeholder="写下你的评论..."></textarea>
+				  		</div>
+				  			<input type="hidden" name="score" value="{$Think.CONFIG.post_credit}">
+				  			<input type="hidden" name="tid" value="{$subject['id']}">
+							<input type="hidden" name="uid" value="{$uid}">
+				  		<div>
+							<div class="col-sm-16">
+								<i class="iconfont ic-image"></i>
+							</div>
+							<div class="col-sm-8 text-right">
+				  				<button class='button'>提交</button>
+				  			</div>
+				  		</div>
+				  	</form>
+				  </div>
+				  <div class="meta col-xs-6">
+					<a target="_blank" href=""><i class="iconfont ic-list-read"></i> {$subject['views']}</a>
+				  </div>
+				  <div class="meta col-xs-18 text-right">
+				  	<a target="_blank" href=""><i class="iconfont ic-list-comments"></i> &nbsp;{$subject['count']}条 评论</a>
+				  </div>
+			</div>
+			<div class="comment-box">
+				<volist name="{comments}" id="val">
+					<div>
+						<div class="author">
+							<div class="v-tooltip-content">
+								<a class="avatar"><img src="{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_PATH}{$val['head']}" style=""></a>
+							</div>
+							<div class="info"><a href="" class="name">{$val['realname']}</a><div class="meta"><span>{$key+1}楼 · {$val['datetime']|date='Y-m-d H:i:s',###}</span></div></div>
+
+						</div>
+						<div class="comment-wrap">
+						  <p>{$val['comment']}</p>
+						  <div class="comment-images">
+						  <if condition="$val['images']">
+						  	<volist name="val['images']" id="img">
+						    	<div id="commentimg"><img class="comment-img" src="<?php echo $img;?>"  ></div>
+							</volist>
+						  </if></div>
+						  <div class="tool-group">
+						  	<if condition="!$val['like']">
+						  	<a class="like-button zan" val="{:U('zan',array('tid'=>$subject['id'],'comment_id'=>$val['comment_id']))}"><span>{$val['count']}人赞</span></a> 
+						  	<else />
+						  	<a class="like-button"><span>{$val['count']}人赞(已赞)</span></a> 
+							</if>
+							<a onclick="reply({$val['comment_id']})"><i class="iconfont ic-comment"></i> <span>回复</span></a>
+						  </div>
+						</div>
+					</div>
+					<if condition="$val['reply']">
+					<div class="sub-comment-list">
+						<div id="s_com{$val['comment_id']}">
+							<volist name="val['reply']" id="reply">
+								<if condition="$key lt 2">
+									<div class="sub-comment">
+									  <div class="sub-comment-inner">
+										  <div class="v-tooltip-content" style="z-index: 0;"><a href="{:U('User/profile',array('uid'=>$reply['uid']))}">{$reply['realname']}</a>： </div>
+										  <span><a href="{:U('User/profile',array('uid'=>$val['uid']))}" class="maleskine-author">@{$val['realname']}：</a> {$reply['reply']}</span>	
+									  </div>				  
+									  <div class="sub-tool-group"><span>{$reply['datetime']|date='Y-m-d H:i:s',###}</span> <a onclick="replychild({$reply['reply_id']})"><i class="iconfont ic-comment"></i> <span>回复</span></a> </div>
+									  	<if condition="$reply['childs']">
+										  	<div class="sub-comment-list">
+											  	<volist name="reply['childs']" id="child">		
+												    <div class="sub-comment">
+													  <div class="sub-comment-inner">
+														  <div class="v-tooltip-content" style="z-index: 0;"><a href="{:U('User/profile',array('uid'=>$child['uid']))}">{$child['realname']}</a>： </div>
+														  <span><a href="{:U('User/profile',array('uid'=>$child['ruid']))}" class="maleskine-author">@{$child['name']}：</a> {$child['reply']}</span>	
+													  </div>				  
+													  <div class="sub-tool-group"><span>{$reply['datetime']|date='Y-m-d H:i:s',###}</span> </div>					  
+													</div>
+												</volist>
+											</div>
+										</if>
+									</div>
+									<div class='sub-comment' style="display: none;" id="replychild{$reply['reply_id']}" >
+										<form action="{:U('reply')}" method="post">
+											<input type="hidden" name="rid" value="{$reply['reply_id']}">
+											<input type="hidden" name="cid" value="{$val['comment_id']}">
+											<input type="hidden" name="tid" value="{$subject['id']}">
+											<input type="hidden" name="ruid" value="{$reply['uid']}">
+											<input type="hidden" name="uid" value="{$uid}">
+											<input type="hidden" name="credit_comment" value="{$Think.CONFIG.post_credit_comment}">
+								      		<textarea name="reply" placeholder="回复..." class="col-xs-10 col-sm-12"></textarea>
+								      		<button class="btn btn-minier btn-purple">提交</button>
+							      		</form>
+							      	</div>
+								</if>
+							</volist>
+						</div>
+						<div id="s_comment{$val['comment_id']}" style="display: none;">
+							<volist name="val['reply']" id="reply">
+								<div class="sub-comment">
+								  <div class="sub-comment-inner">
+									  <div class="v-tooltip-content" style="z-index: 0;"><a href="{:U('User/profile',array('uid'=>$reply['uid']))}">{$reply['realname']}</a>： </div>
+									  <span><a href="{:U('User/profile',array('uid'=>$val['uid']))}" class="maleskine-author">@{$val['realname']}</a> {$reply['reply']}</span>	
+								  </div>
+								  <div class="sub-tool-group"><span>{$reply['datetime']|date='Y-m-d H:i:s',###}</span> <a onclick="replychild({$reply['reply_id']})"><i class="iconfont ic-comment"></i> <span>回复</span></a> </div>					  
+								</div>
+								<div class='sub-comment' style="display: none;" id="replychild{$reply['reply_id']}" >
+									<form action="{:U('reply')}" method="post">
+										<input type="hidden" name="rid" value="{$val['reply_id']}">
+										<input type="hidden" name="cid" value="{$val['comment_id']}">
+										<input type="hidden" name="tid" value="{$subject['id']}">
+										<input type="hidden" name="uid" value="{$uid}">
+										<input type="hidden" name="credit_comment" value="{$Think.CONFIG.post_credit_comment}">
+							      		<textarea name="reply" placeholder="回复..." class="col-xs-10 col-sm-12"></textarea>
+							      		<button class="btn btn-minier btn-purple">提交</button>
+						      		</form>
+						      	</div>
+							</volist>
+						</div>
+						<div class="sub-comment more-comment"><a onclick="reply({$val['comment_id']})" class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <if condition="$val['reply_count'] gt 2">
+							<span class="line-warp"> 还有{$val['reply_count']-2}条评论， <a onclick="comment({$val['comment_id']})">展开查看</a></span>
+						</if>
+						</div>
+
+						<div class='col-xs-20' style="display: none" id="reply{$val['comment_id']}" >
+							<form action="{:U('reply')}" method="post">
+								<input type="hidden" name="tid" value="{$subject['id']}">
+								<input type="hidden" name="uid" value="{$uid}">
+								<input type="hidden" name="credit_comment" value="{$Think.CONFIG.post_credit_comment}">
+
+					      		<textarea name="reply" placeholder="回复..." class="col-xs-10 col-sm-12"></textarea>
+					      		<button class="btn btn-minier btn-purple">提交</button>
+				      		</form>
+				      	</div>
+					</div>
+					</if>
+					<div class='sub-comment' style="display: none;" id="reply{$val['comment_id']}" >
+						<form action="{:U('reply')}" method="post">
+							<input type="hidden" name="rid" value="{$val['reply_id']}">
+							<input type="hidden" name="cid" value="{$val['comment_id']}">
+							<input type="hidden" name="tid" value="{$subject['id']}">
+							<input type="hidden" name="uid" value="{$uid}">
+							<input type="hidden" name="credit_comment" value="{$Think.CONFIG.post_credit_comment}">
+				      		<textarea name="reply" placeholder="回复..." class="col-xs-10 col-sm-12"></textarea>
+				      		<button class="btn btn-minier btn-purple">提交</button>
+			      		</form>
+			      	</div>
+				</volist>
+			</div>
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+
+		<div class="col-xs-7 col-xs-offset-1 aside">
+		  <div class="ftqd" style="margin-bottom:20px;">
+			  <div class="zcft"><a href="{:U(add)}" id="newspecial">发布主题</a></div>
+			  <div class="clear"></div>
+		  </div>
+			<!-- 热门讨论 -->
+			<include file="Talk/hot"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript" src="/survey/Public/themes/js/jquery.js"></script>
+<script src="__PUBLIC__/themes/js/dist/zoomify.min.js"></script>
+<script type="text/javascript">
+    $(".zan").click(function () {
+        var url = $(this).attr('val');
+        window.location.href = url;
+    });
+    function reply(id){
+  		$("#reply"+id).toggle();
+  	}
+    function replychild(id){
+  		$("#replychild"+id).toggle();
+  	}
+
+  	function comment(id){
+  		$("#s_comment"+id).toggle();
+  		$("#s_com"+id).toggle();
+
+  	}
+		$("#commentimg img").zoomify();
+  	
+ 
+</script>
+</body>
+</html>

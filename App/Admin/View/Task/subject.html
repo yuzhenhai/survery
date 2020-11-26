@@ -1,0 +1,154 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+						<div class="page-header">
+							<h1>{$currenttasksubject.tasktitle}</h1>
+						</div><!-- /.page-header -->
+						<h2>{$currenttasksubject.title}</h2>
+						<div class="description">
+							{$currenttasksubject.description|htmlspecialchars_decode}
+						</div>
+                        <!-- PAGE CONTENT BEGINS -->
+						<div class="widget-box widget-color-blue ui-sortable-handle" id="widget-box-2">
+							<div class="widget-header">
+								<h5 class="widget-title bigger lighter">
+									<i class="ace-icon fa fa-table"></i>
+									问题列表
+								</h5>
+							</div>
+							<div id="ss-header">
+								<div id="divMenu">
+									<div style="text-align: center;margin: 20px 0 10px;">
+										<a href="javascript:void(0);" onclick="return save_paper('pub',true);" class="sumitbutton" id="hrefFiQ">完成编辑</a>&nbsp;&nbsp;&nbsp;
+										<a href="{:U('subjects',array('task_id'=>$currenttasksubject['task_id']))}" class="sumitbutton">返回题目</a>
+									</div>
+								</div>
+							</div>
+							<input name="hfData" type="hidden" id="hfData" value="{$surveydata}" />
+							<input name="subject_id" type="hidden" id="subject_id" value="{$subject_id}" />
+
+							<div style="margin: 0 auto; text-align: left; position: relative;">
+								<div id="topnav" style="visibility: hidden;">
+									<ul class="tabQTypet" id="divNormal">
+									  <li>
+										<a id="hrefChoice" href="javascript:void(0);" onclick="createFreQ('radio');return false;">
+										  <i class="design-icon design-qtype design-radio"></i>单选</a>
+									  </li>
+									  <li>
+										<a href="javascript:void(0);" onclick="createFreQ('check');return false;">
+										  <i class="design-icon design-qtype design-check"></i>多选</a>
+									  </li>
+									  <li>
+										<a href="javascript:void(0);" onclick="createFreQ('question');return false;">
+										  <i class="design-icon design-qtype design-sanswer"></i>简答</a>
+									  </li>
+									  <li style="width: 88px;">
+										<a href="javascript:void(0);" onclick="createFreQ('likert');return false;" style="padding-left: 8px">
+										<i class="design-icon design-qtype design-juzhen"></i>量表题</a>
+									  </li>
+									  <li style="width: 88px;">
+										<a href="javascript:void(0);" onclick="createFreQ('slider');return false;">
+										<i class="design-icon design-qtype design-juzhen"></i>滑动条</a>
+									  </li>
+									  <li style="width: 125px;">
+										<a href="javascript:void(0);" onclick="createFreQ('matrix',101);return false;">
+										  <i class="design-icon design-qtype design-juzhen"></i>矩阵量表题</a>
+									  </li>
+									  <li style="width: 125px;">
+										<a href="javascript:void(0);" onclick="createFreQ('matrix',202);return false;" style="padding-left: 8px"><i class="design-icon design-qtype design-juzhen"></i>矩阵滑动条</a>
+									  </li>
+
+									  <li style="width: 125px;">
+										<a href="javascript:void(0);" onclick="createFreQ('matrix',201);return false;" style="padding-left: 8px"><i class="design-icon design-qtype design-juzhen"></i>矩阵填空题</a>
+									  </li>
+									  <li style="width: 125px;">
+										<a href="javascript:void(0);" onclick="createFreQ('matrix',103);return false;" style="padding-left: 8px"><i class="design-icon design-qtype design-juzhen"></i>矩阵单选题</a>
+									  </li>
+									  <li style="width: 125px;">
+										<a href="javascript:void(0);" onclick="createFreQ('matrix',102);return false;" style="padding-left: 8px"><i class="design-icon design-qtype design-juzhen"></i>矩阵多选题</a>
+									  </li>
+									  <li>
+										<a href="javascript:void(0);" onclick="createFreQ('fileupload');return false;">
+										  <i class="design-icon design-qtype design-upload"></i>文件</a>
+									  </li>
+									  <div style="clear: both;"></div>
+									</ul>
+								</div>
+								<div class="survey" style="padding-bottom: 5px; margin: 0; overflow: auto; background: #ffffff; position: relative;" id="sur">
+									<div style="width: 840px; margin: 0 auto;">
+										<div class="surveycontent">
+											<div id="question">
+											</div>
+										</div>
+										<div style="clear: both;">
+										</div>
+									</div>
+								</div>
+								<div id="status_tip" style="height: auto;">
+								</div>
+							</div>
+
+							<div id="toolTipLayer" style="position: absolute; display: none; line-height: 20px; width: 250px; background: #fffaea;
+							text-align: left; box-shadow:1px 2px 5px #C3C9D0;border-radius:2px; border:1px solid #FFCD00; z-index: 20000; overflow:auto; padding:5px 8px;color:#222; font-size:13px;">
+							</div>
+
+						</div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/zhezhao.js"></script>
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script>
+    var saveurl = "{:U('Task/savequestions')}";
+	var designqfinish = "{:U('Task/designqfinish')}";
+	var uploadimg = "{:U('Task/uploadimg')}";
+	var oftenoptions = "{:U('Task/oftenoptions')}";
+    var url = "__PUBLIC__/themes/";
+</script>
+<script type="text/javascript">
+        $ = function (element) {
+            return (typeof (element) == 'object' ? element : document.getElementById(element));
+        };
+        var toolTipLayer = $("toolTipLayer");
+
+        var hfData = $("hfData");
+
+		var subject_id = $("subject_id").value;
+
+        var NoValueData=-77777;
+        var fileMaxSize=20480;
+        var isPromote=0;
+</script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/design_new.js"></script>
+</body>
+</html>

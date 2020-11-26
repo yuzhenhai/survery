@@ -1,0 +1,218 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form  class="form-horizontal" id="form" role="form" method="post" enctype="multipart/form-data" action="{:U('update')}" >
+                            <div class="tabbable">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#user">
+                                            <i class="green ace-icon fa fa-home bigger-120"></i>
+                                            话题
+                                        </a>
+                                    </li>
+                              
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="user" class="tab-pane fade in active"> 
+
+                                         <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 名称 </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="name" class="rcol-xs-10 col-sm-5" value="{$topic.name}"  placeholder="话题名称">
+                                                <input type="hidden" name="id" value="{$topic['id']}">
+
+                                            </div>
+                                        </div>
+
+                            <div class="space-4"></div>
+                              <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 图片 </label>
+                                <div class="col-sm-9">  
+                                    <input type="hidden" name="image1" value="{$topic.image}" class="id-input-file-3" />
+                                    <input type="file" name="image" value="{$topic.image}" class="id-input-file-3" />
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>  
+                                </div>
+                              </div>
+                                <input type="hidden" name="image1" value="{$topic.image}"/>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 摘要 </label>
+                                            <div class="col-sm-9">
+                                                <textarea name="abstract" id="abstract" placeholder="摘要"
+                                                       class="col-xs-10 col-sm-5">{$topic.abstract}</textarea>
+                                            </div>
+                                        </div>  
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 描述 </label>
+                                            <div class="col-sm-9">
+                                                <textarea name="description" id="description" placeholder="描述"
+                                                       class="col-xs-10 col-sm-5">{$topic.description}</textarea>
+                                            </div>
+                                        </div>                         
+                                      
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 是否启用 </label>
+                                            <div class="control-label no-padding-left col-sm-1">
+                                                <label>
+                                                    <input name="status" id="status"
+                                                    <if condition="$topic['status'] eq 1"> checked="checked"</if>
+                                                    class="ace ace-switch ace-switch-2" type="checkbox" value="1" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                            <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">YES，启用；NO，禁用</span>
+                                            </span>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 是否审核 </label>
+                                            <div class="control-label no-padding-left col-sm-1">
+                                                <label>
+                                                    <input name="approval" id="approval"
+                                                    <if condition="$topic['approval'] eq 1"> checked="checked"</if>
+                                                    class="ace ace-switch ace-switch-2" type="checkbox" value="1" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                            <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">YES，审核通过；NO，审核不通过</span>
+                                            </span>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 备注 </label>
+                                            <div class="col-sm-9">
+                                                <textarea name="comment" id="comment" placeholder="备注"
+                                                       class="col-xs-10 col-sm-5">{$topic.comment}</textarea>
+                                            
+                                            </div>
+                                        </div>
+
+                                    </div>                                    
+                                </div>
+                            </div>                            
+		
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+        $(".submit").click(function () {
+            $("#form").submit();
+        })
+    })
+
+    
+    $(function () {
+        $(".submit").click(function () {
+            $("#form").submit();
+        })
+
+        $('.id-input-file-3').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'//large | fit
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+                //Check an example below
+                //or examples/file-upload.html
+                return true;
+            }*/
+            /**,before_remove : function() {
+                return true;
+            }*/
+            ,
+            preview_error : function(filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            }
+    
+        }).on('change', function(){
+            //console.log($(this).data('ace_input_files'));
+            //console.log($(this).data('ace_input_method'));
+        });
+
+        $('#replacement').change(function(){
+        	$('#creater').remove();
+
+        	var replacement = $(this).val();
+        	if(replacement == 'REPLACE'){
+        		$('#replace').after('<div class="col-sm-9" id="creater"><input type="text" name="creater" class="rcol-xs-10 col-sm-5" value=""  placeholder="过滤词语"></div>');
+        	}
+        });
+
+        var logo = "{$topic.image}";
+        if(logo != ''){
+            $("input[name='image']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$topic.image}"}
+            ]);
+        }
+    });
+</script>
+</body>
+</html>

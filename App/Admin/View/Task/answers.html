@@ -1,0 +1,293 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+		$ = function (element) {
+            return (typeof (element) == 'object' ? element : document.getElementById(element));
+        };
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/design.js"></script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="row widget-header">
+					<h2 class="col-xs-4 widget-title row header smaller lighter blue">{$subject['task_name']}</h2>
+					<div class='col-xs-8 align-right'>
+						<ul class="pagination">
+							<li class="">
+								<a href="{:U('answers',array('subject_id'=>$previd))}">
+									<i class="ace-icon fa fa-arrow-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上一题
+								</a>
+							</li>
+							<volist name="task_subjects" id="task_subject">
+								<if condition="($task_subject['subject_id'] eq $subject_id) ">
+									<li  class="active">
+								<else/>
+									<li>
+								</if>
+									<a href="{:U('answers',array('subject_id'=>$task_subject['subject_id']))}">{$i}</a>
+								</li>
+							</volist>
+							<li>
+								<a href="{:U('answers',array('subject_id'=>$nextid))}">
+									下一题&nbsp;&nbsp;&nbsp;&nbsp;<i class="ace-icon fa fa-arrow-right"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="simple-table" class="table  table-bordered table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<th>题目名称</th>
+									<th>问题数量</th>
+									<th>状态</th>
+									<th></th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td class="center">
+										<div class="action-buttons">
+											<a href="#" class="green bigger-140 show-details-btn" title="显示详情">
+
+												<i class="ace-icon fa fa-angle-double-down"></i>
+												<span class="sr-only">Details</span>
+											</a>
+										</div>
+									</td>
+									<td><!--a href="{:U('subject',array('subject_id'=>$subject['subject_id']))}">{$o+1}.{$subject['title']}</a-->{$o+1}.{$subject['title']}</td>
+									<td>{$count_questions}</td>
+									<td><span class="label label-sm label-success">已发布</span></td>
+									<td>
+									</td>
+								</tr>
+								<tr class="detail-row even open">
+									<td colspan="5">
+										<div>{$subject['description']|htmlspecialchars_decode}</div>
+										<div id="questions" style="width: 80%;"></div>
+										<input name="hfData" type="hidden" id="hfData" value="{$surveydata}" />
+										<script type="text/javascript">
+
+											var hfData = $("hfData");
+											var DataArray = set_data_fromServer(hfData.value);
+											set_dataNode_to_Design(DataArray,"questions");
+										</script>
+										<!--volist name="questions" id="question">
+											<div class="wjques">
+												<div class="title">Q{$question['topic']}：{$question['title']}</div>
+											</div>
+										</volist-->
+									</td>
+								</tr>
+								<tr class="detail-row open">
+									<td colspan="6">
+										<!--form action="" class="form-inline" >
+											<div class="form-group">
+												<label class="control-label " for="food">用户标签 &nbsp;</label>
+												<select id="food" class="multiselect" multiple="">
+													<option value="5">全部</option>
+													<option value="1" selected>18-25岁</option>
+													<option value="2" selected>26-30岁</option>
+													<option value="3">一线城市</option>
+													<option value="4">二线城市</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label class="control-label " for="food">标注 &nbsp;</label>
+												<select id="food" class="multiselect" multiple="">
+													<option value="5">全部</option>
+													<option value="1" selected>典型用户</option>
+													<option value="2">重点观察</option>
+												</select>
+											</div>
+											<button type="button" class="btn btn-sm btn-info"">筛选</button>
+										</form-->
+										<div class="table-detail">
+											<div class="tabbable">
+												<ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+													<li class="active">
+														<a data-toggle="tab" href="#answer" aria-expanded="false">回答</a>
+													</li>
+													<li class="">
+														<a data-toggle="tab" href="#home4" aria-expanded="false">整体统计</a>
+													</li>
+
+													<li class="">
+														<a data-toggle="tab" href="#profile4" aria-expanded="false">交叉分析</a>
+													</li>
+												</ul>
+												<div class="tab-content">
+													<div id="answer" class="tab-pane in active">
+														<volist name="list" id="val" key="k">
+															<!-- 回答详情 -->
+															<include file="Task/answer" />
+														</volist>
+													</div>
+													<div id="home4" class="tab-pane">
+														<div class="row">
+															<volist name="val['questions']" id="question" key="q">
+															<div class="col-xs-12 col-sm-3">
+																<div class="title">Q{$question['topic']}：{$question['title']}</div>
+																<hr>
+																<div class="stat">
+																	<volist name="question['selectlist']" id="select" key="k">
+																	<p><span>选项</span>：{$select['item_title']} <br></p>
+																	<div class="progress pos-rel progress-mini" data-percent="{$select['percent']}%">
+																		<div class="progress-bar{$color[$k-1]}" style="width:{$select['percent']}%;"></div>
+																	</div>
+																	</volist>
+																</div>
+															</div>
+															<if condition="(($q)%4 eq 0) ">
+															<div class="clear"></div>
+															</if>
+															</volist>
+														</div>
+													</div>
+													<div id="profile4" class="tab-pane">
+														<div class="form-group">
+															<label class="control-label " for="food">根据标签筛选:
+															<volist name="taglist" id="tag">
+																{$tag['title']},
+															</volist> &nbsp;</label>
+															<select id="taglist" class="multiselect" multiple="">
+															<volist name="taglist" id="tag" key="t1">
+																<option value="{$tag['id']}" id="{$t1}">{$tag['title']}</option>
+															</volist>
+															</select>
+														</div>
+														<div class="wjques">
+															<volist name="val['questions']" id="question" key="q">
+
+																<div class="title">Q{$question['topic']}：{$question['title']}</div>
+																<table id="dynamic-table" class="table center table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="dynamic-table_info">
+																	<thead>
+																		<tr role="row" class="center">
+																			<th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">%</th>
+																			<th class="sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">总人数</th>
+																			<volist name="question['selectlist']" id="select">
+																			<th class="hidden-480 sorting" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">{$select['item_title']}</th>
+																			</volist>
+																		</tr>
+																	</thead>
+																	<tbody class="center">
+																		<volist name="taglist" id="tag" key="t2">
+																		<tr role="row" class="tagrow odd center tagrow_{$t2}">
+																			<td class="center">{$tag['title']}</td>
+																			<td>{$question['allanswer']}</td>
+																			<volist name="question['selectlist']" id="select">
+																			<td>{$select['countanswer']}</td>
+																			</volist>
+																		</tr>
+																		</volist>
+
+																	</tbody>
+																</table>
+															</volist>
+														  </div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div><!-- /.span -->
+				</div><!-- /.row -->
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/themes/js/bootstrap-multiselect.js"></script>
+
+<script type="text/javascript">
+
+function message(id){
+  	$("#message"+id).toggle();
+  }
+function question(id){
+  	$("#question"+id).toggle();
+}
+
+    $(function () {
+		$(".tagrow").hide();
+		$("#taglist").on('change', function(){
+			$(".tagrow").hide();
+			$("#taglist").find('option').each(function(){
+				if(this.selected){
+					$(".tagrow_"+this.id).show();
+				}
+			});
+		});
+		$("#sortable").sortable();
+		var active_class = 'active';
+		$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
+			var th_checked = this.checked;//checkbox inside "TH" table header
+
+			$(this).closest('table').find('tbody > tr').each(function(){
+				var row = this;
+				if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+				else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+			});
+		});
+		//select/deselect a row when the checkbox is checked/unchecked
+		$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
+			var $row = $(this).closest('tr');
+			if($row.is('.detail-row ')) return;
+			if(this.checked) $row.addClass(active_class);
+			else $row.removeClass(active_class);
+		});
+		$('.multiselect').multiselect({
+			 enableFiltering: true,
+			 enableHTML: true,
+			 buttonClass: 'btn btn-white btn-primary',
+			 templates: {
+				button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+				ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+				filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+				filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+				li: '<li><a tabindex="0"><label></label></a></li>',
+		        divider: '<li class="multiselect-item divider"></li>',
+		        liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+		    }
+		});
+		$('.show-details-btn').on('click', function(e) {
+			e.preventDefault();
+			$(this).closest('tr').next().toggleClass('open');
+			$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+		});
+    })
+</script>
+</body>
+</html>

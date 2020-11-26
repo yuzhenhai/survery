@@ -1,0 +1,46 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index talk">
+
+
+		<div class="col-xs-16 main">
+		  <div class='post'>
+			<!-- 文章列表模块 -->
+			<div class="note-list article">
+					<!-- Banner -->
+					<div id="indexCarousel" class="carousel slide">
+						<div class="carousel-inner">
+							<a class="title"  href="{:U('detail',array('id'=>$subject['id']))}">{$bulletin['title']}</a>
+							<div class="author">
+								<a class="avatar"  href="">
+									<img src="<if condition=" $bulletin['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$bulletin['head']}</if>" alt="64">
+								</a>
+								<div class="info">
+									<a class="nickname" href="{:U('User/profile')}">{$bulletin['user']}</a><br />
+									<div class="info">
+									<div class='meta'><span class="time">{$bulletin['date']|date='Y-m-d H:i:s',###}</span>
+				
+									</div>
+					</div>
+								</div>
+							  </div>
+							<div class="banner">
+							  <a target="_blank" href="#"><img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_BULLETIN_PATH}{$bulletin['cover']}" alt="540" width="100%" ></a>
+							</div>
+							  		<div class="content">
+								<p class="content">{$bulletin['content']}</p>
+							    <p>&nbsp;</p>
+							  </div>
+						</div>
+					</div>
+	
+			</div>
+	  	  </div>
+		</div>
+	</div>
+	<include file="Public/footer"/>
+</body>
+</html>

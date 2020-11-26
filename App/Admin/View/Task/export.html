@@ -1,0 +1,214 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+		<div class="row">
+			<div class="col-xs-12">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#fileexport">
+                                        文件导出
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#taskexport">
+                                        任务导出
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#diaryexport">
+                                        日记任务导出
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="fileexport" class="tab-pane fade in active">
+                    				<form id="form" method="post" action="{:U('fileexport')}">
+										<div class="form-group">
+											<label class="control-label " for="food">选择问题:</label>
+											<select name="question_id">
+												<?php
+												$task_id = 0;
+												$subject_id = 0;
+												?>
+												<volist name="questions" id="question">
+													<?php if($task_id != $question['task_id']){ ?>
+													<optgroup label="{$question.task_title}"></optgroup>
+													<?php } ?>
+													<?php if($subject_id != $question['subject_id']){ ?>
+													<optgroup label="--{$question.subject_title}"></optgroup>
+													<?php } ?>
+													<?php
+													$task_id = $question['task_id'];
+													$subject_id = $question['subject_id'];
+													?>
+													<?php if($question['question_id'] == $_POST['question_id']){ ?>
+													<option value="{$question['question_id']}" selected="selected">----{$question['topic']}.{$question['question_title']}</option>
+													<?php }else{ ?>
+													<option value="{$question['question_id']}">----{$question['topic']}.{$question['question_title']}</option>
+													<?php } ?>
+												</volist>
+											</select>
+										</div>
+										<button type="submit" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-download bigger-120"></span>
+											导出
+										</button>
+									</form>
+									<if condition="$answers_items">
+									<h2>导出结果</h2>
+									<ul class="ace-thumbnails clearfix">
+										<volist name="answers_items" id="item">
+
+										<if condition="$item.type eq 'fileupload'">
+										<li>
+											<a href="{$Think.CONFIG.website}{$Think.config.UPLOADFILE_PATH}{$item['itemvalue']}" data-rel="colorbox">
+												<img height="150" src="{$Think.CONFIG.website}{$Think.config.UPLOADFILE_PATH}{$item['itemvalue']}" />
+											</a>
+											<div class="tags">
+												<span class="label-holder">
+													<span class="label label-warning arrowed-in"><a href="{:U('Home/Task/subject#'.$item['answer_id'],array('subject_id'=>$item['subject_id']))}" target="_blank">{$item['user']}</a></span>
+												</span>
+											</div>
+										</li>
+										</if>
+										<if condition="$item.type eq 'question_direct'">
+											<volist name="item['images']" id="image">
+											<li>
+												<a href="{$image}" data-rel="colorbox" title="{$item.itemvalue|htmlspecialchars}">
+													<img height="150" width="auto" src="{$image}" />
+												</a>
+												<div class="tags">
+													<span class="label-holder">
+														<span class="label label-warning arrowed-in"><a href="{:U('Home/Task/subject#'.$item['answer_id'],array('subject_id'=>$item['subject_id']))}" target="_blank">{$item['user']}</a></span>
+													</span>
+												</div>
+											</li>
+											</volist>
+										</if>
+										</volist>
+									</ul>
+									</if>
+                                </div>
+                                <div id="taskexport" class="tab-pane fade">
+				                    <form id="form" method="post" action="{:U('taskexport')}">
+										<div class="form-group">
+										    <label for="keyword">用户编号:</label>
+										    <input type="text"  id="keyword" name="keyword" value="{:I(keyword)}">
+										</div>
+										<div class="form-group">
+											<label class="control-label " for="food">选择任务:</label>
+											<select name="task_id[]" class="multiselect" multiple="multiple">
+												<volist name="tasklist" id="task">
+													<option value="{$task['task_id']}">{$task['title']}</option>
+												</volist>
+											</select>
+										</div>
+										<button type="submit" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-download bigger-120"></span>
+											导出
+										</button>
+									</form>
+                                </div>
+                                <div id="diaryexport" class="tab-pane fade">
+				                    <form id="form" method="post" action="{:U('diaryexport')}">
+										<div class="form-group">
+										    <label for="keyword">用户编号:</label>
+										    <input type="text"  id="keyword" name="keyword" value="{:I(keyword)}">
+										</div>
+										<div class="form-group">
+											<label class="control-label " for="food">选择日记任务:</label>
+											<select name="diary_id[]" class="multiselect" multiple="multiple">
+												<volist name="diarylist" id="diary">
+													<option value="{$diary['diary_id']}">{$diary['title']}</option>
+												</volist>
+											</select>
+										</div>
+										<button type="submit" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-download bigger-120"></span>
+											导出
+										</button>
+									</form>
+                                </div>
+                            </div>
+                        </div>
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/themes/css/colorbox.css" />
+<script src="__PUBLIC__/themes/js/jquery.colorbox.js"></script>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+		var colorbox_params = {
+			rel: 'colorbox',
+			reposition:true,
+			scalePhotos:true,
+			scrolling:false,
+			previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+			next:'<i class="ace-icon fa fa-arrow-right"></i>',
+			close:'&times;',
+			current:'{current} of {total}',
+			maxWidth:'100%',
+			maxHeight:'100%',
+			onOpen:function(){
+				$overflow = document.body.style.overflow;
+				document.body.style.overflow = 'hidden';
+			},
+			onClosed:function(){
+				document.body.style.overflow = $overflow;
+			},
+			onComplete:function(){
+				$.colorbox.resize();
+			}
+		}
+		$('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+		$(document).one('ajaxloadstart.page', function(e) {
+			$('#colorbox, #cboxOverlay').remove();
+	   	});
+		$('.multiselect').multiselect({
+			 enableFiltering: true,
+			 enableHTML: true,
+			 buttonClass: 'btn btn-white btn-primary',
+			 templates: {
+				button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+				ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+				filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+				filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+				li: '<li><a tabindex="0"><label></label></a></li>',
+				divider: '<li class="multiselect-item divider"></li>',
+				liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+			}
+		});
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+    <div class="container index">
+      <div class="row">
+        <div class="col-xs-24 main xmtp">
+            <!-- 任务信息 -->
+            <include file="Task/taskinfo"/>
+        </div>
+        <div class="col-xs-16 main">
+            <div id="list-task">
+                <!--ul class="trigger-menu" data-pjax-container="#list-container">
+                    <li class="active"><a href="task.html"><i class="iconfont ic-articles"></i>第一题</a></li>
+                    <li class=""><a href="task-stat.html"><i class="iconfont ic-articles"></i>数据统计</a></li>
+                    <li><a href="task-stat2.html"><i class="iconfont ic-articles"></i>交叉分析</a></li>
+                </ul-->
+
+                <!-- 用户未回复 -->
+                <div class="row">
+                  <div class="clearfix"> 
+                    {$task['end_information']}               
+                    <br />
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-7 col-xs-offset-1 aside">
+            <!-- 题目列表 -->
+            <include file="Task/subjectlist"/>
+            <!-- 首页右侧 App 下载提示 -->
+            <include file="Public/qrbox"/>
+        </div>
+      </div>
+    </div>
+<include file="Public/footer"/>
+</body>
+</html>

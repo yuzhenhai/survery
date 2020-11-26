@@ -1,0 +1,58 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li class="active"><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">
+		  <div class="member member_message">
+				<div class="title"><span>我的消息</span> </div>
+				<ul>
+					<li class="first">
+						<div class="message_created">时间</div>
+						<div class="message_user">类型</div>
+						<div class="message_content">内容</div>
+					</li>
+					<volist name="messages" id="message">
+					<li>
+						<div class="message_created">{$message['created']|date="Y-m-d h:i:s",###}</div>
+						<div class="message_user">
+							<if condition="$message['type']  eq 1 ">新任务</if>
+							<if condition="$message['type']  eq 2 ">新追问</if>
+							<if condition="$message['type']  eq 3 ">帖子被回复</if>
+							<if condition="$message['type']  eq 4 ">帖子被删除</if>
+							<if condition="$message['type']  eq 5 ">兑换后支付</if>
+						</div>
+						<div class="message_content">{$message['message']}</div>
+					</li>
+					</volist>
+				</ul>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>

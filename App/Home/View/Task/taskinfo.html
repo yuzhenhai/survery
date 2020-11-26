@@ -1,0 +1,17 @@
+<div class="z" style="margin-right:15px; border: 1px solid #ddd;">
+  <img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$task['image']}" width="200" height="130">
+</div>
+<div class="z" style="width:700px;">
+  <div class="zczt">
+	<a href=""></a>
+	<span id="thread_subject"><a href="{:U('Task/detail',array('task_id'=>$task['task_id']))}">{$task['name']}</a></span>
+	<span class="replies"><i class="iconfont ic-question"></i>{$task['count_questions']}</span>
+	<span class="views"><i class="iconfont ic-user"></i>{$task['count_users_all']}</span>
+  </div>
+  <div class="zczb">
+	<em> {$task['start']} 开始 <if condition="($task['leftday'] gt 0)">（ <span style="color:#F81313"> 距离结束还有{$task['leftday']}天</span> ）<else/> （<span style="color:#F81313"> 已结束</span> ）</if></em>
+	<p>{$task['description']|htmlspecialchars_decode}</p>
+	<p style="font-size:14px;">共<span style="font-size:20px;"> {$task['count_subjects']} </span>个题目 <if condition="($task['count_completed_subjects'] gt 0)">，已经完成<span style="color:#da2727; font-size:20px;"> {$task['count_completed_subjects']} </span>个题目</if></p>
+  </div>
+</div>
+<div class="clear"></div>

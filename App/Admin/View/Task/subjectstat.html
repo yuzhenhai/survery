@@ -1,0 +1,141 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+		<div class="row">
+			<div class="col-xs-12">
+					<div class="col-xs-3">
+						<p>
+							<button id="submit" class="btn btn-purple btn-sm">
+								<i class="ace-icon fa fa-download bigger-120"></i>导出
+							</button>
+						</p>
+					</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h2 class="row header smaller lighter blue center">{$task_item['title']}</h2>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<form id="form" method="post" action="{:U('exportbysubject')}">
+							<table id="simple-table" class="table  table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="center"><input class="check-all" type="checkbox" value=""></th>
+										<th></th>
+										<th>题目名称</th>
+										<th>问题数量</th>
+										<th>完成进度</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<volist name="list" id="val">
+									<tr>
+										<td class="center">
+											<input class="ids" type="checkbox" name="ids[]" value="{$val['subject_id']}">
+										</td>
+										<td class="center">
+											<div class="action-buttons">
+												<a href="#" class="green bigger-140 show-details-btn" title="显示详情">
+													<i class="ace-icon fa fa-angle-double-down"></i>
+													整体统计<span class="sr-only">Details</span>
+												</a>
+											</div>
+										</td>
+										<td><a href="{:U('answers',array('subject_id'=>$val['subject_id']))}">{$i}.{$val['title']}</a></td>
+										<td>{$val['count_questions']}</td>
+										<td>{$val['count_users_completed']}/{$val['count_users_all']}</td>
+										<td><span class="label label-sm label-success">已发布</span></td>
+									</tr>
+									<tr class="detail-row">
+										<td colspan="6">
+											<div class="table-detail">
+												<div class="row">
+												    <volist name="val['questions']" id="question" key="q">
+													<div class="col-xs-12 col-sm-3">
+														<div class="title">Q{$question['topic']}：{$question['title']}</div>
+														<hr>
+														<div class="stat">
+															<volist name="question['selectlist']" id="select" key="k">
+															<p><span>选项</span>：{$select['item_title']} <br></p>
+															<div class="progress pos-rel progress-mini" data-percent="{$select['percent']}%">
+																<div class="progress-bar{$color[$k-1]}" style="width:{$select['percent']}%;"></div>
+															</div>
+															</volist>
+														</div>
+													</div>
+													<if condition="(($q)%4 eq 0) ">
+													<div class="clear"></div>
+													</if>
+													</volist>
+												</div>
+											</div>
+										</td>
+									</tr>
+									</volist>
+								</tbody>
+							</table>
+							</form>
+						</div><!-- /.span -->
+					</div><!-- /.row -->
+				</div>
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+			$('#form').submit();
+        });
+		$('.show-details-btn').on('click', function(e) {
+			e.preventDefault();
+			$(this).closest('tr').next().toggleClass('open');
+			$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+		});
+    })
+</script>
+</body>
+</html>

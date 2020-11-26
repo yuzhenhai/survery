@@ -1,0 +1,228 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="row">
+					<div class="col-xs-5">
+						<p>
+							<a class="btn btn-success  btn-xs" href="{:U('addsubject',array('task_id'=>$task_id))}" value="">
+								<i class="ace-icon fa fa-plus bigger-140"></i>
+								添加题目
+							</a>
+							<a href="{:U('subjectscopy',array('task_id'=>$task_id))}" class="btn btn-success btn-xs">
+								<i class="ace-icon fa fa-copy bigger-140"></i>
+								复制题目
+							</a>
+							<!--!button class="btn btn-success btn-xs unlock">
+								<i class="ace-icon fa fa-unlock bigger-140"></i>
+								启用
+							</button>
+							<button class="btn btn-inverse btn-xs lock">
+								<i class="ace-icon fa fa-lock bigger-140"></i>
+								禁用
+							</button>
+							<button id="submit" class="btn btn-light btn-xs delete">
+								<i class="ace-icon fa fa-trash bigger-140"></i>
+								删除
+							</button-->
+						</p>
+					</div>
+					<div class="col-xs-6 ">
+						<form action="" class="form-inline" method="get" >
+							<div class="form-group">
+							    <label for="keyword">题目名称:</label>
+							    <input type="text"  name="keyword" value="{:I(keyword)}">
+							</div>
+
+							<button type="submit" class="btn btn-purple btn-sm">
+								<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+								筛选
+							</button>
+						</form>
+					</div>
+					<div class="space-4"></div>
+					<form id="form" method="post" action="{:U('delsubject')}">
+						<input type="hidden" id="orderlist" value="<?php echo $sort; ?>" />
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th></th>
+									<!--th>编号</th-->
+									<th>题目名称</th>
+									<th>排序</th>
+									<th>问题数量</th>
+									<th>进度</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="sortable" class='sortable'>
+								<volist name="list" id="val">
+								<tr class="subject_item" title="<?php echo $val['subject_id']; ?>">
+									<td class='ui-sortable-handle'>
+										<i class="ace-icon fa fa-ellipsis-v bigger-120"></i>
+									</td>
+									<!--td>{$val['subject_id']}</td-->
+									<td><a href="{:U('answers',array('subject_id'=>$val['subject_id']))}">{$val['title']}</a></td>
+									<td>{$val['o']}</td>
+									<td>{$val['count_questions']}</td>
+									<td>{$val['count_users_completed']}/{$val['count_users_all']}</td>
+									<td>
+										<if condition="$val['status'] eq 0"><a class="label label-sm label-inverse" href="{:U('subjectstatus',array('subject_id'=>$val['subject_id']))}" title="点击启用">已禁用</a></if>
+										<if condition="$val['status'] eq 1"><a  class="label label-sm label-success" href="{:U('subjectstatus',array('subject_id'=>$val['subject_id']))}" title="点击禁用">已启用</a></if>
+									</td>
+									<td>
+										<div class="hidden-sm hidden-xs btn-group">
+											<if condition="$val['status'] eq 0"><a class="btn btn-xs btn-success" href="{:U('subjectstatus',array('subject_id'=>$val['subject_id']))}" title="点击启用"><i class="ace-icon fa fa-unlock bigger-140"></i></i>点击启用</a></if>
+											<if condition="$val['status'] eq 1"><a  class="btn btn-xs btn-inverse" href="{:U('subjectstatus',array('subject_id'=>$val['subject_id']))}" title="点击禁用">&nbsp;<i class="ace-icon fa fa-lock bigger-120"></i>&nbsp;点击禁用</a></if>
+
+											<a  href="
+											{:U('editsubject',array('id'=>$val['subject_id']))}" class="btn btn-xs btn-primary">
+												<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>编辑
+											</a>
+											<if condition="$val['count_users_completed'] eq 0">
+											<a href="{:U('subject',array('subject_id'=>$val['subject_id']))}" class="btn btn-success btn-xs">
+												<i class="ace-icon  fa fa-plus bigger-120"></i>
+												编辑问题
+											</a>
+											<else />
+											<a href="{:U('questions',array('subject_id'=>$val['subject_id']))}" class="btn btn-success btn-xs">
+												<i class="ace-icon  fa fa-plus bigger-120"></i>
+												编辑问题
+											</a>
+											</if>
+											<a class="del btn btn-error btn-xs" href="javascript:;" val="{:U('delsubject',array('ids'=>$val['subject_id']))}" title="删除题目"><i class="ace-icon  fa fa-trash bigger-120"></i>删除题目</a>
+
+										</div>
+									</td>
+								</tr>
+								</volist>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+	    var $show = $("#loader"); //进度条
+	    var $orderlist = $("#orderlist");
+	    var $list = $("#sortable");
+		$list.sortable({
+	        update: function() {
+	            var new_order = [];
+	            $list.children(".subject_item").each(function() {
+	                new_order.push(this.title);
+	            });
+	            var newid = new_order.join(',');
+	            var oldid = $orderlist.val();
+	            $.ajax({
+	                type: "post",
+	                url: "{:U('sortsubjects',array('id'=>$val['task_id']))}",
+	                data: {
+	                    neworder: newid,
+	                    order: oldid
+	                },
+	                //id:新的排列对应的ID,order：原排列顺序
+	                beforeSend: function() {
+	                    //$show.html("<img src='images/load.gif' /> 正在更新");
+	                },
+	                success: function(msg) {
+	                    //$show.html("");
+	                }
+	            });
+	        }
+	    });
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除所选？",
+                callback: function (result) {
+                    if (result) {
+                        $("#form").submit();
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".lock").click(function () {
+            $("#form").attr("action", "{:U('subjectstatus?status=0')}");
+            $('#form').submit();
+        });
+        $(".unlock").click(function () {
+            $("#form").attr("action", "{:U('subjectstatus?status=1')}");
+            $('#form').submit();
+        });
+    })
+</script>
+</body>
+</html>

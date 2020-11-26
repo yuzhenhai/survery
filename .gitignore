@@ -1,0 +1,8 @@
+docs/*
+App/Runtime/
+*~
+Public/attached/
+/*.buildpath
+/*.project
+/.settings
+/.idea

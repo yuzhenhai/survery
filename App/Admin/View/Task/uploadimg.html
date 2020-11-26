@@ -1,0 +1,195 @@
+<include file="Public/head"/>
+<body class="no-skin">
+	<div class="page-content">
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-horizontal" name="aspnetForm" method="post" action="{:U('uploadimg')}?design=1" id="aspnetForm" enctype="multipart/form-data">
+
+				<script type="text/javascript">
+				//<![CDATA[
+				var theForm = document.forms['aspnetForm'];
+				if (!theForm) {
+					theForm = document.aspnetForm;
+				}
+				//]]>
+				</script>
+				<div class="updata_manage_wrap" id="update_manage_wrap">
+					<div class="um_cont">
+						<div class="updata_wrap">
+							<div class="pic_adr clearfix">
+								<div class="input_box pull-left">
+									<input placeholder="可直接粘贴图片地址" id="txtAddress" type="text">
+									<a href="javascript:void(0)" class="del_picAdr" id="delImg" onclick="deleteImg();" style="display:none"></a>
+								</div>
+								<a href="javascript:void(0)" class="btn btn-blue-solid pull-left" onclick="ok();">确定</a>
+							</div>
+							<!--div class="space-4"></div>
+								<div class="form-group">
+								<div class="col-sm-9">
+									<input type="file" class="id-input-file-3" />
+									<span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>
+								</div>
+							</div-->
+							<a href="javascript:;" id="pickfiles" style="margin: 75px auto 0px; width: 48px; height: 48px; display: block; background-repeat: no-repeat; position: relative; z-index: 1;"></a>
+
+							<div class="ensure_box">
+								<a id="btnPreOk" href="javascript:void(0)" class="btn btn-blue-solid" onclick="ok();">确定</a>
+								<a href="javascript:void(0)" class="btn btn-gray-frame" onclick="closePage()">取消</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+				<script type="text/javascript">
+					//处理键盘事件 禁止后退键（Backspace）密码或单行、多行文本框除外
+					function forbidBackSpace(e) {
+						var ev = e || window.event; //获取event对象
+						var obj = ev.target || ev.srcElement; //获取事件源
+						var t = obj.type || obj.getAttribute('type');
+						//当敲Backspace键时，事件源类型为密码或单行、多行文本的，
+						var flag2 = ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea";
+						if (flag2) return false;
+					}
+					//禁止后退键  作用于IE、Chrome
+					document.onkeydown = forbidBackSpace;
+
+					var itemImage='';
+					var txtAddress = document.getElementById("txtAddress");
+
+					var initVal = "";
+					var initWidth = "";
+					var max = 0;
+					var UploadPathType =1;
+					var imgPre = null;
+					var delImg = document.getElementById("delImg");
+					var btnPreOk = document.getElementById("btnPreOk");
+
+					var rimg = new Image();
+					rimg.onload = function () {
+						imgPre.style.backgroundImage = "url(" + txtAddress.value + ")";
+						imgPre.style.display = "block";
+						delImg.style.display = "";
+						imgPre.style.marginTop = "0px";
+						var realWidth = this.width;
+						var realHeight = this.height;
+						imgPre.style.width = realWidth + "px";
+						imgPre.style.height = realHeight + "px";
+						btnPreOk.value = "确认";
+						btnPreOk.onclick = function () {
+						   ok();
+						}
+					}
+					imgPre = getImgPre();
+					if (!itemImage && itemImage != "-1")
+						itemImage = window.parent.itemImage;
+					if (itemImage == "-1")
+						itemImage = "";
+					if (itemImage) {
+						txtAddress.value = itemImage;
+						setImagePreview();
+					}
+					txtAddress.onchange = txtAddress.onclick = txtAddress.onblur = setImagePreview;
+
+
+					function deleteImg() {
+						if (txtAddress.value != "") {
+						   txtAddress.value = "";
+						   delImg.style.display = "none";
+						   btnSure.style.display = "none";
+						   imgPre.style.marginTop = "67px";
+						   imgPre.style.backgroundImage = "url(__PUBLIC__/themes/images/add-large-icon.png)";
+						   imgPre.style.width = "48px";
+						   imgPre.style.height = "48px";
+						   rimg.src = "";
+						}
+					}
+					function getImgPre() {
+						return document.getElementById("pickfiles");
+					}
+					function setImagePreview() {
+						if (txtAddress.value != '' ) {
+							rimg.src = txtAddress.value;
+						} else {
+						   //delImg.style.display = "none";
+						}
+					}
+					function ok() {
+					   process(txtAddress.value);
+					}
+					function cancel() {
+					   window.parent.setImage(itemImage);
+					}
+					function closePage() {
+						window.parent.PDF_close();
+					}
+					function process(sLnkUrl) {
+						window.parent.setImage(sLnkUrl);
+					}
+				</script>
+
+
+
+				<!-- PAGE CONTENT BEGINS -->
+
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+	</div><!-- /.page-content -->
+<link rel="stylesheet" href="__PUBLIC__/themes/css/update_manage.css"/>
+
+<include file="Public/footerjs"/>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+$(function () {
+	$(".submit").click(function () {
+		$("#form").submit();
+	})
+	$('.id-input-file-1 , .id-input-file-2').ace_file_input({
+		no_file:'No File ...',
+		btn_choose:'Choose',
+		btn_change:'Change',
+		onchange:null,
+		thumbnail:'small',
+		droppable:true
+		//thumbnail:false //| true | large
+		//whitelist:'gif|png|jpg|jpeg'
+		//blacklist:'exe|php'
+		//onchange:''
+		//
+	});
+	$('.id-input-file-3').ace_file_input({
+		style: 'well',
+		btn_choose : 'Drop images here or click to choose',
+		no_icon : 'ace-icon fa fa-picture-o',
+		btn_change: null,
+		droppable: true,
+		thumbnail: 'small'//large | fit
+		//,icon_remove:null//set null, to hide remove/reset button
+		/**,before_change:function(files, dropped) {
+			//Check an example below
+			//or examples/file-upload.html
+			return true;
+		}*/
+		/**,before_remove : function() {
+			return true;
+		}*/
+		,
+		preview_error : function(filename, error_code) {
+			//name of the file that failed
+			//error_code values
+			//1 = 'FILE_LOAD_FAILED',
+			//2 = 'IMAGE_LOAD_FAILED',
+			//3 = 'THUMBNAIL_FAILED'
+			//alert(error_code);
+		}
+
+	}).on('change', function(){
+		//console.log($(this).data('ace_input_files'));
+		//console.log($(this).data('ace_input_method'));
+	});
+
+})
+</script>
+</body>
+</html>

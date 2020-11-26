@@ -1,0 +1,11 @@
+<div class="recommended-authors">
+<div class="title"><span>{$Think.CONFIG.activeuser_title} </span></div>
+	<ul class="list">
+		<volist name="users" id="user">
+			<li><a href="{:U('User/profile',array('uid'=>$user['uid']))}" class="avatar"><img src="<if condition=" $user['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$user['head']}</if>"></a> <a href="{:U('User/profile',array('uid'=>$user['uid']))}" class="name"> {$user['realname']}  </a> <p>完成12个任务,发表{$user['count']}个话题</p>
+			</li>
+		</volist>
+	</ul>
+</div>

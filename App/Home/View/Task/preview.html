@@ -1,0 +1,622 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-24 main xmtp">
+			<!-- 任务信息 -->
+			<include file="Task/taskinfo" />
+		</div>
+		<div class="col-xs-16 main">
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<li class="active"><a href="{:U('Task/subject',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>第<span>{$tasksubject.o}</span>题</a></li>
+				<li class=""><a href="{:U('Task/crossanalysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>数据统计</a></li>
+				<li class=""><a href="{:U('Task/analysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>交叉分析</a></li>
+			</ul>
+			<h3 class="t" style='font-size:18px'>{$tasksubject.title}</h3>
+			<div class="description" style="list-style: none; font-size:14px;">
+				{$tasksubject.description|htmlspecialchars_decode}
+				<div class="text-center">
+					<if condition="$tasksubject['attachment_status'] eq 1"><button type="button" class="btn btn-danger" onclick='PDF_launch("{:U('Task/showattachment',array('subject_id'=>$tasksubject['subject_id']))}",600,400);return false;'>附件</button></if>
+				</div>
+			</div>
+			<!-- PAGE CONTENT BEGINS -->
+			<if condition="$tasksubject['direct_answer'] eq 1">
+			<div class="row">
+				<div class="col-sm-24">
+			  		<div class="form-group" >
+						<!--textarea title="" style="overflow: auto;width:62%;height:110px;" class="inputtext" value="" id="q1" name="q1"></textarea-->
+						<div id="description" class="text"></div>
+				  		<input type="hidden" name="q1" id="q1">
+			  		</div>
+			  		<div class="form-group" >
+			  			{:BatchImage("images",50,50)}
+			  		</div>
+			  	</div>
+			</div>
+			<else />
+			<div class="widget-box widget-color-blue ui-sortable-handle" id="widget-box-2">
+				<input name="hfData" type="hidden" id="hfData" value="{$surveydata}" />
+				<input name="subject_id" type="hidden" id="subject_id" value="{$subject_id}" />
+
+				<div class="survey" style="margin:0px auto;">
+				  <div id="ctl00_ContentPlaceHolder1_JQ1_divHead" class="surveyhead" style="border: 0px;">
+					<div id="divPeiE" style="display:none;"></div>
+				  </div>
+				  <div id="ctl00_ContentPlaceHolder1_JQ1_question" class="surveycontent">
+					<div id="ctl00_ContentPlaceHolder1_JQ1_surveyContent">
+					  <fieldset class='fieldset' id='fieldset1'>
+						<volist name="list" id="val">
+							<switch name="val.type" >
+								<case value="radio|check|question">
+									<div class='div_question' id="div{$val['topic']}" <if condition="$val['relation']"> relation="{$val['relation']}"</if> <if condition="$val['titletopic']"> titletopic="{$val['titletopic']}"</if>>
+									  <div class='div_title_question_all'>
+										<div class="div_topic_question">{$val['topic']}.</div>
+										<div id="divTitle{$val['topic']}" class='div_title_question'>{$val['title']}
+										  <span class='req'>&nbsp;*</span>
+										  <if condition="$val['lowlimit'] AND $val['uplimit']">
+										  	<span class="qtypetip">&nbsp;[请选择<b>{$val['lowlimit']}</b>-<b>{$val['uplimit']}</b>项]</span>
+										  <else />
+											  <if condition="$val['lowlimit']">
+											  	<span class="qtypetip">&nbsp;[<b>最少</b>选择<b>{$val['lowlimit']}</b>项]</span>
+											  </if>
+											  <if condition="$val['uplimit']">
+											  	<span class="qtypetip">&nbsp;[<b>最多</b>选择<b>{$val['uplimit']}</b>项]</span>
+											  </if>
+										  </if>
+										</div>
+
+
+										<div style='clear:both;'></div>
+									  </div>
+									  <div class='div_table_radio_question' id="divquestion{$val['topic']}">
+										<div class='div_table_clear_top'></div>
+										<if condition="($val['type'] eq 'question')">
+											<textarea title="" style="overflow: auto;width:62%;height:<if condition="($val['height'] gt '0')">{$val['height']*22}<else/>22</if>px;" class="inputtext" value="" id="q{$val['topic']}" name="q{$val['topic']}"></textarea>
+										</if>
+										<if condition="($val['type'] eq 'radio') OR ($val['type'] eq 'check')">
+										<if condition="($val['type'] eq 'radio') and ($val['tag'] gt  1)">
+										<ul style="margin:5px 0 0 5px;">
+										<else />
+										<ul class='ulradiocheck'>
+										</if>
+											<if condition="($val['tag'] eq 1)">
+											  <li class='notchoice' style='padding-right:15px;padding-top:0px;'>
+												<b>{$val['select'][0]['item_title']}</b>
+											  </li>
+											</if>
+											<volist name="val.select" id="select" key="k">
+												<if condition="($val['type'] eq 'check')">
+												  <li style="<if condition="$val['numperrow'] eq null">width:99%;<else/>width:{:sprintf('%.2f',99/($val['numperrow']))}%;margin-bottom:15px;</if>">
+												  	<if condition="($select['item_imgtext'] eq '1')">
+														<div style="text-align:center;padding:5px;border:1px solid #ddd;margin-right:15px;">
+															<table style="table-layout: fixed;width:100%;" cellspacing="0" cellpadding="0" align="center">
+																<tbody>
+																	<tr>
+																		<td>
+																			<div id="q{$val['topic']}_{$k}img" irel="q{$val['topic']}_{$k}">
+																				<img style="border:none;margin:0 auto;" src="{$select['item_img']}" alt="{$select['item_title']}">
+																			</div>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+															<div style="margin-top:6px;">
+																<a href='javascript:' style="position:static;" class='jqCheckbox <if condition="($select['item_radio'] eq '1')"> jqChecked</if>' rel="q{$val['topic']}_{$k}"></a>
+																<input style='display:none;' <if condition="($select['item_radio'] eq '1')">checked="checked"</if> type='checkbox' name="q{$val['topic']}" id="q{$val['topic']}_{$k}" value="{$select['item_value']}" />
+																<label style="display:inline-block;padding-left:3px;margin-bottom:0;" for="q{$val['topic']}_{$k}">{$select['item_title']}</label>
+																<if condition="($select['item_tb'] eq '1')">
+																<input class='inputtext' type='text' style='max-width:100%;' value='' rel="q{$val['topic']}_{$k}" onpropertychange='lengthChange(this);' oninput='lengthChange(this);' />
+																</if>
+																<if condition="($select['item_tbr'] eq '1')">
+																<span style="color: red;"> *</span>
+																</if>
+															</div>
+														</div>
+													<else />
+														<a href='javascript:' class='jqCheckbox <if condition="($select['item_radio'] eq '1')"> jqChecked</if>' rel="q{$val['topic']}_{$k}"></a>
+														<input style='display:none;' <if condition="($select['item_radio'] eq '1')">checked="checked"</if> type='checkbox' name="q{$val['topic']}" id="q{$val['topic']}_{$k}" value="{$select['item_value']}" />
+														<label for="q{$val['topic']}_{$k}">{$select['item_title']}</label>
+														<if condition="($select['item_tb'] eq '1')">
+														<input class='inputtext' type='text' style='max-width:100%;' value='' rel="q{$val['topic']}_{$k}" onpropertychange='lengthChange(this);' oninput='lengthChange(this);' />
+														</if>
+														<if condition="($select['item_tbr'] eq '1')">
+														<span style="color: red;"> *</span>
+														</if>
+													</if>
+
+												  </li>
+												</if>
+												<if condition="($val['type'] eq 'radio') and ($val['tag'] eq 0)">
+												  <li style="<if condition="$val['numperrow'] eq null">width:99%;<else/>width:{:sprintf('%.2f',99/($val['numperrow']))}%;margin-bottom:15px;</if>">
+												  	<if condition="($select['item_imgtext'] eq '1')">
+														<div style="text-align:center;padding:5px;border:1px solid #ddd;margin-right:15px;">
+															<table style="table-layout: fixed;width:100%;" cellspacing="0" cellpadding="0" align="center">
+																<tbody>
+																	<tr>
+																		<td>
+																			<div id="q{$val['topic']}_{$k}img" irel="q{$val['topic']}_{$k}">
+																				<img style="border:none;margin:0 auto;" src="{$select['item_img']}" alt="{$select['item_title']}">
+																			</div>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+															<div style="margin-top:6px;">
+																<a href='javascript:' style="position:static;" class='jqRadio <if condition="($select['item_radio'] eq '1')"> jqChecked</if>' rel="q{$val['topic']}_{$k}"></a>
+																<input style='display:none;' <if condition="($select['item_radio'] eq '1')">checked="checked"</if>  type='radio' name="q{$val['topic']}" id="q{$val['topic']}_{$k}" value="{$select['item_value']}" />
+																<label style="display:inline-block;padding-left:3px;margin-bottom:0;" for="q{$val['topic']}_{$k}">{$select['item_title']}</label>
+
+																<if condition="($select['item_tb'] eq '1')">
+																<input class='inputtext' type='text' style='max-width:100%;' value='' rel="q{$val['topic']}_{$k}" onpropertychange='lengthChange(this);' oninput='lengthChange(this);' />
+																</if>
+																<if condition="($select['item_tbr'] eq '1')">
+																<span style="color: red;"> *</span>
+																</if>
+															</div>
+														</div>
+													<else />
+														<a href='javascript:' class='jqRadio <if condition="($select['item_radio'] eq '1')"> jqChecked</if>' rel="q{$val['topic']}_{$k}"></a>
+														<input style='display:none;' <if condition="($select['item_radio'] eq '1')">checked="checked"</if>  type='radio' name="q{$val['topic']}" id="q{$val['topic']}_{$k}" value="{$select['item_value']}" />
+														<label for="q{$val['topic']}_{$k}">{$select['item_title']}</label>
+
+														<if condition="($select['item_tb'] eq '1')">
+														<input class='inputtext' type='text' style='max-width:100%;' value='' rel="q{$val['topic']}_{$k}" onpropertychange='lengthChange(this);' oninput='lengthChange(this);' />
+														</if>
+														<if condition="($select['item_tbr'] eq '1')">
+														<span style="color: red;"> *</span>
+														</if>
+												  	</if>
+
+												  </li>
+												</if>
+
+												<if condition="($val['type'] eq 'radio') and ($val['tag'] eq 1)">
+												  <li style='width:40px;'>
+													<a href='javascript:' class='jqRadio' rel="q{$val['topic']}_{$k}"></a>
+													<input style='display:none;' type='radio' title="{$select['item_title']}" name="q{$val['topic']}" id="q{$val['topic']}_{$k}" value="{$select['item_value']}" />
+													<label for="q{$val['topic']}_{$k}">{$select['item_value']}</label>
+												   </li>
+												</if>
+												<if condition="($val['type'] eq 'radio') and ($val['tag'] gt 1)">
+												  <li style="padding-left:3px;" value="{$select['item_value']}" title="{$select['item_title']}" class="off{$val['tag']}"></li>
+												</if>
+											</volist>
+											<if condition="($val['tag'] eq 1)">
+											  <li class='notchoice' style='padding-left:15px;padding-top:0px;'>
+												<b>{$val['select'][count($val['select'])-1]['item_title']}</b>
+											  </li>
+											</if>
+											<div style='clear:both;'></div>
+										</ul>
+										</if>
+
+										<div style='clear:both;'></div>
+										<div class='div_table_clear_bottom'></div>
+									  </div>
+									  <div class='errorMessage'></div>
+									</div>
+								</case>
+								<case value="slider">
+									<div class='div_question' id="div{$val['topic']}">
+									  <div class='div_title_question_all'>
+										<div class="div_topic_question">{$val['topic']}.</div>
+										<div id="divTitle{$val['topic']}" class='div_title_question'>{$val['title']}
+										  <span class='req'>&nbsp;*</span></div>
+										<div style='clear:both;'></div>
+									  </div>
+									  <div class='div_table_radio_question' style='width:60%;' id='divquestion5'>
+										<div class='div_table_clear_top'></div>
+
+										<div rel="slider{$val['topic']}" defvalue="" minvalue="{$val['minvalue']|intval}" maxvalue="{$val['maxvalue']}" style='clear:both;margin-top:20px' class='slider' id="divSlider{$val['topic']}"></div>
+										<span style='color:red;float:left;'></span>
+										<br style='clear:both;' />
+										<div style='clear:both;'>
+										  <span class='spanLeft' style='color:red;'>{$val['minvaluetext']}({$val['minvalue']|intval})</span>
+										  <span class='spanRight' style='color:red;'>{$val['maxvaluetext']}({$val['maxvalue']|intval})</span>
+										  <div style='clear:both;'></div>
+										</div>
+										<div style='clear:both;height:10px;'></div>
+										<div>
+										  <div style='height:16px;line-height:16px;' id=slider{$val['topic']}></div>
+										</div>
+
+										<div class='div_table_clear_bottom'></div>
+									  </div>
+									  <div class='errorMessage'></div>
+									</div>
+								</case>
+								<case value="matrix">
+									<div class='div_question' id="div{$val['topic']}">
+									  <div class='div_title_question_all'>
+										<div class="div_topic_question">{$val['topic']}.</div>
+										<div id=:divTitle{$val['topic']}: class='div_title_question'>{$val['title']}
+										  <span class='req'>&nbsp;*</span></div>
+										<div style='clear:both;'></div>
+									  </div>
+									  <div class='div_table_radio_question' id="divquestion{$val['topic']}">
+										<div class='div_table_clear_top'></div>
+										<if condition="($val['tag'] eq '101') OR ($val['tag'] eq '102') OR ($val['tag'] eq '103')">
+										<table style='width:100%;' border='0px' cellpadding='5' cellspacing='0'>
+										  <thead>
+											  <tr>
+												  <th></th>
+												  <volist name="val.select" id="select">
+												  <td align='center'>{$select['item_title']}</td>
+												  </volist>
+											  </tr>
+										  </thead>
+										  <tbody>
+											<volist name='val.titlerows' id="row" key="rindex">
+											<tr align='left' rindex="{$rindex-1}">
+											  <th class='rowth' align='left' style='border-bottom:1px solid #efefef;'>{$row}</th>
+											  <volist name="val.select" id="select" key="k">
+											  <td align='center' style='border-bottom:1px solid #efefef;'>
+												<if condition="($val['tag'] eq '101') OR ($val['tag'] eq '103')">
+													<a href='javascript:' class='jqRadio' style='position:static;'></a>
+													<if condition="($select['item_tb'] eq '1')">
+													<input style='display:none;' type='radio' value="{$select['item_value']}" name="q{$val['topic']}_{$rindex-1}" needfill='1' />
+													<else />
+													<input style='display:none;' type='radio' value="{$select['item_value']}" name="q{$val['topic']}_{$rindex-1}" />
+													</if>
+												</if>
+												<if condition="($val['tag'] eq '102')">
+													<a href='javascript:' class='jqCheckbox' style='position:static;'></a>
+													<if condition="($select['item_tb'] eq '1')">
+													<input style='display:none;' type='checkbox' value="{$select['item_value']}" name="q{$val['topic']}_{$rindex-1}" needfill='1' />
+													<else />
+													<input style='display:none;' type='checkbox' value="{$select['item_value']}" name="q{$val['topic']}_{$rindex-1}" />
+													</if>
+												</if>
+											  </td>
+											  </volist>
+											  <th class='rowth' align='left' style='border-bottom:1px solid #efefef;'></th>
+											</tr>
+											</volist>
+										  </tbody>
+										</table>
+										</if>
+										<if condition="($val['tag'] eq '201')">
+										<table style='width:100%;' border='0px' cellpadding='5' cellspacing='0'>
+										  <tbody>
+											<volist name='val.titlerows' id="row" key="rindex">
+											<tr align='left' rindex="{$rindex-1}">
+											  <th class='rowth' align='left' style=''>{$row}</th>
+											  <td>
+												<div style='position:relative;'>
+												  <textarea class='inputtext' style="overflow:hidden;height:<if condition="($val['height'] gt '0')">{$val['height']*22}<else/>22</if>px;padding-left:13px;padding-right:17px;" rows='1' onpropertychange='changeHeight(this);' oninput='changeHeight(this);'></textarea>
+												</div>
+											  </td>
+											  <th class='rowth' align='left' style=''></th>
+											</tr>
+											</volist>
+										  </tbody>
+										</table>
+										</if>
+										<if condition="($val['tag'] eq '202')">
+										<table style='width:100%;' border='0px' cellpadding='5' cellspacing='0'>
+										  <tbody>
+											<tr>
+											  <th></th>
+											  <td align='left' width='70%'>
+												<div style='width:90%;height:25px;'>
+												  <div style='color:red;font-size:14px;float:left;'>{$val['minvalue']|intval}</div>
+												  <div style='color:red;font-size:14px;float:right'>{$val['maxvalue']|intval}</div>
+												  <div style='clear:both;'></div>
+												</div>
+											  </td>
+											  <th></th>
+											</tr>
+											<volist name='val.titlerows' id="row" key="rindex">
+											<tr align='left' rindex="{$rindex-1}">
+												<th class='rowth' align='left' style='' valign='top'>{$row}</th>
+												<td valign='top' align='left' width='70%' style='height:40px;'>
+												  <div defvalue='' rel="slider{$val['topic']}" minvalue="{$val['minvalue']|intval}" maxvalue="{$val['maxvalue']|intval}" style='clear:both;width:90%;' class='slider' id="divSlider{$val['topic']}_{$rindex-1}"></div>
+												  <span style='color:red;float:left;'></span>
+												  <div style='clear:both;'></div>
+												</td>
+												<th class='rowth' align='left' style='' valign='top'></th>
+											</tr>
+											</volist>
+										  </tbody>
+										</table>
+										</if>
+										<div id="slider{$val['topic']}"></div>
+										<div class='div_table_clear_bottom'></div>
+									  </div>
+									  <div class='errorMessage'></div>
+									</div>
+								</case>
+								<case value="fileupload">
+									<div class='div_question' id="div{$val['topic']}">
+									  <div class='div_title_question_all'>
+										<div class="div_topic_question">{$val['topic']}.</div>
+										<div id="divTitle{$val['topic']}" class='div_title_question'>{$val['title']}
+										  <span class='req'>&nbsp;*</span></div>
+										<div style='clear:both;'></div>
+									  </div>
+				                      <div class='div_table_radio_question' id='divquestion5'>
+				                        <div class='div_table_clear_top'></div>
+				                        <iframe id='uploadFrame{$val['topic']}' frameborder='0' width='96%' scrolling='no' src="{:U('Task/uploadqiniu',array('subject_id'=>$tasksubject['subject_id'],'q'=>$val['topic']))}" height='40px'></iframe>
+				                        <div class='fileext'>请选择文件上传，扩展名为{$val['ext']}</div>
+				                        <div class='uploadmsg'></div>
+				                        <div class='div_table_clear_bottom'></div>
+				                      </div>
+									  <div class='errorMessage'></div>
+									</div>
+								</case>
+								<default />
+							</switch>
+						</volist>
+					  </fieldset>
+					</div>
+					<div class="shopcart" id="shopcart" style="display:none;"></div>
+					<div style="padding-top: 6px;clear:both; padding-bottom:10px;" id="submit_div">
+					  <div id="submit_table" style="display: none; margin: 20px auto;text-align: center;">
+					  	<input type="button" style="display: none;" class="submitbutton" value='提交' onmouseout="this.className='submitbutton';" id="submit_button" style="padding: 0 24px; height: 32px;" />
+					  </div>
+					  <div style="clear: both;"></div>
+					</div>
+					<div id="submit_tip" style="display: none; background-color: #f04810; color: White; margin-bottom: 20px; padding: 10px"></div>
+					<div id="divMatrixRel" style="position: absolute; display: none; width: 300px; margin: 0 10%;">
+					  <input type="text" id="matrixinput" class="inputtext" />
+					</div>
+				  </div>
+
+				  <div style="clear: both;"></div>
+				  <div id="divTimeUp" style="display:none;">
+					<div id="divTimeUpTip"></div>
+				  </div>
+				  <div id="divDescPop" style="display:none;">
+					<div id="divDescPopData"></div>
+				  </div>
+				  <div id="rbbox"></div>
+				</div>
+				  <div id="ctl00_trCopy"></div>
+				  <div id="ctl00_trPoweredBy">
+					  <div id="divBannerLogo"><span id="ctl00_lblPowerby"></span></div>
+				  </div>
+			</div>
+			</if>
+			<div class="row">
+			  <div class="clearfix">
+				<if condition="$prev">
+					<a class="button" href="{:U('Task/subject',array('subject_id'=>$prev))}"> 上一题</a>
+				</if>
+				<if condition="$next">
+				  <a class="button" href="{:U('Task/subject',array('subject_id'=>$next))}"> 下一题</a>
+				</if>
+				<br />
+			  </div>
+			</div>
+			<!-- 用户已回复 -->
+			<if condition="$subject_answers">
+			<div class="row">
+			  <div class="blocktitle title"><span class="titletext">用户回答</span></div>
+			    <volist name="subject_answers" id="other_answer">
+			    <a name="{$other_answer['answer_id']}"></a>
+			  	<div id="post_{$other_answer['answer_id']}" class="post_answer">
+				  <div id="favatar{$other_answer['answer_id']}" class="pls favatar col-xs-4">
+					  <div class="avatar">
+						<img src="<if condition=" $other_answer['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$other_answer['head']}</if>" />
+						<p><small>{$other_answer['realname']}</small></p>
+					  </div>
+				  </div>
+				  <div class="plc col-xs-20">
+					<volist name="other_answer['question_answers']" id="question">
+						<p>{$question['topic']}.{$question['title']}</p>
+						<volist name="question['answers']" id="answer">
+							<if condition="$answer['type'] eq 'question_direct'">
+								<p>{$answer['item_value']}</p>
+								<p>
+								<volist name="answer['images']" id="image">
+									<img src="{$image}" height="100px" style="margin: 5px;" />
+								</volist>
+								</p>
+							<else />
+								<if condition="(($question['type'] eq 'radio') OR ($question['type'] eq 'check') OR ($question['type'] eq 'matrix' AND $question['tag'] != '201' AND $question['tag'] != '101'AND $question['tag'] != '102'))">
+									<p>{$answer['itemvalue']}</p>
+								<else />
+									<if condition="$question['type'] eq 'fileupload'">
+										<p><img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOADFILE_PATH}{$answer['item_value']}" height="150px" /></p>
+									<else />
+										<if condition="$question['type'] eq 'matrix' AND ($question['tag'] == '102' OR $question['tag'] == '201' OR $question['tag'] == '101') ">
+											<p>{$answer['topic']}:{$answer['itemvalue']}</p>
+										<else />
+											<p>{$answer['item_value']}</p>
+										</if>
+									</if>
+								</if>
+							</if>
+						</volist>
+					</volist>
+					<div class="answer_bottom">
+					  	<div class="like">
+					  		<div class="btn-like">
+					  			<if condition="$other_answer['islike']">
+					  			<a><i class="iconfont ic-like"></i> {$other_answer['countlike']}</a>
+					  			<else />
+					  			<a href="{:U('Task/dolike',array('answer_id'=>$other_answer['answer_id'],'subject_id'=>$other_answer['subject_id']))}"><i class="iconfont ic-like"></i> {$other_answer['countlike']}</a>
+					  			</if>
+					  		</div>
+					  	</div>
+						<div class="post_time"> <small>{$other_answer['created']}</small>&nbsp;<button class="btn btn-minier btn-purple" data-toggle="modal" data-target="#myModal{$other_answer['answer_id']}" onclick="comment({$other_answer['answer_id']})">评论</button></div>
+					</div>
+
+
+					<!-- 模态框（Modal） -->
+					<div class="modal fade" id="myModal{$other_answer['answer_id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					                <h4 class="modal-title" id="myModalLabel">评论</h4>
+					            </div>
+					            <form action="{:U('docomment')}" method="post">
+					            	<div class="modal-body">
+										<input type="hidden" name="answer_id" value="{$other_answer['answer_id']}">
+										<input type="hidden" name="subject_id" value="{$other_answer['subject_id']}">
+							      		<textarea name="comment" placeholder="评论" class="col-xs-10 kindeditor"></textarea>
+						            </div>
+						            <div class="modal-footer">
+						                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						                <button class="btn btn-primary btn-purple">提交</button>
+						            </div>
+					            </form>
+					        </div>
+					    </div>
+					</div>
+					<script>
+					function comment(id){
+					  	$("#myModal"+id).modal('hide')
+					}
+					</script>
+
+					<if condition="$other_answer['comments']">
+					<div class='answer_comments'>
+						<h4><span class="label label-sm label-pink arrowed-right">评论</span></h4>
+						<volist name="other_answer['comments']" id="comment">
+			        	<div class="comment clearfix">
+				        	<div class='col-xs-6'><img src="<if condition=" $comment['head'] eq ''
+	                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+	                            <else/>
+	                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$comment['head']}</if>" class='avatar' /> {$comment['user']}</div>
+				        	<div class='col-xs-11'>{$comment['comment']}</div>
+				        	<div class="col-xs-7"> <small>{$comment['datetime']|date="Y-m-d h:i:s",###}</small>&nbsp;</div>
+			        	</div>
+						</volist>
+					</div>
+					</if>
+					<div class='answer_remarks'>
+						<h4><span class="label label-sm label-pink arrowed-right">追问</span></h4>
+						<if condition="$other_answer['remarks']">
+						<volist name="other_answer['remarks']" id="remark" key="r">
+							<div class='remark clearfix'>
+								<div class="col-sm-8">
+									<if condition=" $remark['type'] eq 1"><span class="label label-sm label-light arrowed-right">追问</span></if>
+									<if condition=" $remark['type'] eq 2"><span class="label label-sm label-yellow arrowed-right">回复</span></if>
+									<img  class='avatar' src="<if condition=" $remark['head'] eq ''
+			                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+			                            <else/>
+			                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$remark['head']}</if>" />
+									<small>{$remark["user"]}</small>
+								</div>
+								<div class='col-sm-16' >
+									<p>{$remark['remark']}</p>
+									<div class="post_time"> <small>{$remark['datetime']|date="Y-m-d h:i:s",###}</small></div>
+								</div>
+							</div>
+							<if condition="($r eq count($other_answer['remarks'])) AND ($remark['status'] eq 2)">
+							<div class='post_answer  row'>
+							<div class='col-xs-24' style="" id="question{$other_answer['answer_id']}" >
+								<form action="{:U('doremark')}" method="post">
+									<input type="hidden" name="answer_id" value="{$other_answer['answer_id']}">
+									<input type="hidden" name="subject_id" value="{$other_answer['subject_id']}">
+						      		<textarea name="remark" placeholder="追问" class="col-xs-10 kindeditor"></textarea>
+						      		<button class="btn btn-minier btn-purple">添加追问</button>
+					      		</form>
+					      	</div>
+					      	</div>
+							</if>
+						</volist>
+						<else/>
+						<div class='post_answer  row'>
+						<div class='col-xs-24' style="" id="question{$other_answer['answer_id']}" >
+							<form action="{:U('doremark')}" method="post">
+								<input type="hidden" name="answer_id" value="{$other_answer['answer_id']}">
+								<input type="hidden" name="subject_id" value="{$other_answer['subject_id']}">
+					      		<textarea name="remark" placeholder="追问" class="col-xs-10 kindeditor"></textarea>
+					      		<button class="btn btn-minier btn-purple">添加追问</button>
+				      		</form>
+				      	</div>
+				      	</div>
+						</if>
+					</div>
+			      </div>
+		        </div>
+		   	 	</volist>
+			</div>
+			</if>
+
+			<!-- PAGE CONTENT ENDS -->
+
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+            <!-- 题目列表 -->
+            <include file="Task/subjectlist"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+
+<if condition="$tasksubject['direct_answer'] eq 1">
+<script type="text/javascript">
+   $(function () {
+ 		var E = window.wangEditor
+		var editor1 = new E('#description')
+		// editor1.customConfig.showLinkImg = false
+		editor1.customConfig.menus = [
+	        //'head',  // 标题
+		    'bold',  // 粗体
+		    //'fontSize',  // 字号
+		    //'fontName',  // 字体
+		    'italic',  // 斜体
+		    'underline',  // 下划线
+		    'strikeThrough',  // 删除线
+		    //'foreColor',  // 文字颜色
+		    //'backColor',  // 背景颜色
+		    //'link',  // 插入链接
+		    //'list',  // 列表
+		    //'justify',  // 对齐方式
+		    //'quote',  // 引用
+		    'emoticon',  // 表情
+		    // 'image',  // 插入图片
+		    //'table',  // 表格
+		    //'video'
+		    ]
+		//editor1.customConfig.uploadImgServer = "{:U('updateimage')}"
+
+		//editor1.customConfig.uploadImgShowBase64 = true
+
+		editor1.customConfig.onchange = function (html) {
+		        // html 即变化之后的内容
+		        // console.log(html)
+		        $('#q1').val(html)
+		    }
+		editor1.create()
+    });
+
+</script>
+<else/>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/zhezhao.js"></script>
+<!-- inline scripts related to this page -->
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script type="text/javascript">
+    var saveurl = "{:U('Task/submitsurvey')}";
+    var url = "__PUBLIC__/themes/";
+	var subject_id = "{$subject_id}";
+
+	var qstr = $("#hfData").val(); //所有问题，与服务器端交互
+	var hasDisplayed=false;
+	var langVer=0;
+	var maxCheatTimes = 0;
+	var surveycontent=document.getElementById("ctl00_ContentPlaceHolder1_JQ1_question");
+	var divPromote=document.getElementById("ctl00_ContentPlaceHolder1_JQ1_divPromote");
+	var container=document.getElementById("container");
+	var loading=document.getElementById("loading");
+	var divSave=document.getElementById("ctl00_ContentPlaceHolder1_JQ1_divSave");
+	var divSaveText=document.getElementById("divSaveText");
+	var divProgressImg=document.getElementById("ctl00_ContentPlaceHolder1_JQ1_divProgressImg");
+	var survey = document.getElementById("ctl00_ContentPlaceHolder1_JQ1_surveyContent");
+</script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/slider_extras.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/jqnew2.js"></script>
+</if>
+</body>
+</html>

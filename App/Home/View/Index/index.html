@@ -1,0 +1,105 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font home"  style="min-width: 960px">
+	<include file="Public/header"/>
+	<div class="container banner-main">
+		<div class="row">
+			<!-- Banner -->
+			<div id="indexCarousel" class="carousel slide">
+				<div class="carousel-inner">
+					<div class="banner">
+					  <a target="_blank" href="#"><img src="__PUBLIC__/themes/images/banner.jpg" alt="540" width="100%" ></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+			<div id="list-container">
+				<!-- 文章列表模块 -->
+				<div class="title"><span>我的任务</span> <a class="page-change" href="{:U('Task/index')}">全部</a></div>
+				<ul class="note-list" infinite-scroll-url="/">
+				  <volist name="tasklist" id="val">
+				  <li id="note-{$val['task_id']}" data-note-id="{$val['task_id']}" class="have-img">
+					<a class="wrap-img" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}" target="_blank">
+					  <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" alt="120">
+					</a>
+					<div class="content">
+						<div class='clearfix'>
+							<a class="title pull-left" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}"><if condition="$val['member_task_status'] eq 0 AND $val['lefttime'] gt 0"><span class="collection-tag">新任务</span> &nbsp;</if>{$val['name']}</a>
+							<if condition="$user['admin'] eq 1"><a href="{:U('Admin/Task/subjectstat',array('task_id'=>$val['task_id']))}" class='pull-right meta'>统计</a></if>
+						</div>
+					  	<p class="abstract">{$val['description']|htmlspecialchars_decode}</p>
+					  	<div class="meta">
+							<a target="_blank" href="#">
+						  	<i class="iconfont ic-question"></i> {$val['count_questions']}</a>
+
+							<span><a target="_blank" href=""><i class="iconfont ic-user"></i> {$val['count_users_all']}</a></span>
+							<if condition="$val['lefttime'] ">
+								<a class="collection-tag" target="_blank" href="#"> 距离结束还有{$val['lefttime']}</a>
+							<else />
+						  		<a class="collection-tag" target="_blank" href="#"> 已结束</a>
+						    </if>
+						    <if condition="$val['member_task_status'] eq 0">
+						    	<if condition="$val['lefttime'] gt 0">
+						  		<a class="collection-btn-begin" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}"> 立即开始</a>
+						  		</if>
+						    </if>
+						  	<if condition="$val['member_task_status'] eq 1">
+						  		<a class="collection-btn-continue" target="_blank" href="{:U('Task/detail',array('task_id'=>$val['task_id']))}">  继续任务</a>
+						    </if>
+						    <if condition="$val['member_task_status'] eq 2">
+						    	<a class="collection-btn-end" target="_blank" href="#"> 已完成</a>
+						    </if>
+
+					  	</div>
+					</div>
+				  </li>
+				  </volist>
+				</ul>
+				<!-- 文章列表模块 -->
+			</div>
+		  <div id="list-talk">
+			<!-- 文章列表模块 -->
+			<div class="title"><span>交流圈</span> <a class="page-change" href="{:U('Talk/index')}">全部</a></div>
+			<ul class="note-list" infinite-scroll-url="/">
+
+			<volist name="topiclist" id="val">
+			  <li id="note-21506894" data-note-id="21506894" class="have-img">
+				<a class="wrap-img" href=""> <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" alt="120"></a>
+				<div class="content">
+				  <a class="title"  href="{:U('Talk/detail',array('id' => $val['id']))}">{$val['name']}</a>
+				  <p class="abstract">{$val['description']|htmlspecialchars_decode}</p>
+				  <div class="meta">
+				  	<volist name="talk_subject" id="subject">
+					  <a class="collection-tag" target="_blank" href="">{$subject['title']}</a>
+					</volist>
+					<a target="_blank" href=""><i class="iconfont ic-list-read"></i> {$val['views']}</a>
+					<a target="_blank" href=""><i class="iconfont ic-list-comments"></i> {$val['count']}</a>
+				  </div>
+				</div>
+			  </li>
+			  </volist>
+
+			</ul>
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 活动公告 -->
+			<include file="Index/bulletin"/>
+			<!-- 待回答追问 -->
+			<include file="Task/remarks"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+	<include file="Public/footer"/>
+</body>
+</html>

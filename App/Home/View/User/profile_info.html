@@ -1,0 +1,16 @@
+<div>
+	<a class="avatar" href="{:U(member)}"><img src="<if condition=" $profileuser['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$profileuser['head']}</if>" alt="240"></a>
+	<div class="title">
+	  <a class="name" href="{:U(member)}">{$profileuser['realname']}</a>
+	</div>
+	<div class="info">
+		<div clas="description "><p class='js-intro'><span>
+		<if condition="$profileuser['sex'] eq '0'"> 保密 </if><if condition="$profileuser['sex'] eq '1'">男</if><if condition="$profileuser['sex'] eq '2'">女</if>
+		</span>&nbsp;&nbsp;<span>客户经理</span>&nbsp;&nbsp;<span>{$profileuser['city']}</span>&nbsp;&nbsp;&nbsp;&nbsp;{$profileuser['age']}</p>
+			<p class='js-intro'>{$profileuser['signature']}</p>
+			<p><if condition="$profileuser['weixin'] neq ''"><a href="https://wx.qq.com/"><img src='__PUBLIC__/themes/images/icon-wx.png' width='36'/></a></if>&nbsp;<if condition="$profileuser['douban'] neq ''"><a href="https://www.douban.com/people/{$profileuser['douban']}"><img src='__PUBLIC__/themes/images/icon-in.png' width='36'/></a></if>&nbsp;<if condition="$profileuser['zhihu'] neq ''"><a href="https://www.zhihu.com/people/{$profileuser['zhihu']}"><img src='__PUBLIC__/themes/images/icon-zh.png' width='36'/></a></if></p>
+		</div>
+	</div>
+</div>

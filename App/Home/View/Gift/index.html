@@ -1,0 +1,74 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+			<div class="filtrate" date-value="0">
+				<ul class="clearfix" id="gift">
+					<li>积分兑换</li>
+					<!-- <li class='active'>最新礼品</li>
+					<li>热门礼品</li>
+					<li>特价礼品</li> -->
+				</ul>
+				<div class="user_gift">
+					<div class="integral">
+					可用积分：<span>{$integral.total}</span>
+					</div>
+					<div class="history">
+						<a href="{:U('User/member_convert')}">历史记录</a>
+					</div>
+				</div>
+			</div>
+			<div class="exchange-box">
+				<ul>
+
+					<volist name="list" id="val">
+					<li>
+						<img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}">
+						<p class="p1">礼品名称：{$val['title']}</p>
+						<!-- <p class="p1">支付宝{$val['price']}元</p> -->
+						<p class="p2">需要积分：{$val['points']}</p>
+						<if condition="$integral.total egt $val['points']">
+								<a href="{:U('exchange',array('id' => $val['id']))}">立刻兑换</a>
+							<else/>
+								<a title="积分不足" id="ungift" class="btnbtn-primary btn-lgbtn-block" >立刻兑换</a>
+						</if>
+						
+					</li>
+					</volist>
+				</ul>
+				{$page}
+			</div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 待回答追问 -->
+			<!-- <include file="Task/remarks"/> -->
+			<include file="Gift/bulletin"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+
+	<div class="side-tool">
+		<ul>
+			<li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="">
+				<a class="function-button"><i class="iconfont ic-backtop"></i></a>
+			</li> 
+		</ul>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+		$("#ungift").click(function(){
+			alert("积分不足！")
+		})
+
+</script>
+
+</body>
+</html>

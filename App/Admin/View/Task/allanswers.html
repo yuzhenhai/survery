@@ -1,0 +1,247 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+<script type="text/javascript">
+	$ = function (element) {
+        return (typeof (element) == 'object' ? element : document.getElementById(element));
+    };
+	try {
+		ace.settings.check('main-container', 'fixed')
+	} catch (e) {
+	}
+</script>
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/design.js"></script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+                <!-- /section:settings.box -->
+				<div class="row">
+					<div class="col-xs-12 ">
+						<form action="" class="form-inline" id="form">
+							<div class="form-group">
+							    <label for="keyword">项目标签:</label>
+							    <input type="text"  id="keyword" name="keyword" value="{:I(keyword)}">
+							</div>
+							<div class="form-group">
+								<label class="control-label " for="food">选择任务:</label>
+								<select name="task_id">
+									<if condition="I(task_id) ">
+									<option value="" selected>请选择</option>
+									<else/>
+									<option value="">请选择</option>
+									</if>
+									<volist name="tasklist" id="task">
+										<if condition="($task['task_id'] eq I(task_id)) ">
+										<option value="{$task['task_id']}" selected>{$task['name']}</option>
+										<else/>
+										<option value="{$task['task_id']}">{$task['name']}</option>
+										</if>
+									</volist>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="control-label ">是否有追问:</label>
+								<select name="haveremark">
+									<if condition="I('haveremark') neq '' ">
+										<option value="">请选择</option>
+									<else/>
+										<option value="" selected="select">请选择</option>
+									</if>
+									<option value="1"
+									<if condition="I('haveremark') eq 1 ">selected="selected"</if>
+									>有追问</option>
+									<option value="-1"
+									<if condition="I('haveremark') eq -1 ">selected="selected"</if>
+									>无追问</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="control-label ">回复状态:</label>
+								<select name="status">
+									<if condition="I('status') neq '' ">
+										<option value="">请选择</option>
+									<else/>
+										<option value="" selected="select">请选择</option>
+									</if>
+									<option value="-1"
+									<if condition="I('status') neq '' && I('status') == -1 ">selected="selected"</if>
+									>已作废</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="control-label ">标注:</label>
+								<select name="annotation">
+									<if condition="I('annotation') neq '' ">
+										<option value="">请选择</option>
+									<else/>
+										<option value="" selected="select">请选择</option>
+									</if>
+									<volist name="annotations" id="annotation">
+										<if condition="($annotation['annotation'] eq I(annotation)) ">
+										<option value="{$annotation['annotation']}" selected>{$annotation['annotation']}</option>
+										<else/>
+										<option value="{$annotation['annotation']}">{$annotation['annotation']}</option>
+										</if>
+									</volist>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-purple btn-sm">
+								<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+								筛选
+							</button>
+                            <button id="export" class="btn btn-purple btn-sm">
+                                <i class="ace-icon fa fa-download bigger-120"></i>导出
+                            </button>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="space-4"></div>
+					<div class="col-xs-12">
+						<volist name="list" id="val" key="k">
+						<div class="tabbable tabs-left">
+							<ul class="nav nav-tabs" id="myTab1">
+								<li class="active">
+									<a data-toggle="tab" href="#myTab{$k}answer" aria-expanded="true">
+										<i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+										回答
+									</a>
+								</li>
+								<li class="">
+									<a data-toggle="tab" href="#myTab{$k}question" aria-expanded="false">
+										<i class="blue ace-icon fa fa-user bigger-110"></i>
+										题目
+									</a>
+								</li>
+							</ul>
+
+							<div class="tab-content">
+								<div id="myTab{$k}answer" class="tab-pane active">
+									<p>任务：{$val['task_name']} —— 题目：{$val['subject_o']}，{$val['subject_title']}<p>
+									<!-- 回答详情 -->
+									<include file="Task/answer" />
+								</div>
+								<div id="myTab{$k}question" class="tab-pane">
+									<div>
+										{$val['subject_description']|htmlspecialchars_decode}
+									</div>
+
+									<div id="questions_{$k}" style="width: 80%;"></div>
+									<input name="hfData_{$k}" type="hidden" id="hfData_{$k}" value="{$val['questions']}" />
+									<script type="text/javascript">
+										var hfData_{$k} = $("hfData_{$k}");
+										var DataArray_{$k} = set_data_fromServer(hfData_{$k}.value);
+										set_dataNode_to_Design(DataArray_{$k},"questions_{$k}");
+									</script>
+								</div>
+							</div>
+						</div>
+						</volist>
+						{$page}
+					</div>
+				</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+
+
+<include file="Public/footerjs"/>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+
+function message(id){
+  	$("#message"+id).toggle();
+  }
+function question(id){
+  	$("#question"+id).toggle();
+}
+// function comment(id){
+//   	$("#comment"+id).toggle();
+// }
+
+    $(function () {
+
+
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除所选？",
+                callback: function (result) {
+                    if (result) {
+                        $("#form").submit();
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $("#export").click(function () {
+            $("#form").attr("action", "{:U('exportanswers')}");
+            $('#form').submit();
+        });
+        $(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".lock").click(function () {
+            $("#form").attr("action", "{:U('questionstatus?status=0')}");
+            $('#form').submit();
+        });
+        $(".unlock").click(function () {
+            $("#form").attr("action", "{:U('questionstatus?status=1')}");
+            $('#form').submit();
+        });
+    })
+</script>
+</body>
+</html>

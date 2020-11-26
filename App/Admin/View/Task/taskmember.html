@@ -1,0 +1,279 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<h2 class="row header smaller lighter blue">{$member.user} 的 《{$task_item.title}》 任务</h2>
+						<p>{$task_item.description|htmlspecialchars_decode}</p>
+						<div class="row">
+						<div class="col-xs-12 col-sm-3 center">
+							<span class="profile-picture">
+								<img class="editable img-responsive" alt="{$member.user}'s Avatar" id="avatar2" src="<if condition=" $member.head eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$member.head}</if>">
+							</span>
+
+							<div class="space space-4"></div>
+
+							<span class="label label-sm label-danger  arrowed arrowed-right">积极用户</span>
+							<span class="label label-sm label-danger  arrowed arrowed-right">重点观察</span>
+
+							<div class="space space-4"></div>
+							<a href="#" class="btn btn-sm  btn-success">
+								<i class="ace-icon fa fa-plus-circle bigger-120"></i>
+								<span class="bigger-110">添加备注</span>
+							</a>
+						</div><!-- /.col -->
+
+						<div class="col-xs-12 col-sm-4">
+							<h4 class="blue">
+								<span class="middle">{$member.user}</span>
+								<span class="label label-purple arrowed-in-right">
+									<i class="ace-icon fa fa-circle smaller-80 align-middle"></i>
+									online
+								</span>
+							</h4>
+							<div class="profile-user-info">
+								<div class="profile-info-row">
+									<div class="profile-info-name"> 用户名 </div>
+
+									<div class="profile-info-value">
+										<span>{$member.user}</span>
+									</div>
+								</div>
+								<div class="profile-info-row">
+									<div class="profile-info-name"> 城市 </div>
+
+									<div class="profile-info-value">
+										<i class="fa fa-map-marker light-orange bigger-110"></i>
+										<span>{$member.city}</span>
+									</div>
+								</div>
+								<div class="profile-info-row">
+									<div class="profile-info-name"> 年龄 </div>
+
+									<div class="profile-info-value">
+										<span>{$member.age}</span>
+									</div>
+								</div>
+							</div>
+						</div><!-- /.col -->
+						<div class="col-xs-12 col-sm-4">
+							<div class="profile-tags clearfix">
+								<ul>
+									<volist name="tags" id="tag">
+									<li><a href="" style="" class='label label-sm label-primary arrowed arrowed-right' rel="20">{$tag.title}</a></li>
+									</volist>
+							</ul>
+							</div>
+						</div>
+					</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="row surveymembers">
+									<h2>已完成({$list|count}题)</h2>
+									<volist name="list" id="val" key="k">
+									<div id="post_{$val['answer_id']}" class="post_answer profile-user-info-striped">
+									  <div id="favatar{$val['answer_id']}" class="pls favatar col-xs-2">
+										  <div class="avatar">
+											<img src="<if condition=" $member.head eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$member.head}</if>" style="">
+											<p><small>{$member.user}</small></p>
+										  </div>
+										  </div>
+									  <div class="plc col-xs-6">
+									    <h4>回答</h4>
+										<volist name="val['question_answers']" id="question">
+											<p>{$question['topic']}.{$question['title']}</p>
+											<volist name="question['answers']" id="answer">
+												 <if condition="(($question['type'] eq 'radio') OR ($question['type'] eq 'check') OR ($question['type'] eq 'matrix' AND $question['tag'] != '202'))">
+													<p>{$answer['itemvalue']}</p>
+												<else />
+													<p>{$answer['item_value']}</p>
+												</if>
+											</volist>
+										</volist>
+
+										<h4>追问</h4>
+										<volist name="val['remark']" id="remark">
+											<p>{$remark['title']}:{$remark['remark']}</p>
+
+										</volist>
+										<div class="post_time"> <small>{$val['created']}</small>
+											<button class="btn btn-minier btn-purple" onclick="question({$val['answer_id']})">追问</button>
+											<button class="btn btn-minier btn-purple" data-toggle="modal" data-target="#myModal{$val['answer_id']}" onclick="comment({$val['answer_id']})">评论</button>
+
+                                            <if condition="$val['like'] eq 0">
+                                            	<a class="btn btn-minier btn-purple like" href="{:U('confirm',array('answer_id'=>$val['answer_id'],'like'=>'2'))}">点赞</a>
+                                            	<else/>
+                                            		<a class="btn btn-minier btn-purple like" title="已点赞" disabled>点赞</a>
+												</if>
+
+
+											<button class="btn btn-minier btn-purple comment" onclick="message({$val['answer_id']})">备注</button>
+											<if condition="$val['status'] eq 0">
+
+												<a class="btn btn-minier btn-purple" href="{:U('confirm',array('answer_id'=>$val['answer_id'],'status'=>'2'))}">确认</a>
+		                                    	<else/>
+	                                    		<a class="btn btn-minier btn-purple " title="已确认" disabled>确认</a>
+											</if>
+										</div>
+										<div class='col-xs-12' style="display: none;" id="question{$val['answer_id']}" >
+
+											<form action="{:U('answers_question')}" method="post">
+												<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+												<input type="hidden" name="subject_id" value="{$val['subject_id']}">
+									      		<textarea name="remark" placeholder="追问" class="col-xs-10 col-sm-12"></textarea>
+									      		<button class="btn btn-minier btn-purple">提交</button>
+
+								      		</form>
+								      	</div>
+
+
+										<!-- 模态框（Modal） -->
+										<div class="modal fade" id="myModal{$val['answer_id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+														<h4 class="modal-title" id="myModalLabel">请尽情你的评论</h4>
+													</div>
+													<form action="{:U('comment')}" method="post">
+														<if condition="$val['comment']">
+															<volist name="val['comment']" id="comment">
+															<div class="modal-body">
+																<input type="hidden" name="comment_id" value="{$comment['comment_id']}">
+																<input type="hidden" name="answer_id" value="{$comment['answer_id']}">
+																<input type="hidden" name="subject_id" value="{$comment['subject_id']}">
+																<textarea name="comment" placeholder="评论" class="col-xs-10 col-sm-12">{$comment['comment']}</textarea>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+																<input type="submit" name="del" class="btn btn-danger" value="删除">
+																<button class="btn btn-primary btn-purple">提交</button>
+															</div>
+															</volist>
+														<else/>
+															<div class="modal-body">
+																<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+																<input type="hidden" name="subject_id" value="{$val['subject_id']}">
+																<textarea name="comment" placeholder="评论" class="col-xs-10 col-sm-12"></textarea>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+																<button class="btn btn-primary btn-purple">提交</button>
+															</div>
+														</if>
+													</form>
+												</div>
+											</div>
+										</div>
+
+										<script>
+										function comment(id){
+											$("#myModal"+id).modal('hide')
+										}
+										</script>
+
+
+
+									  </div>
+									  <div class='col-xs-4'>
+										备注
+										<blockquote>
+								      		{$val['message']}
+								      		<div style="display: none;" id="message{$val['answer_id']}"  >
+									      	  <form action="{:U('message')}" method="post">
+												<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+									      		<textarea name="message" placeholder="追问" class="col-xs-10 col-sm-12">{$val['message']}</textarea>
+									      		<button class="btn btn-minier btn-purple">提交</button>
+									      		</form>
+								      		</div>
+								        </blockquote>
+									  </div>
+									</div>
+									</volist>
+								</div>
+							</div><!-- /.span -->
+						</div><!-- /.row -->	
+						<!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/zhezhao.js"></script>
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+<script>
+    var saveurl = "{:U('Task/savequestions')}";
+	var designqfinish = "{:U('Task/designqfinish')}";	
+	var uploadimg = "{:U('Task/uploadimg')}";
+    var url = "__PUBLIC__/themes/";
+</script>
+<script type="text/javascript">
+        $ = function (element) {
+            return (typeof (element) == 'object' ? element : document.getElementById(element));
+        };
+        var toolTipLayer = $("toolTipLayer");
+
+        var activityID = "20981932";
+        var hfData = $("hfData");
+        var dqdata="null";
+		
+		var subject_id = $("subject_id").value;
+
+        var NoValueData=-77777;
+        var fileMaxSize=20480;
+        var isPromote=0;
+        var newQType=0;
+
+        var isCepingQ=0;
+        var filter = 1?true:false;
+</script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/design_new.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+
+    })
+
+</script>
+</body>
+</html>

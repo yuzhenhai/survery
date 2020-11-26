@@ -1,0 +1,13 @@
+<if condition="$bulletin neq ''">
+<div class="board">
+	<div>
+		<div class="todaytopic" style=""><span class="todaytopic_l">活动公告</span></div>
+		<div class="slideshow_sy" style="">
+			<a href="{:U('bulls',array('id'=>$bulletin['id']))}"><img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_BULLETIN_PATH}{$bulletin['cover']}" width="304" height="150"><span class="title" style="">{$bulletin['title']}</span></a><br>
+		</div>
+		<div style="position:relative;">
+			<p style="line-height:22px; color: #706f6f; font-size: 14px; margin:10px;">{$bulletin['content']} <a style="color:#F81313;" class="news" href="{:U('bulls',array('id'=>$bulletin['id']))}">  <br>  &gt;&gt;点击查看</a>  </p>
+		</div>
+	</div>
+</div>
+</if>

@@ -1,0 +1,178 @@
+<div class="post_answer profile-user-info-striped">
+	<div class="pls favatar col-xs-3" style="border-right: 1px solid #eee;">
+		<div class="avatar">
+			<img src="<if condition=" $val['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" style="">
+			<p><small>{$val['user']}</small></p>
+		</div>
+		<volist name="val['tags']" id="tag">
+			<span class="label label-white label-sm label-success">{$tag['title']}</span>&nbsp;
+		</volist>
+		<hr />
+		<volist name="val['annotation']" id="annotation">
+			<p><span class="label label-white label-sm label-info">{$annotation['annotation']}</span> <a class="red" href="{:U(annotation,array('id'=>$annotation['id']))}"><i class="ace-icon fa fa-trash bigger-100"></i></a></p>
+		</volist>
+		<span class='red2'></span>
+		<button class="btn btn-minier btn-purple " data-toggle="modal" data-target="#myAnnotation{$val['answer_id']}" onclick="annotation({$val['answer_id']})">标注</button>
+		<hr />
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myAnnotation{$val['answer_id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		            <h4 class="modal-title" id="myModalLabel">用户标注</h4>
+		        </div>
+		        <form action="{:U('annotation')}" method="post">
+		        	<div class="modal-body">
+		            		<input type="hidden" name="uid" value="{$val['uid']}">
+				      		<textarea name="annotation" placeholder="标注" class="col-xs-10 col-sm-12"></textarea>
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			                <button class="btn btn-primary btn-purple">提交</button>
+			            </div>
+		        </form>
+		    </div>
+		</div>
+		</div>
+		<script>
+		function annotation(id){
+			$("#myAnnotation"+id).modal('hide')
+		}
+		</script>
+		<div class='answer_message'>
+			<p><span class="label label-sm label-pink arrowed-right">备注</span></p>
+			<div id="message{$val['answer_id']}"  >
+				<form action="{:U('message')}" method="post">
+					<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+					<textarea name="message" placeholder="备注" class="col-xs-10 col-sm-12">{$val['message']}</textarea>
+					<button class="btn btn-minier btn-purple">提交备注</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="plc col-xs-9">
+		<p><span class="label label-sm label-pink arrowed-right">回答</span></p>
+		<volist name="val['question_answers']" id="question">
+			<p>{$question['topic']}.
+			<volist name="question['answers']" id="answer">
+				<if condition="$answer['type'] eq 'question_direct'">
+					{$answer['item_value']}
+					<br/>
+					<volist name="answer['images']" id="image">
+						<img src="{$image}" height="100px" style="margin: 5px;" />
+					</volist>
+				<else />
+					 <if condition="(($question['type'] eq 'radio') OR ($question['type'] eq 'check') OR ($question['type'] eq 'matrix' AND $question['tag'] != '202'))">
+						{$answer['itemvalue']}<if condition="$a eq count($question_answer['answers'])"><else/>,</if>
+					<else />
+						<if condition="$question['type'] eq 'fileupload'">
+							<img src="{$Think.CONFIG.website}{$Think.config.UPLOADFILE_PATH}{$answer['item_value']}" height="150px" />
+						<else />
+							{$answer['item_value']}<if condition="$a eq count($question_answer['answers'])"><else/>,</if>
+						</if>
+					</if>
+				</if>
+			</volist>
+			</p>
+		</volist>
+
+		<if condition="$val['comment']">
+		<div class='comments'>
+			<p><span class="label label-sm label-pink arrowed-right">评论</span></p>
+			<div>
+		        <volist name="val['comment']" id="comment">
+		        	<div class="comment clearfix">
+			        	<div class='col-xs-3'><img src="<if condition=" $comment['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$comment['head']}</if>" class='avatar' /> {$comment['user']}</div>
+			        	<div class='col-xs-6'>{$comment['comment']}</div>
+			        	<div class="col-xs-3"> <small>{$comment['datetime']|date="Y-m-d h:i:s",###}</small>&nbsp;<button class="btn btn-minier del" val="{:U('delcomment',array('comment_id'=>$comment['comment_id']))}"><i class="ace-icon fa fa-trash bigger-100"></i></button></div>
+
+		        	</div>
+		        </volist>
+		    </div>
+		</div>
+		<p>&nbsp;</p>
+		</if>
+		<div class="post_time"> <small>{$val['created']}</small>
+			<button class="btn btn-minier btn-purple" data-toggle="modal" data-target="#myModal{$val['answer_id']}" onclick="comment({$val['answer_id']})">评论</button>
+	   	 	<if condition="$val['islike']">
+	   	 		<a class="btn btn-minier btn-purple" title="已点赞" disabled>已点赞</a>
+	    	<else/>
+	    		<a class="btn btn-minier btn-purple" href="{:U('addlike',array('answer_id'=>$val['answer_id']))}">点赞</a>
+			</if>
+			<if condition="$val['status'] eq 0">
+				<a class="btn btn-minier btn-purple" href="{:U('confirm',array('answer_id'=>$val['answer_id'],'status'=>'-1'))}">作废</a>
+		    	<else/>
+				<a class="btn btn-minier btn-purple " title="已作废" disabled>已作废</a>
+			</if>
+		</div>
+		<hr />
+		<div class="remarks">
+			<p><span class="label label-sm label-pink arrowed-right">追问</span></p>
+			<volist name="val['remark']" id="remark">
+				<div class='remark clearfix'>
+					<div class="col-sm-4">
+						<if condition=" $remark['type'] eq 1"><span class="label label-sm label-light arrowed-right">追问</span></if>
+						<if condition=" $remark['type'] eq 2"><span class="label label-sm label-yellow arrowed-right">回复</span></if>
+						<img  class='avatar' src="<if condition=" $remark['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$remark['head']}</if>" />
+						<small>{$remark["user"]}</small>
+					</div>
+					<div class='col-sm-8' >
+						<p>{$remark['remark']}</p>
+						<div class="post_time"> <small>{$remark['datetime']|date="Y-m-d h:i:s",###}</small></div>
+					</div>
+				</div>
+			</volist>
+		</div>
+
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal{$val['answer_id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                <h4 class="modal-title" id="myModalLabel">研究员评论</h4>
+		            </div>
+		            <form action="{:U('comment')}" method="post">
+		            	<div class="modal-body">
+							<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+							<input type="hidden" name="subject_id" value="{$val['subject_id']}">
+				      		<textarea name="comment" placeholder="评论" class="col-xs-10 col-sm-12"></textarea>
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			                <button class="btn btn-primary btn-purple">提交</button>
+			            </div>
+		            </form>
+		        </div>
+		    </div>
+		</div>
+		<script>
+		function comment(id){
+		  	$("#myModal"+id).modal('hide')
+		}
+		</script>
+		<if condition="(count($val['remark']) == 0) OR ($val['remark'][count($val['remark'])-1]['status'] eq 2)">
+		<div id="question{$val['answer_id']}" >
+			<form action="{:U('answers_question')}" method="post">
+				<input type="hidden" name="answer_id" value="{$val['answer_id']}">
+				<input type="hidden" name="subject_id" value="{$val['subject_id']}">
+		  		<textarea name="remark" placeholder="追问" class="col-xs-10 col-sm-12"></textarea>
+		  		<button class="btn btn-minier btn-purple">追问</button>
+			</form>
+		</div>
+		</if>
+
+	</div>
+
+</div>

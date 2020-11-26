@@ -1,0 +1,20 @@
+<div style="text-align: center;padding: 10px;">
+<notempty name="error">
+<if condition="$error eq 1">参数错误</if>
+<if condition="$error eq 2">未找到附件</if>
+<if condition="$error eq 3">附件显示结束</if>
+</notempty>
+<empty name="error">
+<if condition="$subject.attachment_type eq 'image'">
+	<img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_ATTACHMENT_PATH}{$subject.attachment_file}" width="100%">
+
+	<script type="text/javascript">
+		setTimeout("window.parent.PDF_close(); ",{$subject.attachment_showtime});//延时3秒
+	</script>
+</if>
+<if condition="$subject.attachment_type eq 'video'">
+	<video src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_ATTACHMENT_PATH}{$subject.attachment_file}" controls="controls" height="400">
+	</video>
+</if>
+</empty>
+</div>

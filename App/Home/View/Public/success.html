@@ -1,0 +1,53 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font">
+<include file="Public/header"/>
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <div class="container index">
+        <div class="col-xs-16 main">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="page-header">
+                            <?php if(isset($message)) {?>
+                            <h1 class="success">操作成功</h1>
+                            <?php }else{?>
+                            <h1 class="error">操错失败</h1>
+                            <?php }?>
+                        </div>
+                        <!-- /.page-header -->
+                        <div>
+                            <div class="system-message">
+                            <?php if(isset($message)) {?>
+                            <p class="success"><?php echo($message); ?></p>
+                            <?php }else{?>
+                            <p class="error"><?php echo($error); ?></p>
+                            <?php }?>
+                        </div>
+                        <!-- PAGE CONTENT BEGINS -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+        </div>
+
+      </div>
+    </div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+(function(){
+var wait = <?php echo($waitSecond); ?>,href = "<?php echo($jumpUrl); ?>";
+var interval = setInterval(function(){
+    var time = --wait;
+    if(time <= 0) {
+        location.href = href;
+        clearInterval(interval);
+    };
+}, 1000);
+})();
+</script>
+</body>
+</html>

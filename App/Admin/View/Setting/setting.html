@@ -1,0 +1,206 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" id="form" role="form" method="post" action="{:U('update')}" enctype="multipart/form-data">
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    网站地址 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="website" id="website" placeholder="网站地址"
+                                           class="col-xs-10 col-sm-5" value="{$Think.CONFIG.website}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">网站地址，前台调用：<literal>{$Think.CONFIG.website}</literal></span>
+                                            </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 网站logo </label>
+                                <div class="col-sm-9">  
+                                    <input type="file" name="logo" class="id-input-file-3" />
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">前台调用：<literal>{$Think.CONFIG.logo}</literal></span> </span>  
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 网站图标 </label>
+                                <div class="col-sm-9">  
+                                    <input type="file" name="favicon" class="id-input-file-3" />        
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle">浏览器标签页显示的图标, 前台调用：<literal>{$Think.CONFIG.favicon}</literal></span> </span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    网站名称 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="sitename" id="sitename" placeholder="网站SEO标题"
+                                           class="col-xs-10 col-sm-5" value="{$Think.CONFIG.sitename}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">网站名称，前台调用：<literal>{$Think.CONFIG.sitename}</literal></span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 网站标题 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title" id="title" placeholder="网站标题"
+                                           class="col-xs-10 col-sm-5" value="{$Think.CONFIG.title}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">网站标题，前台调用：<literal>{$Think.CONFIG.title}</literal></span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 关键词 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="keywords" id="keywords" placeholder="关键词"
+                                           class="col-xs-10 col-sm-5" value="{$Think.CONFIG.keywords}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">网站关键词，前台调用：<literal>{$Think.CONFIG.keywords}</literal></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 网站描述 </label>
+                                <div class="col-sm-9">
+                                    <textarea name="description" id="description" placeholder="网站描述"
+                                              class="col-xs-10 col-sm-5" rows="5">{$Think.CONFIG.description}</textarea>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">网站描述，前台调用：<literal>{$Think.CONFIG.description}</literal></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 底部内容 </label>
+                                <div class="col-sm-9">
+                                    <textarea name="footer" id="footer" placeholder="底部内容" class="col-xs-10 col-sm-5 kindeditor"
+                                              rows="5">{$Think.CONFIG.footer}</textarea>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">网站的版权、统计代码等，支持HTML代码，请谨慎使用，前台调用：<literal>{$Think.CONFIG.footer}</literal></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info submit" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        $('.id-input-file-1 , .id-input-file-2').ace_file_input({
+            no_file:'No File ...',
+            btn_choose:'Choose',
+            btn_change:'Change',
+            onchange:null,
+            thumbnail:'small',
+            droppable:true
+            //thumbnail:false //| true | large
+            //whitelist:'gif|png|jpg|jpeg'
+            //blacklist:'exe|php'
+            //onchange:''
+            //
+        });
+        $('.id-input-file-3').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'//large | fit
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+                //Check an example below
+                //or examples/file-upload.html
+                return true;
+            }*/
+            /**,before_remove : function() {
+                return true;
+            }*/
+            ,
+            preview_error : function(filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            }
+
+        }).on('change', function(){
+            //console.log($(this).data('ace_input_files'));
+            //console.log($(this).data('ace_input_method'));
+        });
+
+
+        var logo = "{$Think.CONFIG.logo}";
+        if(logo != ''){
+            $("input[name='logo']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$Think.CONFIG.logo}"}
+            ]);
+        }
+        var favicon = "{$Think.CONFIG.favicon}";
+        if(favicon != ''){
+            $("input[name='favicon']").ace_file_input('show_file_list', [
+               {type: 'image', name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$Think.CONFIG.favicon}"}
+            ]);
+        }
+    })
+</script>
+</body>
+</html>

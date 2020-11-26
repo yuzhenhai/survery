@@ -1,0 +1,186 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" action="{:U('updatepackage')}" method="post">
+   
+                            <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 名称 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="name" class="rcol-xs-10 col-sm-5" value="{$tagspackage.name}"  placeholder="标题">
+                                    <input type="hidden" name="id" value="{$tagspackage['id']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle"></span>
+                                            </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 状态 </label>
+                                <div class="col-sm-9">
+                                    <select id="status" name="status" class="multiselect">
+                                        <option value="0"
+                                        <if condition="$tagspackage.status eq 0">selected="selected"</if>
+                                        >停用</option>
+                                        <option value="1"
+                                        <if condition="$tagspackage.status eq 1">selected="selected"</if>
+                                        >启用</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 标签 </label>
+                                <div class="col-sm-9">
+                <table id="tags" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">标签名</td>
+                      <td class="text-right">管理员权限</td>
+                      <td> 研究员权限</td>
+                      <td> 客户权限</td>
+                      <td> 操作</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php $tag_row = 0; ?>
+                    <volist name="list" id="vo" >
+                    <tr id="tag-row{$tag_row}">
+                      <td class="text-right">
+                        <select name="tag[{$tag_row}][taggroups_id]" >
+                            <volist name="taggroups" id="val">
+                                <option <if condition="$vo['taggroups_id'] eq $val['taggroups_id']">selected="selected"</if> value="{$val['taggroups_id']}">{$val['title']}</option>
+                            </volist>
+                        </select></td>
+                      <td class="text-left">
+                        <select name="tag[{$tag_row}][admin]" >
+                            <option <if condition="$vo['admin'] eq 0">selected="selected"</if> value="0">否</option>
+                            <option <if condition="$vo['admin'] eq 1">selected="selected"</if> value="1">是</option>
+                        </select></td>
+                      <td class="text-left">
+                        <select name="tag[{$tag_row}][research]" >
+                            <option <if condition="$vo['research'] eq 0">selected="selected"</if> value="0">否</option>
+                            <option <if condition="$vo['research'] eq 1">selected="selected"</if> value="1">是</option>
+                        </select></td> 
+                      <td class="text-left">                      
+                        <select name="tag[{$tag_row}][client]" >
+                            <option <if condition="$vo['client'] eq 0">selected="selected"</if> value="0">否</option>
+                            <option <if condition="$vo['client'] eq 1">selected="selected"</if> value="1">是</option>
+                        </select></td>
+
+                      <td class="text-left"><button type="button" onclick="$('#tag-row{$tag_row}').remove();" data-toggle="tooltip" title="删除" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                    </tr><?php $tag_row++; ?>
+                    </volist>
+                    
+                    
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="4"></td>
+                      <td class="text-left"><button type="button" onclick="addtag();" data-toggle="tooltip" title="添加标签" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+                            </div>
+        <include file="Public/footerjs"/>
+
+<script type="text/javascript">
+    var tag_row = {$tag_row};
+
+ function addtag() {
+
+    html  = '<tr id="tag-row' + tag_row + '">';
+    html += ' <td class="text-right"><select name="tag[' + tag_row + '][taggroups_id]" >';
+    html += '<option value="" selected="selected">--请选择--</option>';
+    html += '<volist name="taggroups" id="val">';
+    html += ' <option value="{$val['taggroups_id']}">{$val['title']}</option>'; 
+    html += '</volist>';
+    html += '</select></td>';
+
+    html += '<td class="text-left">';
+    html += '<select name="tag[' + tag_row + '][admin]" >';
+    html += '<option value="0">否</option>';
+    html += '<option value="1">是</option>';
+    html += '</select></td>';
+    html += '<td class="text-left"><select name="tag[' + tag_row + '][research]" >';
+    html += '<option value="0">否</option>';
+    html += '<option value="1">是</option>';
+    html += '</select></td>';
+    html += '<td class="text-left"><select name="tag[' + tag_row + '][client]" >';
+    html += '<option value="0">否</option>';
+    html += '<option value="1">是</option>';
+    html += '</select></td>';
+    html += '<td class="text-left"><button type="button" onclick="$(\'#tag-row' + tag_row + '\').remove();" data-toggle="tooltip" title="删除" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+
+
+    html += '</tr>';
+
+    $('#tags tbody').append(html);
+
+
+    tag_row++;
+}
+</script>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 排序 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="o" id="o" placeholder="排序"
+                                           class="col-xs-10 col-sm-5" value="{$tagspackage['o']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle"></span>
+                                            </span>
+                                </div>
+                            </div>
+                               
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+</body>
+</html>

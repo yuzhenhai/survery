@@ -1,0 +1,92 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" id="form" role="form" method="post" action="{:U('saveSetting')}">
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 发帖间隔时间 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="post_interval" id="get_weekly" placeholder="关键词" class="col-xs-10 col-sm-5" value="{$Think.CONFIG.post_interval}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                        <span class="middle">获得每周之星，前台调用：<literal>{$Think.CONFIG.post_interval}</literal></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-2"> 交流圈主题内容设置字数 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="post_talk_number" id="post_talk_number" placeholder="关键词" class="col-xs-10 col-sm-5" value="{$Think.CONFIG.post_talk_number}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                        <span class="middle">交流圈主题内容设置字数：<literal>{$Think.CONFIG.post_talk_number}</literal></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info submit" type="button">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+		$(".submit").click(function () {
+			$("#form").submit();
+		})
+    })
+</script>
+
+</body>
+</html>

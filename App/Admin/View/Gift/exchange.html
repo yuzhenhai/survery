@@ -1,0 +1,97 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+                <div class="row">
+                    
+                    <div class="pull-left col-xs-16 ">
+                        <form class="form-inline" action="" method="get" id="search_form">   
+                            <label class="inline">&nbsp;&nbsp;兑换单号：</label>
+                            <input type="text" name="orderno" value="{:I(orderno)}">
+                            <label class="inline">&nbsp;&nbsp;状态：</label>
+                            <select name="status" class="form-control">
+                                
+                                <option <if condition="I('status') eq 1">selected</if> value="1">启用</option>
+                                <option <if condition="I('status') eq 2">selected</if> value="2">停用</option>
+                            </select>
+                            <button type="submit" class="btn btn-purple btn-sm">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                筛选
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="space-4"></div>
+                            <form id="form" method="post" action="{:U('del')}">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>兑换单号</th>
+                                        <th>兑换时间</th>
+                                        <th>礼品</th>
+                                        <th>积分</th>
+										<th>兑换人</th>
+                                        <th class="center">状态</th>
+                                        <th class="center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="list" id="val">
+                                        <tr>
+                                            <td>{$val['orderno']}</td>
+                                            <td>{$val['created']}</td>
+                                            <td>{$val['title']}</td>
+											<td>{$val['points']}</td>
+											<td>{$val['member']}</td>
+                                            <td class="center">
+                                                <if condition="$val.status eq 0">兑换中</if>
+												<if condition="$val.status eq 1">兑换完成</if>
+												<if condition="$val.status eq -1">兑换失败</if>
+                                            </td>
+                                            <td class="center">
+                                                 <if condition="$val.status eq 0"><a href="{:U('pay',array('id'=>$val['id']))}">支付</a></if>
+                                            <a href="{:U('info',array('id'=>$val['id']))}">详情</a></td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </form>
+                            {$page}
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+</body>
+</html>

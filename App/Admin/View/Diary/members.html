@@ -1,0 +1,186 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+
+
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                             <div class="row">
+
+                            <div class="pull-left col-xs-12 ">
+                                <form class="form-inline" action="" method="get" id="search_form">
+                                    <label class="inline">答题进度:</label>
+                                    <select name="answer" class="form-control">
+                                        <option <if condition="I('answer')">selected</if> value="">请选择</option>
+                                        <option <if condition="I('answer') eq 'unfinished'">selected</if> value="unfinished">未开始</option>
+                                        <option <if condition="I('answer') eq 'proceed'">selected</if> value="proceed">进行中</option>
+                                        <option <if condition="I('answer') eq 'complete'">selected</if> value="complete">已完成</option>
+                                    </select>
+
+                                    <label class="inline">追问进度:</label>
+                                    <select name="question" class="form-control">
+                                        <option <if condition="I('question')">selected</if> value="">请选择</option>
+
+                                        <option <if condition="I('question') eq 'unfinished'">selected</if> value="unfinished">未追问</option>
+                                        <option <if condition="I('question') eq 'proceed'">selected</if> value="proceed">待回复</option>
+                                        <option <if condition="I('question') eq 'complete'">selected</if> value="complete">已回复</option>
+                                    </select>
+
+                                    <label class="inline">城市:</label>
+                                    <input type="text" name="city" value="{:I(city)}" class="form-control">
+
+                                    <label class="inline"> 开始时间/结束时间: </label>
+
+                                    <div class="input-group">
+                                        <input class="input-sm form-control" id="start" name="begin" type="text" placeholder="yyyy-mm-dd" value="{:I(begin)}">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-exchange"></i>
+                                        </span>
+                                        <input class="input-sm form-control" id="end" name="end" type="text" placeholder="yyyy-mm-dd" value="{:I(end)}">
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-purple btn-sm">
+                                        <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                        筛选
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <h2 class="row header smaller lighter blue center">{$diary_item.title}</h2>
+                        <p>{$diary_item.description|htmlspecialchars_decode}</p>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="simple-table" class="table  table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>调研对象总数</th>
+                                            <th>已完成人数</th>
+                                            <th>进行中任务</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="center"></td>
+                                            <td>{$count_users_all}</td>
+                                            <td>{$count_users_completed}</td>
+                                            <td>{$count_users_pending}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table id="simple-table" class="table surveymembers table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>UID</th>
+                                            <th>用户名</th>
+                                            <th>姓名</th>
+                                            <th>城市</th>
+                                            <th>手机号码</th>
+                                            <th>QQ</th>
+                                            <th>答题进度</th>
+                                            <th>答题时间</th>
+                                            <th>追问进度</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  class='list'>
+                                        <volist name="list" id="val">
+                                        <tr>
+                                            <td class="center">
+                                                <a href="{:U('member',array('diary_id'=>$diary_item['diary_id'],'uid'=>$val['uid']))}" class='avatar'><img src="<if condition=" $val.head eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val.head}</if>" width="30"></a>
+                                            </td>
+                                            <td>{$val.uid}</td>
+                                            <td>{$val.user}</td>
+                                            <td>{$val.realname}</td>
+                                            <td>{$val.city}</td>
+                                            <td>{$val.phone}</td>
+                                            <td>{$val.qq}</td>
+                                            <td>
+                                            <if condition="$val.answered eq null ">
+                                                未开始
+                                            <else />
+                                            {$val.answered} / {$count_subjects}
+                                            </if>
+                                            </td>
+                                            <td>
+                                            <if condition="$val.answered eq null ">
+                                                未开始
+                                            <else />
+                                            {$val.start_time|date='Y-m-d',### } / {$val.complete_time|date='Y-m-d',###}
+                                            </if>
+                                            </td>
+                                            <td>{$val.reply} / {$val.remarks}</td>
+                                            <td></td>
+                                        </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                            {$page}
+                            </div><!-- /.span -->
+                        </div><!-- /.row -->
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+
+</div><!-- /.main-container -->
+<script type="text/javascript" language="javascript" src="__PUBLIC__/themes/js/zhezhao.js"></script>
+<!-- <script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script> -->
+<!-- inline scripts related to this page -->
+<link rel="stylesheet" href="__PUBLIC__/themes/css/design.css"/>
+
+<script type="text/javascript">
+    var saveurl = "{:U('diary/savequestions')}";
+    var designqfinish = "{:U('diary/designqfinish')}";
+    var uploadimg = "{:U('diary/uploadimg')}";
+    var url = "__PUBLIC__/themes/";
+    $ = function (element) {
+        return (typeof (element) == 'object' ? element : document.getElementById(element));
+    };
+    $(function () {
+        var editor = KindEditor.create('textarea', {
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'link']
+        });
+    })
+
+
+</script>
+</body>
+</html>

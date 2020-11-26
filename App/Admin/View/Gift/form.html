@@ -1,0 +1,159 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" enctype="multipart/form-data" action="{:U('update')}" method="post">
+							<input type="hidden" name="id" value="{$currentgift.id}">
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 礼品名称 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title" id="title" class="rcol-xs-10 col-sm-5"
+                                           value="{$currentgift.title}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                              <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 头像 </label>
+                                <div class="col-sm-5">
+                                    <input type="hidden" name="image" value="{$currentgift.image}" />
+                                    <input type="file" name="images" value="{$currentgift.image}" class="id-image" />
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>
+                                </div>
+                              </div>
+
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 价格 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="price" id="price" class="col-xs-10 col-sm-5" value="{$currentgift.price}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
+                                    积分 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="points" id="points" placeholder="兑换所需积分数"
+                                           class="col-xs-10 col-sm-5" value="{$currentgift.points}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 状态 </label>
+                                <div class="control-label no-padding-left col-sm-1">
+                                    <label>
+                                        <input name="status" id="status"
+                                        <if condition="$currentgift.status eq 1">checked="checked"</if>
+                                        value="1" class="ace ace-switch ace-switch-2" type="checkbox" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </div>
+                                <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+										</span>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 排序 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="o" id="o" placeholder="" class="col-xs-10 col-sm-5"
+                                           value="{$currentgift.o}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">越小越靠前</span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 描述 </label>
+								<div class="col-sm-9">
+									<textarea name="description" id="description" placeholder="描述" class="col-xs-10 col-sm-5 kindeditor" rows="5">{$currentgift.description}</textarea>
+								</div>
+							</div>
+							 <div class="space-4"></div>
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    $(function () {
+        $('.id-image').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'
+            ,
+            preview_error : function(filename, error_code) {
+
+            }
+        }).on('change', function(){
+
+        });
+        var image = "{$currentgift.image}";
+        if(image != ''){
+            $("input[name='images']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$currentgift.image}"}
+            ]);
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index talk">
+		<div class="col-xs-16 main">
+		 	<div class="title"><span>活动</span> </div>
+			<div class="filtrate" date-value="0">
+				<h2>{$activity.title}</h2>
+			</div>
+			 <div class="content">
+				  	<p><a class="wrap-img" href=""> <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$activity.image}" width="580" alt="120"></a></p>
+					<p class="description">{$activity['description']}</p>
+				  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<div class="ftqd" style="margin-bottom:20px;">
+			  <div class="zcft"><a href="{:U('add',array('activity_id'=>$activity['id']))}" id="newspecial">发布主题</a></div> 
+			  <div class="clear"></div>                   
+			</div>
+			<!-- 热门讨论 -->
+			<include file="Talk/hot"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+</body>
+</html>

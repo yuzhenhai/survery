@@ -1,0 +1,9 @@
+<div class="recommended-authors">
+	<div class="title"><span>待回答追问</span> <a class="page-change" href="{:U('User/profile_ask')}">全部</a></div>
+	<ul class="list">
+	<volist name="answers_remarks" id="remark">
+		<li> <a href="{:U('Task/subject',array('subject_id'=>$remark['subject_id']))}" target="_blank" class="name">[{$remark['subject_o']} {$remark['subject_title']}]</a> <p>{$remark['remark']}</p>
+		</li>
+	</volist>
+	</ul>
+</div>

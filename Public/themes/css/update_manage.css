@@ -1,0 +1,62 @@
+.updata_manage_wrap {
+
+    font-size: 14px;
+}
+
+.updata_wrap {
+    padding: 20px 20px 0;
+}
+
+.updata_wrap .pic_adr .btn {
+    font-size: 14px;
+    width: 70px;
+    line-height: 28px;
+	padding: 0;
+}
+
+.updata_wrap .pic_adr .input_box {
+    position: relative;
+    width: 80%;
+    margin-right: 24px;
+}
+
+.updata_wrap .pic_adr .input_box input {
+    padding-left: 10px;
+    *padding-left: 0;
+    width: 100%;
+    height: 40px;
+    *height: 36px;
+    *line-height: 36px;
+}
+
+.updata_wrap .ensure_box {
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.updata_wrap .ensure_box .btn {
+    width: 70px;
+    line-height: 28px;
+    font-size: 14px;
+	padding: 0;
+}
+
+.updata_wrap .ensure_box .btn-blue-solid {
+    margin-right: 6px;
+}
+
+.updata_wrap .pic_adr .input_box .del_picAdr {
+    position: absolute;
+    right: 0;
+    *right: -9px;
+    top: 0;
+    *top: 1px;
+    width: 40px;
+    height: 40px;
+    background: url("../images/del-icon-nor.png");
+}
+
+.updata_wrap .pic_adr .input_box .del_picAdr:hover {
+     background: url("../images/del-icon-hov.png");
+ }

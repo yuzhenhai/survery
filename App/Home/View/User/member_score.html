@@ -1,0 +1,59 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li class="active"><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">
+		  <div class="member member_score">
+				<div class="title"><span>积分明细</span> </div>
+				<div class="user_integral">
+					<p>可用积分：<span>{$user.integral}</span></p>
+					<p>冻结积分：<span>{$user.interim_integral}</span></p>
+				</div>
+				<ul>
+					<li class="first">
+						<div class="integral_created">日期</div>
+						<div class="integral_type">收入/支出</div>
+						<div class="integral_transaction">详细说明</div>
+					</li>
+			  		<volist name="scores" id="score">
+						<li>
+							<div class="integral_created">{$score['date']|date='Y-m-d H:i:s',###}</div>
+							<div class="integral_type"><span <if condition=" $score['score'] egt 0 "> class="credit_plus"<else/>class="credit_minus"</if>>{$score['score']}</span> <if condition=" $score['status'] eq -1 "><small class="red">(冻结中)</small></if></div>
+							<div class="integral_transaction">{$score['info']}</div>
+						</li>
+					</volist>
+
+				</ul>
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>
+

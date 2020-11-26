@@ -1,0 +1,71 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/> 
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li class="active"><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">
+		  <div id="list-talk">		  
+			<ul class="note-list" infinite-scroll-url="/">
+			  <volist name="list" id="val">
+			  <li class="have-img">
+				<a class="title"  href="{:U('Talk/detail',array('id'=>$val['id'],'subject_id'=>$subject_id))}">{$val['name']}</a>
+				<a class="wrap-img" href="{:U('Talk/detail',array('id'=>$val['id'],'subject_id'=>$subject_id))}"> <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" alt="120"></a>
+				<div class="content">
+				  <div class="author">
+					<a class="avatar"  href="">
+					  <img src="<if condition=" $val['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" alt="64"> </a>
+				  <div class="info">
+					<a class="nickname" href="{:u(profile)}">{$val['realname']}</a>
+					  <span class="time">{$val['date']}</span>
+					</div>
+				  </div>
+				  <p class="abstract">{$val['description']}</p>
+				  <div class="meta">
+				  	<volist name="val['subject']" id="sub">
+				  		<if condition="$sub['type'] eq 1">
+					  		<a class="collection-tag" target="_blank" href="index.html?subject_id={$sub['subject_id']}">{$sub['title']}(个人)</a>
+				  		<else/>
+					  		<a class="collection-tag" target="_blank" href="index.html?subject_id={$sub['subject_id']}">{$sub['title']}</a>
+					  	</if>
+					</volist>
+					<a target="_blank" href=""><i class="iconfont ic-list-read"></i> {$val['views']}</a> 
+					<a target="_blank" href=""><i class="iconfont ic-list-comments"></i> {$val['count']}</a>
+				  </div>
+				</div>
+			  </li>
+			</volist>
+			</ul>
+			{$page}
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>

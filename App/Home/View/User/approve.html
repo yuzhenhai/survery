@@ -1,0 +1,134 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li><a href="{:U('member')}"> 个人资料</a></li>
+					<li class="active"><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">
+		    <div class="member edit_member_info">
+				<div class="title"><span> 身份认证 </span> </div>
+                <h3><if condition="$error_code">身份证认证失败</if></h3>
+				<form action="{:U('updateapprove')}" method="post" enctype="multipart/form-data" class="form-horizontal form-edit form-edit1">
+					<div class="frm-wrp" id="pro_file">
+						<div class="form-group">
+                            <label class="col-sm-5 control-label no-padding-right" for="form-field-1"> 身份证证照面 </label>
+                             <if condition="$front['words_result']">
+                                <div class="col-sm-15">
+                                    <img src="__ROOT__/{$user['front']}" width="100" height="100">
+                                </div>
+                            <else />
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="front" value="{$user['front']}" />
+                                    <input type="file" name="fronts" value="{$user['front']}" class="id-image" />
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"> </span> </span>
+                                </div>
+                            </if>
+  
+                        </div>
+						<div class="form-group">
+                            <label class="col-sm-5 control-label no-padding-right" for="form-field-1"> 身份证国徽面 </label>
+                            
+                            <if condition="$back['words_result']">
+                                <div class="col-sm-15">
+                                    <img src="__ROOT__/{$user['reverse']}" width="100" height="100">
+                                </div>
+                                <!-- <span class="col-xs-12 col-sm-15 back"><span class="middle">背面认证成功 </span> </span> -->
+                            <else />
+                                <div class="col-sm-10">
+
+                                    <input type="hidden" name="reverse" value="{$user['reverse']}" />
+                                    <input type="file" name="reverses" value="{$user['reverse']}" class="id-image" />
+                                    <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>
+                                </div>
+                            </if>
+
+                        </div>
+
+						<div class="form-group">
+							<label class="col-sm-5 control-label"></label>
+							<div class="col-sm-15">
+								<input type="submit" value="保存" class="button primary-btn" />
+							</div>
+						</div>
+					</div>
+				</form>
+
+		    </div>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+	$('#birthday').datepicker({
+        format: 'yyyy-mm-dd',
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: 'linked',
+        language: 'cn'
+    });
+
+	$('.id-image').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'
+            ,
+            preview_error : function(filename, error_code) {
+
+            }
+
+        }).on('change', function(){
+
+        });
+         $("input[name='fronts']").on('change', function(){
+            $('.front').hide();
+        });
+       $("input[name='reverses']").on('change', function(){
+            $('.back').hide();
+        });
+
+        var fronts = "{$user.front}";
+
+        if(fronts != ''){
+            $("input[name='fronts']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__ROOT__/{$user.front}"}
+            ]);
+       }else{
+       		$("input[name='fronts']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__ROOT__/{$card0}"}
+            ]);
+       }
+        var reverses = "{$user.reverse}";
+
+        if(reverses != ''){
+        	$("input[name='reverses']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__ROOT__/{$user.reverse}"}
+            ]);
+
+       }else{
+       	 $("input[name='reverses']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__ROOT__/{$card1}"}
+            ]);
+       }
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font task">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-24 main xmtp">
+            <!-- 任务信息 -->
+            <include file="Task/taskinfo"/>
+		</div>
+		<div class="col-xs-16 main">
+			<div id="list-task">
+				<ul class="trigger-menu" data-pjax-container="#list-container">
+					<li class=""><a href="{:U('Task/subject',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>第<span>{$tasksubject.o}</span>题</a></li>
+					<li class="active"><a href="{:U('Task/crossanalysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>数据统计</a></li>
+					<li class=""><a href="{:U('Task/analysis',array('subject_id'=>$tasksubject['subject_id']))}"><i class="iconfont ic-articles"></i>交叉分析</a></li>
+				</ul>
+				<h3 class="t" style='font-size:18px'>{$tasksubject.title}</h3>
+				<div class="description" style="list-style: none; font-size:14px;">
+					{$tasksubject.description|htmlspecialchars_decode}
+				</div>
+				<div class="row">
+					<volist name="questions" id="question" key="q">
+					<div class="col-xs-12">
+						<div class="title">Q{$question['topic']}：{$question['title']}</div>
+						<hr>
+						<div class="stat">
+							<volist name="question['selectlist']" id="select" key="k">
+							<p><span>选项</span>：{$select['item_title']} <br></p>
+							<div class="progress pos-rel progress-mini" data-percent="{$select['percent']}%">
+								<div class="progress-bar{$color[$k-1]}" style="width:{$select['percent']}%;"></div>
+								{$select['percent']}%({$select['countanswer']})
+							</div>
+							</volist>
+						</div>
+					</div>
+					<if condition="(($q)%4 eq 0) ">
+					<div class="clear"></div>
+					</if>
+					</volist>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+            <!-- 题目列表 -->
+            <include file="Task/subjectlist"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+</body>
+</html>

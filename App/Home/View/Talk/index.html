@@ -1,0 +1,87 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index talk">
+		<div class="col-xs-16 main">
+			<div class="activity-banner
+				<p><a href="{:U('activity',array('activity_id'=>$activity['id']))}"><img src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$activity.image}"></a></p>
+			</div>
+
+		 	<div class="title"><span>交流话题</span> </div>
+			<div class="filtrate" date-value="0">
+				<ul class="clearfix topic">
+					<volist name="subject" id="val">
+						<li <if condition="$subject_id eq $val['subject_id']">class="active"</if>><a href="{:U('index',array(subject_id =>$val['subject_id']))}">{$val['title']}({$val['total']})</a></li>
+					</volist>
+					<li><a href="more.html">更多</a></li>
+    				</ul>
+				<div class="clear"></div>
+			</div>
+		  <div id="list-talk">
+			<!-- 文章列表模块 -->
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<li <if condition="$views eq 1"><else /> class="active" </if> ><a href="{:U(index)}"><i class="iconfont ic-articles"></i> 最新话题</a></li>
+				<li <if condition="$views eq 1"> class="active" </if>><a href="{:U(index,array('views'=> '1'))}"><i class="iconfont ic-feed"></i> 热门互动</a></li>
+			</ul>
+			<ul class="note-list" infinite-scroll-url="/">
+			<volist name="list" id="val">
+			  <li id="note-21506894" data-note-id="21506894" class="have-img">
+				<a class="title"  href="{:U(detail,array('id'=>$val['id'],'subject_id'=>$subject_id))}">{$val['name']}</a>
+				<a class="wrap-img" href="{:U(detail,array('id'=>$val['id'],'subject_id'=>$subject_id))}"> <img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" alt="120"></a>
+				<div class="content">
+				  <div class="author">
+					<a class="avatar"  href="{:U('User/profile')}">
+					  <img src="<if condition=" $val['head'] eq '' ">{$Think.CONFIG.website}{$Think.CONFIG.AVATAR_DEFAULT_PATH}
+                      <else/>
+                       {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" alt="64"> </a>
+				    <div class="info">
+					<a class="nickname" href="{:U('User/profile')}">{$val['realname']}</a>
+					  <span class="time">{$val['date']}</span>
+					  <if condition="$val['stick'] eq 1">
+					  	<a class="collection-tag" target="_blank" href="">置顶</a>
+					  </if>
+					  <if condition="$val['ess'] eq 1">
+					  	<a class="collection-tag" target="_blank" href="">精华</a>
+					  </if>
+					</div>
+				  </div>
+				  <p class="abstract">{$val['description']}</p>
+				  <div class="meta">
+				  	<volist name="val['subject']" id="sub">
+				  		<if condition="$sub['type'] eq 1">
+					  		<a class="collection-tag" target="_blank" href="{:U('index',array(subject_id =>$sub['subject_id']))}">{$sub['title']}(个人)</a>
+				  		<else/>
+					  		<a class="collection-tag" target="_blank" href="{:U('index',array(subject_id =>$sub['subject_id']))}">{$sub['title']}</a>
+					  	</if>
+					</volist>
+					<a target="_blank" href=""><i class="iconfont ic-list-read"></i> {$val['views']}</a>
+					<a target="_blank" href=""><i class="iconfont ic-list-comments"></i> {$val['count']}</a>
+				  </div>
+				</div>
+			  </li>
+			</volist>
+
+			</ul>
+			{$page}
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<div class="ftqd" style="margin-bottom:20px;">
+			  <div class="zcft"><a href="{:U(add)}" id="newspecial">发布主题</a></div>
+			  <div class="clear"></div>
+			</div>
+			<!-- 热门讨论 -->
+			<include file="Talk/hot"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+</body>
+</html>

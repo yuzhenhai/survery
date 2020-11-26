@@ -1,0 +1,423 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs" />
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+
+                <include file="Public/set"/>
+
+
+                <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS
+                <div class="alert alert-block alert-success">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+
+                    <i class="ace-icon fa fa-check green"></i>
+
+                    市场调研系统
+                    <strong class="green">
+                        I
+                        <small>(v1.4)</small>
+                    </strong>
+                </div>-->
+
+                <div class="row">
+                    <div class="space-6"></div>
+
+                    <div class="col-sm-12 infobox-container">
+                        <div class="infobox infobox-green">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-tasks"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">{$count_task}</span>
+                                <div class="infobox-content">总任务</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-pink">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-list"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">{$count_subjects}</span>
+                                <div class="infobox-content">题目数量</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-red">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-flask"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">{$count_questions}</span>
+                                <div class="infobox-content">问题数量</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-orange2">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-users"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">{$count_member}</span>
+                                <div class="infobox-content">调研对象</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-blue2">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-comments"></i>
+                            </div>
+
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number">{$count_task_users_completed}</span>
+
+                                <div class="infobox-content">
+                                    有效问卷
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-6"></div>
+
+                        <div class="infobox infobox-green infobox-small infobox-dark">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-tasks"></i>
+                            </div>
+                            <div class="infobox-data">
+                                <div class="infobox-content">当前任务</div>
+                                <div class="infobox-content"><span class="percent">{$task_percent}</span>%</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-blue infobox-small infobox-dark">
+                             <div class="infobox-icon">
+                                <i class="ace-icon fa fa-comments"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <div class="infobox-content">今日问卷</div>
+                                <div class="infobox-content">{$today_task_users_completed_count}</div>
+                            </div>
+                        </div>
+
+                        <div class="infobox infobox-pink infobox-small infobox-dark">
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-users"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <div class="infobox-content">今日上线</div>
+                                <div class="infobox-content">{$today_online_count}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vspace-12-sm"></div>
+                    <div class="col-sm-6">
+                        <h2 class="header smaller lighter red ">
+                            <i class="ace-icon fa fa-tasks"></i>
+                            进行中的任务<a class="smaller lighter red pull-right" href="{:U('Task/index',array('state'=>1))}">全部</a>
+                        </h2>
+
+                        <volist name="tasks" id="val">
+                            <a href="#"><h3>{$val['title']}<small>({$val['count_users_completed']}/{$val['count_users_all']})</small></h3></a>
+                            <div class="progress progress-mini" data-percent="{$val['percent']}%">
+                                <div class="progress-bar" style="width:{$val['percent']}%;"></div>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="widget-box transparent" id="recent-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter smaller">
+                                    <i class="ace-icon fa fa-rss orange"></i>任务动态
+                                </h4>
+
+                                <div class="widget-toolbar no-border">
+                                    <ul class="nav nav-tabs" id="recent-tab">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#task-tab">回答</a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="tab" href="#comment-tab">追问回复</a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="tab" href="#member-tab">用户</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-4">
+                                    <div class="tab-content padding-8">
+                                        <div id="task-tab" class="tab-pane active">
+                                            <h4 class="smaller lighter green">
+                                                <i class="ace-icon fa fa-list"></i>
+                                                任务回复<a class="smaller lighter red pull-right" href="{:U('Task/allanswers')}">全部</a>
+                                            </h4>
+
+                                            <ul id="tasks" class="item-list">
+                                                <volist name="task_questions_answers" id="val">
+                                                    <li class="item-orange clearfix">
+                                                        <label class="inline">
+                                                            <span class="lbl">
+                                                                <a target="_blank" href="{:U('Home/User/profile',array('uid'=>$val['uid']))}">{$val['realname']}</a> 回复了任务
+                                                                <a href="{:U('Task/allanswers',array('task_id'=>$val['task_id']))}"> 《{$val['task_name']}》</a> - <a href="{:U('Task/allanswers',array('answer_id'=>$val['answer_id']))}">{$val['subject_title']}</a>
+                                                            </span>
+                                                        </label>
+                                                    </li>
+                                                </volist>
+
+                                            </ul>
+                                            <div class="hr hr8"></div>
+
+                                            <div class="center">
+                                                <i class="ace-icon fa fa-comments-o fa-2x green middle"></i>
+
+                                                &nbsp;
+                                                <a href="{:U('Task/allanswers')}" class="btn btn-sm btn-white btn-info">
+                                                    查看所有回复 &nbsp;
+                                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="hr hr-double hr8"></div>
+                                        </div>
+
+                                        <div id="member-tab" class="tab-pane">
+                                            <div class="clearfix">
+                                                <volist name="members" id="val">
+                                                    <div class="itemdiv memberdiv">
+                                                        <div class="user">
+                                                            <img alt="Bob Doe's avatar" src="<if condition=" $val['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" />
+                                                        </div>
+
+                                                        <div class="body">
+                                                            <div class="name">
+                                                                <a target="_blank" href="{:U('Home/User/profile',array('uid'=>$val['uid']))}">{$val['realname']}</a>
+                                                            </div>
+
+                                                            <div class="time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                {$val['dgmdate']}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </volist>
+
+                                            </div>
+
+                                            <div class="space-4"></div>
+
+                                            <div class="center">
+                                                <i class="ace-icon fa fa-users fa-2x green middle"></i>
+
+                                                &nbsp;
+                                                <a href="{:U('Member/member')}" class="btn btn-sm btn-white btn-info">
+                                                    查看所有用户 &nbsp;
+                                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="hr hr-double hr8"></div>
+                                        </div><!-- /.#member-tab -->
+
+                                        <div id="comment-tab" class="tab-pane"><h4 class="smaller lighter green">
+                                                <i class="ace-icon fa fa-list"></i>
+                                                追问回复<a class="smaller lighter red pull-right" href="{:U('Task/allanswers')}">全部</a>
+                                            </h4>
+                                            <div class="comments">
+                                                <volist name="answers_remarks" id="val">
+                                                    <div class="itemdiv commentdiv">
+                                                        <div class="user">
+                                                            <img alt="Bob Doe's Avatar" src="<if condition=" $val['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" />
+                                                        </div>
+
+                                                        <div class="body">
+                                                            <div class="name">
+                                                                <a target="_blank" href="{:U('Home/User/profile',array('uid'=>$val['uid']))}">{$val['realname']}</a>
+                                                            </div>
+
+                                                            <div class="time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                {$val['dgmdate']}
+                                                            </div>
+
+                                                            <div class="text">
+                                                                <i class="ace-icon fa fa-quote-left"></i>
+                                                                <a href="{:U('Task/allanswers',array('answer_id'=>$val['answer_id']))}">{$val['remark']}</a>&hellip;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </volist>
+
+                                            </div>
+
+                                            <div class="hr hr8"></div>
+
+                                            <div class="center">
+                                                <i class="ace-icon fa fa-comments-o fa-2x green middle"></i>
+
+                                                &nbsp;
+                                                <a href="{:U('Task/allanswers')}" class="btn btn-sm btn-white btn-info">
+                                                    查看所有回复 &nbsp;
+                                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="hr hr-double hr8"></div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <div class="hr hr32 hr-dotted"></div>
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <h2 class="header smaller lighter red ">
+                            <i class="ace-icon fa fa-signal"></i>
+                            访问来源
+                        </h2>
+
+                        <div class="widget-box">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div id="piechart-placeholder"></div>
+
+                                    <div class="hr hr8 hr-double"></div>
+
+                                    <div class="clearfix">
+                                        <div class="grid3">
+                                            <span class="grey">
+                                                <i class="ace-icon fa fa-desktop fa-2x blue"></i>
+                                                &nbsp; PC
+                                            </span>
+                                            <h4 class="bigger pull-right">{$windows}</h4>
+                                        </div>
+
+                                        <div class="grid3">
+                                            <span class="grey">
+                                                <i class="ace-icon fa fa-mobile fa-2x purple"></i>
+                                                &nbsp; 手机
+                                            </span>
+                                            <h4 class="bigger pull-right">{$mobile}</h4>
+                                        </div>
+
+                                        <div class="grid3">
+                                            <span class="grey">
+                                                <i class="ace-icon fa fa-laptop fa-2x red"></i>
+                                                &nbsp; 平板
+                                            </span>
+                                            <h4 class="bigger pull-right">{$ipad}</h4>
+                                        </div>
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-6">
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter smaller">
+                                    <i class="ace-icon fa fa-comment blue"></i>
+                                    交流圈
+                                </h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="dialogs">
+                                        <volist name="talk_topic" id="val">
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="Alexa's Avatar" src="<if condition=" $val['head'] eq ''
+                            ">{$Think.CONFIG.website}{$Think.config.AVATAR_DEFAULT_PATH}
+                            <else/>
+                            {$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$val['head']}</if>" />
+                                                </div>
+
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="ace-icon fa fa-clock-o"></i>
+                                                        {$val['dgmdate']}
+                                                    </div>
+
+                                                    <div class="name">
+                                                        <a href="{:U('Member/editmember',array('uid'=>$val['uid']))}">{$val['realname']}</a> - <a href="{:U('Talk/index',array('id'=>$val['id']))}">{$val['name']}</a>
+                                                    </div>
+                                                    <div class="text">{$val['abstract']|mb_substr=0,30,utf8}&hellip;</div>
+
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only ace-icon fa fa-share"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </volist>
+
+                                    </div>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.widget-box -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

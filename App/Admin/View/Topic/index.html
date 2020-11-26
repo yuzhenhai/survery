@@ -1,0 +1,228 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="row">
+					<div class="col-xs-3"> 
+						<p>
+							<!-- <a class="btn btn-success  btn-xs" href="{:U('add')}" value="">  <i class="ace-icon glyphicon glyphicon-plus bigger-140"></i>添加</a> -->
+                            <button class="btn btn-success btn-xs unapproval ">
+                                <i class="ace-icon fa fa-toggle-on bigger-140"></i>
+                                审核通过
+                            </button>
+                            <button class="btn btn-inverse btn-xs approval">
+                                <i class="ace-icon fa fa-lock bigger-140"></i>
+                                取消审核
+                            </button>
+                            <button class="btn btn-success btn-xs unlock">
+                                <i class="ace-icon fa fa-toggle-on bigger-140"></i>
+                                启用
+                            </button>
+                            <button class="btn btn-inverse btn-xs lock">
+                                <i class="ace-icon fa fa-lock bigger-140"></i>
+                                停用
+                            </button>
+  						
+                            <button id="submit" class="btn btn-light btn-xs delete">
+								<i class="ace-icon fa fa-trash bigger-140"></i>
+								删除
+							</button>
+						</p>
+					</div>
+					<div class="col-xs-8 ">
+						<form action="" class="form-inline" action="" method="get" >   
+                            <label class="inline">用户搜索</label>
+                            <select name="field" class="form-control">
+                                <option <if condition="I('field') eq name">selected</if> value="name">话题名称</option>
+                                <option <if condition="I('field') eq realname">selected</if> value="realname">发帖姓名</option>
+                                <option <if condition="I('field') eq uid">selected</if> value="uid">用户UID</option>
+
+                            </select>
+                            <input type="text" name="keyword" value="{:I(keyword)}" class="form-control">
+                            <label class="inline">&nbsp;&nbsp;状态：</label>
+                            <select name="status" class="form-control">
+                                <option <if condition="I('status') eq 1">selected</if> value="1">启用</option>
+                                <option <if condition="I('status') eq 0">selected</if> value="0">禁止</option>
+                            </select>                            
+                            <label class="inline">&nbsp;&nbsp;审核：</label>
+                            <select name="approval" class="form-control">
+                                <option <if condition="I('approval') eq 1">selected</if> value="1">已审核</option>
+                                <option <if condition="I('approval') eq 0">selected</if> value="0">未审核</option>
+                            </select>
+                            <button type="submit" class="btn btn-purple btn-sm">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                筛选
+                            </button>
+                        </form>
+					</div>
+					<div class="space-4"></div>
+                            <form id="form" method="post" action="{:U('del')}">
+                                <input type="hidden" name="digest_credit" value="{$Think.CONFIG.digest_credit}">
+								<table class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="center"><input class="check-all" type="checkbox" value=""></th>
+                                            <th>图片</th>
+                                            <th>作者</th>
+											<th>话题名称</th>
+											<th>状态</th>
+											<th>备注</th>
+											<th class="center">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<volist name="list" id="val">
+										<tr>
+											<td class="center">
+                                                <input class="ids" type="checkbox" name="ids[]" value="{$val['id']}">
+                                            </td>
+                                            <td><img class="thumbnail inline no-margin-bottom" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$val['image']}" height="100"></td>
+                                            <td>{$val['realname']}</td>
+											<td>{$val['name']}</td>
+											<td class="hidden-480">
+                                                <if condition="$val['status'] eq 0"><a class="label label-sm label-inverse" href="{:U('status',array('id'=>$val['id'],'status'=>$val['status']))}" title="点击启用">停用</a></if>
+                                                <if condition="$val['status'] eq 1"><a  class="label label-sm label-success" href="{:U('status',array('id'=>$val['id'],'status'=>$val['status']))}" title="点击禁止">启用</a></if>
+
+                                                <if condition="$val['approval'] eq 0"><a class="label label-sm label-inverse" href="{:U('status',array('id'=>$val['id'],'approval'=>$val['approval']))}" title="点击审核">未审核</a></if>
+                                                <if condition="$val['approval'] eq 1"><a  class="label label-sm label-success" href="{:U('status',array('id'=>$val['id'],'approval'=>$val['approval']))}" title="点击不审核">已审核</a></if>
+
+											</td>
+											<td>{$val['comment']}</td>
+		      
+											<td class="center">
+
+                                                <if condition="$val['ess'] eq 0"><a class="label label-sm label-inverse uness" href="{:U('status',array('id'=>$val['id'],'ess'=>$val['ess']))}" title="点击精华">不精华</a></if>
+                                                <if condition="$val['ess'] eq 1"><a  class="label label-sm label-success ess" href="{:U('status',array('id'=>$val['id'],'ess'=>$val['ess']))}" title="点击取消精华">精华</a></if>
+                                                <if condition="$val['stick'] eq 0"><a class="label label-sm label-inverse" href="{:U('status',array('id'=>$val['id'],'stick'=>$val['stick']))}" title="点击审核">不置顶</a></if>
+                                                <if condition="$val['stick'] eq 1"><a  class="label label-sm label-success" href="{:U('status',array('id'=>$val['id'],'stick'=>$val['stick']))}" title="点击不审核">置顶</a></if>
+
+                                                <if condition="$userid eq 1"><a class="label label-sm label-success" href="{:U('edit',array('id'=>$val['id']))}">修改</a><else />暂无权限</if>
+
+                                            </td>
+										</tr>	
+										
+										</volist>
+									</tbody>
+								</table>
+                            </form>
+                            {$page}
+				</div>					
+				<!-- PAGE CONTENT ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除所选？",
+                callback: function (result) {
+                    if (result) {
+                        $("#form").submit();
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+        $(".ess").click(function (){
+            $("#form").attr("action", "{:U('status?ess=0')}");
+            $('#form').submit();
+        });
+        $(".uness").click(function (){
+            $("#form").attr("action", "{:U('status?ess=1')}");
+            $('#form').submit();
+        });
+
+        $(".lock").click(function () {
+            $("#form").attr("action", "{:U('status?status=0')}");
+            $('#form').submit();
+        });
+
+        $(".unlock").click(function () {
+            $("#form").attr("action", "{:U('status?status=1')}");
+            $('#form').submit();
+        });
+        $(".approval").click(function () {
+            $("#form").attr("action", "{:U('status?approval=0')}");
+            $('#form').submit();
+        });
+
+        $(".unapproval").click(function () {
+            $("#form").attr("action", "{:U('status?approval=1')}");
+            $('#form').submit();
+        });
+
+
+
+    })
+</script>
+</body>
+</html>

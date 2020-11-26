@@ -1,0 +1,43 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index talk">
+		<div class="col-xs-16 main">
+		 	<div class="title"><span>交流话题</span> </div>
+			<div class="filtrate" date-value="0">
+				<ul class="clearfix topic">
+					<volist name="subject" id="val">
+						<li><a class="collection-tag" target="_blank" href="{:u('Talk/index',array('subject_id'=>$val['subject_id']))}">{$val['title']}({$val['total']})</a></li>
+					</volist>
+    				</ul>
+				<div class="clear"></div>
+			</div>
+		  	<div class="title"><span>个人添加</span> </div>
+			<div class="filtrate" date-value="0">
+				<ul class="clearfix topic">
+					<volist name="sub" id="val">
+						<li><a class="collection-tag" target="_blank" href="{:u('Talk/index',array('subject_id'=>$val['subject_id']))}">{$val['title']}({$val['total']})</a></li>
+					</volist>
+    				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<div class="ftqd" style="margin-bottom:20px;">
+			  <div class="zcft"><a href="{:U('add')}" id="newspecial">发布主题</a></div> 
+			  <div class="clear"></div>                   
+			</div>
+			<!-- 热门讨论 -->
+			<include file="Talk/hot"/>
+
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+</body>
+</html>

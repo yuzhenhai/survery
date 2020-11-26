@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+	<title>首页-{$Think.CONFIG.sitename}</title>
+
+    <meta name="keywords" content="{$Think.CONFIG.keywords}"/>
+    <meta name="description" content="{$Think.CONFIG.description}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <link rel="shortcut icon" href="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$Think.CONFIG.favicon}" type="image/x-icon" />
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="__PUBLIC__/themes/css/bootstrap.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/themes/css/font-awesome.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/themes/css/jquery-ui.css"/>
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="__PUBLIC__/themes/css/ace-fonts.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/release/wangEditor.css"/>
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="__PUBLIC__/themes/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
+
+	<link rel="stylesheet" media="all" href="__PUBLIC__/themes/default/css/web.css">
+	<link rel="stylesheet" media="all" href="__PUBLIC__/themes/default/css/entry.css">
+	<link rel="stylesheet" media="all" href="__PUBLIC__/themes/default/css/themes.css">
+
+
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="__PUBLIC__/themes/js/html5shiv.js"></script>
+    <script src="__PUBLIC__/themes/js/respond.js"></script>
+    <![endif]-->
+<style>
+    /*-------------背景设置----------------*/
+    body{
+        background-image: {$Think.CONFIG.bgimg}; 
+        background-color:{$Think.CONFIG.bgcolor};
+    }
+    /*-------------顶部菜单设置----------------*/
+    nav .nav .tab a{
+        color: {$Think.CONFIG.menucolor};
+        font-family:{$Think.CONFIG.menufont};
+    }
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover{
+        color: {$Think.CONFIG.menuactivecolor};
+    }
+    /*-------------内容标题设置---------------*/
+    #list-container .note-list .title, #list-talk .note-list .title{
+        color: {$Think.CONFIG.titlecolor};
+        font-family:{$Think.CONFIG.titlefont};
+    }
+    body.talk .container .article .title{
+        color: {$Think.CONFIG.titlecolor};
+        font-family:{$Think.CONFIG.titlefont};
+    }   
+    #list-container .title, #list-talk .title, .talk .title,.board .todaytopic{
+        color: {$Think.CONFIG.titlecolor};
+        font-family:{$Think.CONFIG.titlefont};
+        font-size:18px;
+        font-weight:700;
+    } 
+
+    /*-------------链接设置--------------*/
+    a:hover{
+        color: {$Think.CONFIG.linkcolor};
+    }
+    /*-------------内容设置---------------*/
+    body{
+         color: {$Think.CONFIG.color};
+        font-family:{$Think.CONFIG.font};
+        font-size:{$Think.CONFIG.fontsize};
+    }
+    /*-------------登录页设置---------------*/
+    .loginBox{
+        background:{$Think.CONFIG.loginbg};
+    }
+    /*----------交流圈标签设置--------------*/
+    .filtrate ul li{
+        color: {$Think.CONFIG.talkcolor};
+        background-color:{$Think.CONFIG.talkbgcolor};
+        border-color:{$Think.CONFIG.talkbordercolor};
+        font-family:{$Think.CONFIG.talkfont};
+        font-size:{$Think.CONFIG.talkfontsize};
+    }
+    /*-----------任务按钮设置--------------*/
+    .note-list .meta a.collection-btn-begin, .note-list .meta a.collection-btn-begin:hover{
+        font-family:{$Think.CONFIG.taskfont};
+        font-size:{$Think.CONFIG.taskfontsize};
+        color: {$Think.CONFIG.taskstartcolor};
+        background-color:{$Think.CONFIG.taskstartbgcolor};     
+    }
+    .note-list .meta a.collection-btn-continue, .note-list .meta a.collection-btn-continue:hover{
+        font-family:{$Think.CONFIG.taskfont};
+        font-size:{$Think.CONFIG.taskfontsize};
+        color: {$Think.CONFIG.taskprogresscolor};
+        background-color:{$Think.CONFIG.taskprogressbgcolor};
+    }
+    .note-list .meta a.collection-btn-end, .note-list .meta a.collection-btn-end:hover{
+        font-family:{$Think.CONFIG.taskfont};
+        font-size:{$Think.CONFIG.taskfontsize};
+        color: {$Think.CONFIG.taskcompletecolor};
+        background-color:{$Think.CONFIG.taskcompletebgcolor};
+    }
+
+
+</style>
+	<script>
+		var url = "__PUBLIC__/themes";
+	</script>
+</head>

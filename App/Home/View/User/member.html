@@ -1,0 +1,180 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font talk">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-7">
+			<div class="member_menu">
+				<div class="title"><span>个人中心</span></div>
+				<ul class="list">
+					<li class="active"><a href="{:U('member')}"> 个人资料</a></li>
+					<li><a href="{:U('member_approve')}"> 身份认证</a></li>
+					<li><a href="{:U('member_info')}"> 帐号信息</a></li>
+					<li><a href="{:U('member_talk')}"> 我的交流圈</a></li>
+					<li><a href="{:U('member_score')}"> 我的积分</a></li>
+					<li><a href="{:U('member_convert')}"> 兑换记录</a></li>
+					<li><a href="{:U('member_message')}"> 我的消息</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-16 main">			
+		    <div class="member edit_member_info">
+				<div class="title"><span>个人资料</span> </div>				
+
+				<form action="{:U('updatemember')}" method="post" enctype="multipart/form-data" class="form-horizontal form-edit form-edit1">
+					<div class="frm-wrp" id="pro_file">
+						<div class="form-group">
+                            <label class="col-sm-5 control-label no-padding-right" for="form-field-1"> 头像 </label>
+                            <div class="col-sm-15">  
+                                <input type="hidden" name="head" value="{$user['head']}" />
+                                <input type="file" name="image" value="{$Think.CONFIG.website}{$Think.config.AVATAR_PATH}{$user.head}" class="id-image" />
+                                <span class="help-inline col-xs-12 col-sm-7"> <span class="middle"></span> </span>  
+                            </div>
+                        </div>
+
+						
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-realname">昵 称 </label>
+							<div class="col-sm-15">
+								<input type="text" name="realname" value="{$user.realname}" placeholder="昵称" id="input-realname" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group form-radio">
+							<label class="col-sm-5 control-label" for="input-gender">性 别</label>
+							<div class="col-sm-15">	
+								<input type="radio" id="gender-0" name="gender" value="0" <if condition=" $user.sex eq 0 "> checked="checked"</if> />
+								<label for="gender-0">保密</label>						
+								<input type="radio" id="gender-1" name="gender" value="1" <if condition=" $user.sex eq 1 "> checked="checked"</if> />
+								<label for="gender-1">男</label>
+
+								<input type="radio" id="gender-2" name="gender" <if condition=" $user.sex eq 2 "> checked="checked"</if> value="2" />
+								<label for="gender-2">女</label>
+							</div>
+						</div>
+						
+
+						<div class="form-group">
+                            <label class="col-sm-5 control-label no-padding-right" for="id-date-picker-1">生 日</label>
+                            <div class="col-sm-15">
+                                <div class="input-group col-xs-15">
+                                    <input class="form-control" id="birthday" name="birthday" value="<if condition="
+                                           $user['birthday'] neq '' ">{$user['birthday']|date="Y-m-d",###}</if>"
+                                    type="text" data-date-format="dd-mm-yyyy" />
+                                    <span class="input-group-addon">
+                                                <i class="ace-icon fa fa-calendar bigger-110"></i>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-signature">用户签名</label>
+							<div class="col-sm-15">
+								<input type="text" name="signature" value="{$user.signature}" placeholder="用户签名" id="input-phone" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-phone">手机号码</label>
+							<div class="col-sm-15">
+								<input type="text" name="phone" <if condition="$user.phone neq '' "> readonly</if> value="{$user.phone}" placeholder="手机号码" id="input-phone" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" <if condition="$user.idcard neq '' "> readonly</if> for="input-idcard">身份证号</label>
+							<div class="col-sm-15">
+								<input type="text" name="idcard" readonly value="{$user.idcard}" placeholder="123456123456122931" id="input-idcard" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group form-radio">
+							<label class="col-sm-5 control-label" for="input-hunyin">婚姻状况</label>
+							<div class="col-sm-15">							
+								<input type="radio" id="hunyin-0" name="hunyin" value="0" <if condition=" $user.hunyin eq 0 "> checked="checked"</if> />
+								<label for="hunyin-0">未婚</label>
+
+								<input type="radio" id="hunyin-1" name="hunyin" value="1" <if condition=" $user.hunyin eq 1 "> checked="checked"</if>/>
+								<label for="hunyin-1">已婚</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-position">常住地</label>
+							<div class="col-sm-15">
+								<input type="text" name="position" value="{$user.position}" placeholder="常住地" id="input-position" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-edu">学历</label>
+							<div class="col-sm-15">
+								<input type="text" name="edu" value="{$user.edu}" placeholder="本科" id="input-edu" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-income">月收入</label>
+							<div class="col-sm-15">
+								<input type="text" name="income" value="{$user.income}" placeholder="" id="input-income" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-fincome">家庭月收入</label>
+							<div class="col-sm-15">
+								<input type="text" name="fincome" value="{$user.fincome}" placeholder="" id="input-fincome" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label" for="input-interest">兴趣爱好</label>
+							<div class="col-sm-15">
+								<input type="text" name="interest" value="{$user.interest}" placeholder="兴趣爱好" id="input-interest" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-5 control-label"></label>
+							<div class="col-sm-15">
+								<input type="submit" value="保存" class="button primary-btn" />
+							</div>
+						</div>
+					</div>
+				</form>
+
+		    </div>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script src="__PUBLIC__/themes/js/date-time/bootstrap-datepicker.js"></script>
+<script src="__PUBLIC__/themes/js/bootstrap-wysiwyg.js"></script>
+<script src="__PUBLIC__/themes/js/function.js"></script>
+<script type="text/javascript">
+	$('#birthday').datepicker({
+        format: 'yyyy-mm-dd',
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: 'linked',
+        language: 'cn'
+    });
+
+	$('.id-image').ace_file_input({
+            style: 'well',
+            btn_choose : 'Drop images here or click to choose',
+            no_icon : 'ace-icon fa fa-picture-o',
+            btn_change: null,
+            droppable: true,
+            thumbnail: 'small'
+            ,
+            preview_error : function(filename, error_code) {
+
+            }
+    
+        }).on('change', function(){
+
+        });
+        var image = "{$user.head}";
+
+        if(image != ''){
+        	   
+            $("input[name='image']").ace_file_input('show_file_list', [
+               {type: 'image',  name: "__PUBLIC__/upload/avatars/{$user.head}"}
+            ]);
+       }
+
+</script>
+</body>
+</html>

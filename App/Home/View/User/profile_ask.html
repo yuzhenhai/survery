@@ -1,0 +1,73 @@
+<include file="Public/head"/>
+<body lang="zh-CN" class="reader-black-font person">
+<include file="Public/header"/>
+	<div class="container index">
+	  <div class="row">
+		<div class="col-xs-16 main">
+		  <div class="main-top">
+			<!-- 用户信息 -->
+			<include file="User/profile_info"/>
+		  </div>
+		  <div id="list-container">
+			<!-- 个人资料tab -->
+			<ul class="trigger-menu" data-pjax-container="#list-container">
+				<if condition="($loginuser['admin'] eq 1) OR ($profileuser['uid'] == $user['uid']) ">
+				<li class=""><a href="{:U('profile_tags',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-phonenumber"></i>标签</a></li>
+				<li class=""><a href="{:U('profile_task',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-work"></i>任务</a></li>
+				<li class="active"><a href="{:U('profile_ask',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-question"></i>追问</a></li>
+				</if>
+				<li class=""><a href="{:U('profile_gallery',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-share"></i>相册</a></li>
+				<li class=""><a href="{:U('profile',array('uid'=>$profileuser['uid']))}"><i class="iconfont ic-articles"></i>话题</a></li>
+			</ul>
+			<volist name="list" id="task" key="k">
+			<a name="task_{$task['task_id']}"></a>
+			<div class="recommended-authors profileask">
+				<div class="profileask_item">
+					<div class="title">
+						<span><a href="{:U('Task/detail',array('task_id'=>$task['task_id']))}" target="_blank">{$task['title']}</a></span>
+						<if condition="count($task['subjectlist']) eq 0">
+						<a class="more_ask" href="{:U('profile_ask#task_'.$task['task_id'],array('uid'=>$profileuser['uid'],'task_id'=>$task['task_id']))}">
+							<i class="ace-icon fa fa-file-text-o"></i>追问详情
+						</a>
+						</if>
+					</div>
+					<div class="item_info">
+						<a class="wrap-img" href="{:U('Task/detail',array('task_id'=>$task['task_id']))}" target="_blank"><img class="  img-blur-done" src="{$Think.CONFIG.website}{$Think.CONFIG.UPLOAD_IMAGES_PATH}{$task['image']}" alt="120"></a>
+						<div class="content"><p class="abstract">{$task['description']}</p></div>
+					</div>
+				</div>
+				<ul class="list">
+				  <volist name="task.subjectlist" id="subject">
+				  <li>
+				  	<a href="{:U('Task/subject',array('subject_id'=>$subject['subject_id']))}" target="_blank" class="name">第{$subject['o']}题：{$subject['title']} – <if condition="$subject['remark_status'] eq 1"><span class="unanswered">未答复</span><else/><span class="answered">已答复</span></if></a>
+				  	<volist name="subject.remarks" id="remark">
+				  	<p>{$remark['realname']}:{$remark['remark']}</p>
+				  	</volist>
+				  </li>
+				  </volist>
+				</ul>
+				<if condition="count($task['subjectlist']) gt 0">
+				{$page}
+				</if>
+			</div>
+			</volist>
+
+			<!-- 文章列表模块 -->
+		  </div>
+		</div>
+		<div class="col-xs-7 col-xs-offset-1 aside">
+			<!-- 用户统计 -->
+			<include file="User/profile_user"/>
+			<!-- 活跃用户 -->
+			<include file="Talk/user"/>
+			<!-- 首页右侧 App 下载提示 -->
+			<include file="Public/qrbox"/>
+		</div>
+	  </div>
+	</div>
+<include file="Public/footer"/>
+<include file="Public/footerjs"/>
+<script type="text/javascript">
+</script>
+</body>
+</html>
